@@ -10,10 +10,12 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/tryterra/Terra-RN-SDK.git", :tag => "#{s.version}" }
+  s.platforms    = { :ios => "13.0" }
+  s.source       = { :git => "https://github.com/tryterra/terra-react.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
+  s.frameworks = ['HealthKit']
+  s.dependency "TerraiOS", "= 1.0.1"
   s.dependency "React-Core"
 end

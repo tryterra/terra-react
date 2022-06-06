@@ -1,7 +1,7 @@
 {
   "name": "terra-react",
-  "version": "0.1.0",
-  "description": "React Native SDK mapping",
+  "version": "1.0.5",
+  "description": "React Native SDK mapping for Terra API",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/tryterra/Terra-RN-SDK",
+  "repository": "https://github.com/tryterra/terra-react",
   "author": "TerraDev <dev@tryterra.co> (https://tryterra.co)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tryterra/Terra-RN-SDK/issues"
+    "url": "https://github.com/tryterra/terra-react/issues"
   },
-  "homepage": "https://github.com/tryterra/Terra-RN-SDK#readme",
+  "homepage": "https://github.com/tryterra/terra-react#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
