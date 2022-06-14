@@ -1,6 +1,9 @@
 package com.terrareact;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -8,7 +11,13 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+
 import co.tryterra.terra.*;
+import kotlin.Unit;
 
 @ReactModule(name = TerraReactModule.NAME)
 public class TerraReactModule extends ReactContextBaseJavaModule {
@@ -17,14 +26,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public TerraReactModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
-
+    public Terra terra;
     @Override
     @NonNull
     public String getName() {
         return NAME;
     }
 
-    private Connections parseConnection(Connections connection){
+    private Connections parseConnection(String connection){
         switch (connection){
             case "SAMSUNG":
                 return Connections.SAMSUNG;
@@ -32,50 +41,49 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 return Connections.GOOGLE_FIT;
             case "FREESTYLE_LIBRE":
                 return Connections.FREESTYLE_LIBRE;
-            default:
-                return Connections.SAMSUNG;
         }
-        return Connections.SAMSUNG;
+      return null;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, String[] connectionsStr, String[] permissionsStr, Promise promise) {
-        this.terra = Terra(
+        this.terra = new Terra(
                 devID,
                 apiKey,
-                this,
+          Objects.requireNonNull(this.getCurrentActivity()),
                 intervalMinutes * 60 * 1000,
                 intervalMinutes * 60 * 1000,
                 intervalMinutes * 60 * 1000,
                 intervalMinutes * 60 * 1000,
                 intervalMinutes * 60 * 1000,
-                referenceId
+                referenceId,
+                null
                 );
         for (String connection : connectionsStr) {
             switch (connection) {
                 case "SAMSUNG":
                     terra.initConnection(
-                        Connections.SAMSUNG,
-                        this,
-                        setOf(SamsungHealthpermissions.ACTIVITY, SamsungHealthpermissions.ATHLETE, SamsungHealthpermissions.BODY, SamsungHealthpermissions.DAILY, SamsungHealthpermissions.NUTRITION, SamsungHealthpermissions.SLEEP),
-                        setOf()
+                      Connections.SAMSUNG,
+                      this.getCurrentActivity(),
+                      new HashSet<>(Arrays.asList(Permissions.ACTIVITY, Permissions.ATHLETE, Permissions.BODY, Permissions.DAILY, Permissions.NUTRITION, Permissions.SLEEP)),
+                      null
                     );
                     break;
                 case "GOOGLE":
                     terra.initConnection(
                         Connections.GOOGLE_FIT,
-                        this,
-                        setOf(),
-                        setOf(GoogleFitPermissions.ACTIVITY, GoogleFitPermissions.ATHLETE, GoogleFitPermissions.BODY, GoogleFitPermissions.DAILY, GoogleFitPermissions.NUTRITION, GoogleFitPermissions.SLEEP)
+                        this.getCurrentActivity(),
+                        new HashSet<>(Arrays.asList(Permissions.ACTIVITY, Permissions.ATHLETE, Permissions.BODY, Permissions.DAILY, Permissions.NUTRITION, Permissions.SLEEP)),
+                      null
                     );
                     break;
                 case "FREESTYLE_LIBRE":
                     terra.initConnection(
                         Connections.FREESTYLE_LIBRE,
-                        this,
-                        setOf(),
-                        setOf()
+                        this.getCurrentActivity(),
+                        new HashSet<>(),
+                        null
                     );
                     break;
                 default:
@@ -88,48 +96,54 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getAthlete(String connection, Promise promise){
-        this.terra.getAthlete(parseConnection(connection), (success, payload) ->{
+      this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getBody(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getBody(parseConnection(connection), startDate, endDate, (success, payload) ->{
+        this.terra.getBody(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getActivity(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getActivity(parseConnection(connection), startDate, endDate, (success, payload) ->{
+        this.terra.getActivity(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getDaily(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getDaily(parseConnection(connection), startDate, endDate, (success, payload) ->{
+        this.terra.getDaily(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getNutrition(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getNutrition(parseConnection(connection), startDate, endDate, (success, payload) ->{
+        this.terra.getNutrition(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getSleep(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getSleep(parseConnection(connection), startDate, endDate, (success, payload) ->{
+        this.terra.getSleep(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
             promise.resolve("success");
+            return Unit.INSTANCE;
         });
     }
 
@@ -148,6 +162,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void deauth(String connection){
-        this.terra.disconnect(parseConnection(connection));
+        this.terra.disconnect(Objects.requireNonNull(parseConnection(connection)));
     }
 }
