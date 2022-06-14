@@ -4,9 +4,6 @@ buildscript {
             google()
             mavenCentral()
             jcenter()
-            flatDir{
-                dirs 'libs'
-            }
         }
 
         dependencies {
@@ -43,6 +40,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dependencies {
+        implementation 'co.tryterra:terra-android:1.0.0'
+    }
 }
 
 repositories {
@@ -59,4 +60,5 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'co.tryterra:terra-android:1.0.0'
 }
