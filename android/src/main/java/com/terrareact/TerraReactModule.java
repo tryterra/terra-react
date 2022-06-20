@@ -47,7 +47,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, String[] connectionsStr, String[] permissionsStr, Promise promise) {
+    public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, ReadableArray connectionsStr, ReadableArray permissionsStr, Promise promise) {
         this.terra = new Terra(
                 devID,
                 apiKey,
@@ -60,7 +60,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 referenceId,
                 null
                 );
-        for (String connection : connectionsStr) {
+        for (String connection : connectionsStr.toArrayList()) {
             switch (connection) {
                 case "SAMSUNG":
                     terra.initConnection(
