@@ -17,12 +17,6 @@ const TerraReact = NativeModules.TerraReact
       }
     );
 
-function PlatformErrorPromise(): Promise<any> {
-  return new Promise<any>((_, rej) => {
-    rej('Unsuppported platform');
-  });
-}
-
 export enum Permissions {
   'ATHLETE',
   'ACTIVITY',
@@ -104,111 +98,61 @@ export function getBody(
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  switch (Platform.OS) {
-    case 'ios':
-      return TerraReact.getBody(
-        ConnectionToString(connection),
-        startDate.toISOString(),
-        endDate.toISOString()
-      );
-    case 'android':
-      return TerraReact.getBody(
-        ConnectionToString(connection),
-        startDate,
-        endDate
-      );
-    default:
-      return PlatformErrorPromise();
-  }
+  return TerraReact.getBody(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
 }
+
 export function getActivity(
   connection: Connections,
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  switch (Platform.OS) {
-    case 'ios':
-      return TerraReact.getActivity(
-        ConnectionToString(connection),
-        startDate.toISOString(),
-        endDate.toISOString()
-      );
-    case 'android':
-      return TerraReact.getActivity(
-        ConnectionToString(connection),
-        startDate,
-        endDate
-      );
-    default:
-      return PlatformErrorPromise();
-  }
+  return TerraReact.getActivity(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
 }
+
 export function getDaily(
   connection: Connections,
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  switch (Platform.OS) {
-    case 'ios':
-      return TerraReact.getDaily(
-        ConnectionToString(connection),
-        startDate.toISOString(),
-        endDate.toISOString()
-      );
-    case 'android':
-      return TerraReact.getDaily(
-        ConnectionToString(connection),
-        startDate,
-        endDate
-      );
-    default:
-      return PlatformErrorPromise();
-  }
+  return TerraReact.getDaily(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
 }
+
 export function getNutrition(
   connection: Connections,
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  switch (Platform.OS) {
-    case 'ios':
-      return TerraReact.getNutrition(
-        ConnectionToString(connection),
-        startDate.toISOString(),
-        endDate.toISOString()
-      );
-    case 'android':
-      return TerraReact.getNutrition(
-        ConnectionToString(connection),
-        startDate,
-        endDate
-      );
-    default:
-      return PlatformErrorPromise();
-  }
+  return TerraReact.getNutrition(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
 }
+
 export function getSleep(
   connection: Connections,
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  switch (Platform.OS) {
-    case 'ios':
-      return TerraReact.getSleep(
-        ConnectionToString(connection),
-        startDate.toISOString(),
-        endDate.toISOString()
-      );
-    case 'android':
-      return TerraReact.getSleep(
-        ConnectionToString(connection),
-        startDate,
-        endDate
-      );
-    default:
-      return PlatformErrorPromise();
-  }
+  return TerraReact.getSleep(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
 }
+
 export function getAthlete(connection: Connections) {
   return TerraReact.getAthlete(ConnectionToString(connection));
 }

@@ -10,11 +10,15 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
+import com.facebook.react.bridge.ReadableArray;
+
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Date;
+import java.time.Instant;
 
 import co.tryterra.terra.*;
 import kotlin.Unit;
@@ -60,8 +64,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 referenceId,
                 null
                 );
-        for (String connection : connectionsStr.toArrayList()) {
-            switch (connection) {
+        for (Object connection : connectionsStr.toArrayList()) {
+            switch ((String) connection) {
                 case "SAMSUNG":
                     terra.initConnection(
                       Connections.SAMSUNG,
@@ -104,8 +108,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void getBody(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getBody(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
+    public void getBody(String connection, String startDate, String endDate, Promise promise){
+        this.terra.getBody(
+          Objects.requireNonNull(parseConnection(connection)),
+          Date.from(Instant.parse(startDate)),
+          Date.from(Instant.parse(endDate)),
+          (success, payload) ->{
             promise.resolve("success");
             return Unit.INSTANCE;
         });
@@ -113,8 +121,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void getActivity(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getActivity(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
+    public void getActivity(String connection, String startDate, String endDate, Promise promise){
+        this.terra.getActivity(
+          Objects.requireNonNull(parseConnection(connection)),
+          Date.from(Instant.parse(startDate)),
+          Date.from(Instant.parse(endDate)),
+          (success, payload) ->{
             promise.resolve("success");
             return Unit.INSTANCE;
         });
@@ -122,8 +134,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void getDaily(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getDaily(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
+    public void getDaily(String connection, String startDate, String endDate, Promise promise){
+        this.terra.getDaily(
+          Objects.requireNonNull(parseConnection(connection)),
+          Date.from(Instant.parse(startDate)),
+          Date.from(Instant.parse(endDate)),
+          (success, payload) ->{
             promise.resolve("success");
             return Unit.INSTANCE;
         });
@@ -131,8 +147,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void getNutrition(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getNutrition(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
+    public void getNutrition(String connection, String startDate, String endDate, Promise promise){
+        this.terra.getNutrition(
+          Objects.requireNonNull(parseConnection(connection)),
+          Date.from(Instant.parse(startDate)),
+          Date.from(Instant.parse(endDate)),
+          (success, payload) ->{
             promise.resolve("success");
             return Unit.INSTANCE;
         });
@@ -140,8 +160,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void getSleep(String connection, Date startDate, Date endDate, Promise promise){
-        this.terra.getSleep(Objects.requireNonNull(parseConnection(connection)), startDate, endDate, (success, payload) ->{
+    public void getSleep(String connection, String startDate, String endDate, Promise promise){
+        this.terra.getSleep(
+          Objects.requireNonNull(parseConnection(connection)),
+          Date.from(Instant.parse(startDate)),
+          Date.from(Instant.parse(endDate)),
+          (success, payload) ->{
             promise.resolve("success");
             return Unit.INSTANCE;
         });
