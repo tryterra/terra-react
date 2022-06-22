@@ -3,16 +3,18 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
-  // deauthTerra,
+  CustomPermissions,
+  getActivity,
   getDaily,
+  // deauthTerra,
   initTerra,
   Permissions,
 } from 'terra-react';
 
 export default function App() {
   // can also use a .env file
-  const devID = 'dev id';
-  const apiKey = 'x api key';
+  const devID = 'devId';
+  const apiKey = 'xAPIKey';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
@@ -25,10 +27,9 @@ export default function App() {
       'refid',
       60,
       [Connections.APPLE_HEALTH],
-      [Permissions.BODY, Permissions.DAILY]
+      [Permissions.ACTIVITY, Permissions.DAILY]
     ).then((d) => {
       console.log(d); // returns details such as success and user id
-
       // make a backfill request
       getDaily(Connections.APPLE_HEALTH, new Date(), new Date())
         .then((d) => console.log(d))

@@ -14,6 +14,7 @@ RCT_EXTERN_METHOD(
     intervalMinutes: (NSInteger)intervalMinutes
     connectionsStr: (NSArray *)connectionsStr
     permissionsStr: (NSArray *)permissionsStr
+    customPermissions: (NSArray *)customPermissions
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )

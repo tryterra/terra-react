@@ -49,9 +49,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
       return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
-    public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, ReadableArray connectionsStr, ReadableArray permissionsStr, Promise promise) {
+    public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, ReadableArray connectionsStr, ReadableArray permissionsStr, ReadableArray customPermissions, Promise promise) {
         this.terra = new Terra(
                 devID,
                 apiKey,
@@ -67,6 +66,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         for (Object connection : connectionsStr.toArrayList()) {
             switch ((String) connection) {
                 case "SAMSUNG":
+                    
                     terra.initConnection(
                       Connections.SAMSUNG,
                       this.getCurrentActivity(),
@@ -97,7 +97,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         promise.resolve("success");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getAthlete(String connection, Promise promise){
       this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success, payload) ->{
@@ -106,7 +105,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getBody(String connection, String startDate, String endDate, Promise promise){
         this.terra.getBody(
@@ -119,7 +117,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getActivity(String connection, String startDate, String endDate, Promise promise){
         this.terra.getActivity(
@@ -132,7 +129,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getDaily(String connection, String startDate, String endDate, Promise promise){
         this.terra.getDaily(
@@ -145,7 +141,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getNutrition(String connection, String startDate, String endDate, Promise promise){
         this.terra.getNutrition(
@@ -158,7 +153,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void getSleep(String connection, String startDate, String endDate, Promise promise){
         this.terra.getSleep(
@@ -171,19 +165,16 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void checkAuth(String connection, Promise promise){
         promise.reject("`Unimplemented function for Android");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void readGlucoseData(String connection, Promise promise){
         promise.reject("`Unimplemented function for Android");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @ReactMethod
     public void deauth(String connection){
         this.terra.disconnect(Objects.requireNonNull(parseConnection(connection)));

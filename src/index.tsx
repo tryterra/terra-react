@@ -17,6 +17,47 @@ const TerraReact = NativeModules.TerraReact
       }
     );
 
+export enum CustomPermissions {
+  'WORKOUT_TYPES',
+  'ACTIVITY_SUMMARY',
+  'LOCATION',
+  'CALORIES',
+  'STEPS',
+  'HEART_RATE',
+  'HEART_RATE_VARIABILITY',
+  'VO2MAX',
+  'HEIGHT',
+  'ACTIVE_DURATIONS',
+  'WEIGHT',
+  'FLIGHTS_CLIMBED',
+  'BMI',
+  'BODY_FAT',
+  'EXERCISE_DISTANCE',
+  'GENDER',
+  'DATE_OF_BIRTH',
+  'BASAL_ENERGY_BURNED',
+  'SWIMMING_SUMMARY',
+  'RESTING_HEART_RATE',
+  'BLOOD_PRESSURE',
+  'BLOOD_GLUCOSE',
+  'BODY_TEMPERATURE',
+  'LEAN_BODY_MASS',
+  'OXYGEN_SATURATION',
+  'SLEEP_ANALYSIS',
+  'RESPIRATORY_RATE',
+  'NUTRITION_SODIUM',
+  'NUTRITION_PROTEIN',
+  'NUTRITION_CARBOHYDRATES',
+  'NUTRITION_FIBRE',
+  'NUTRITION_FAT_TOTAL',
+  'NUTRITION_SUGAR',
+  'NUTRITION_VITAMIN_C',
+  'NUTRITION_VITAMIN_A',
+  'NUTRITION_CALORIES',
+  'NUTRITION_WATER',
+  'NUTRITION_CHOLESTEROL',
+}
+
 export enum Permissions {
   'ATHLETE',
   'ACTIVITY',
@@ -67,13 +108,95 @@ function PermissionsToString(permission: Permissions) {
   }
 }
 
+function CustomPermissionsToString(cPermission: CustomPermissions) {
+  switch (cPermission) {
+    case CustomPermissions.WORKOUT_TYPES:
+      return 'WORKOUT_TYPES';
+    case CustomPermissions.ACTIVITY_SUMMARY:
+      return 'ACTIVITY_SUMMARY';
+    case CustomPermissions.LOCATION:
+      return 'LOCATION';
+    case CustomPermissions.CALORIES:
+      return 'CALORIES';
+    case CustomPermissions.STEPS:
+      return 'STEPS';
+    case CustomPermissions.HEART_RATE:
+      return 'HEART_RATE';
+    case CustomPermissions.HEART_RATE_VARIABILITY:
+      return 'HEART_RATE_VARIABILITY';
+    case CustomPermissions.VO2MAX:
+      return 'VO2MAX';
+    case CustomPermissions.HEIGHT:
+      return 'HEIGHT';
+    case CustomPermissions.ACTIVE_DURATIONS:
+      return 'ACTIVE_DURATIONS';
+    case CustomPermissions.WEIGHT:
+      return 'WEIGHT';
+    case CustomPermissions.FLIGHTS_CLIMBED:
+      return 'FLIGHTS_CLIMBED';
+    case CustomPermissions.BMI:
+      return 'BMI';
+    case CustomPermissions.BODY_FAT:
+      return 'BODY_FAT';
+    case CustomPermissions.EXERCISE_DISTANCE:
+      return 'EXERCISE_DISTANCE';
+    case CustomPermissions.GENDER:
+      return 'GENDER';
+    case CustomPermissions.DATE_OF_BIRTH:
+      return 'DATE_OF_BIRTH';
+    case CustomPermissions.BASAL_ENERGY_BURNED:
+      return 'BASAL_ENERGY_BURNED';
+    case CustomPermissions.SWIMMING_SUMMARY:
+      return 'SWIMMING_SUMMARY';
+    case CustomPermissions.RESTING_HEART_RATE:
+      return 'RESTING_HEART_RATE';
+    case CustomPermissions.BLOOD_PRESSURE:
+      return 'BLOOD_PRESSURE';
+    case CustomPermissions.BLOOD_GLUCOSE:
+      return 'BLOOD_GLUCOSE';
+    case CustomPermissions.BODY_TEMPERATURE:
+      return 'BODY_TEMPERATURE';
+    case CustomPermissions.LEAN_BODY_MASS:
+      return 'LEAN_BODY_MASS';
+    case CustomPermissions.OXYGEN_SATURATION:
+      return 'OXYGEN_SATURATION';
+    case CustomPermissions.SLEEP_ANALYSIS:
+      return 'SLEEP_ANALYSIS';
+    case CustomPermissions.RESPIRATORY_RATE:
+      return 'RESPIRATORY_RATE';
+    case CustomPermissions.NUTRITION_SODIUM:
+      return 'NUTRITION_SODIUM';
+    case CustomPermissions.NUTRITION_PROTEIN:
+      return 'NUTRITION_PROTEIN';
+    case CustomPermissions.NUTRITION_CARBOHYDRATES:
+      return 'NUTRITION_CARBOHYDRATES';
+    case CustomPermissions.NUTRITION_FIBRE:
+      return 'NUTRITION_FIBRE';
+    case CustomPermissions.NUTRITION_FAT_TOTAL:
+      return 'NUTRITION_FAT_TOTAL';
+    case CustomPermissions.NUTRITION_SUGAR:
+      return 'NUTRITION_SUGAR';
+    case CustomPermissions.NUTRITION_VITAMIN_C:
+      return 'NUTRITION_VITAMIN_C';
+    case CustomPermissions.NUTRITION_VITAMIN_A:
+      return 'NUTRITION_VITAMIN_A';
+    case CustomPermissions.NUTRITION_CALORIES:
+      return 'NUTRITION_CALORIES';
+    case CustomPermissions.NUTRITION_WATER:
+      return 'NUTRITION_WATER';
+    case CustomPermissions.NUTRITION_CHOLESTEROL:
+      return 'NUTRITION_CHOLESTEROL';
+  }
+}
+
 export function initTerra(
   devID: string,
   apiKey: string,
   referenceId: string,
   intervalMinutes: number,
   connections: Connections[],
-  permissions: Permissions[]
+  permissions: Permissions[],
+  customPermissions: CustomPermissions[] = []
 ): Promise<any> {
   return TerraReact.initTerra(
     devID,
@@ -81,7 +204,10 @@ export function initTerra(
     referenceId,
     intervalMinutes,
     connections.map((c) => ConnectionToString(c)),
-    permissions.map((p) => PermissionsToString(p))
+    permissions.map((p) => PermissionsToString(p)),
+    customPermissions.length > 0
+      ? customPermissions.map((p) => CustomPermissionsToString(p))
+      : []
   );
 }
 
@@ -98,7 +224,7 @@ export function getBody(
   startDate: Date,
   endDate: Date
 ): Promise<any> {
-  return TerraReact.getBody(
+  return TerraReact.getDaily(
     ConnectionToString(connection),
     startDate.toISOString(),
     endDate.toISOString()

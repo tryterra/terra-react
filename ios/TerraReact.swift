@@ -4,6 +4,7 @@
 
 import Foundation
 import TerraiOS
+import HealthKit
 
 @objc(TerraReact)
 class TerraReact: NSObject {
@@ -49,6 +50,90 @@ class TerraReact: NSObject {
         }
         return Permissions.ACTIVITY
     }
+
+    private func customPermissionParse(cPermission: String) -> Set<HKObjectType> {
+        switch cPermission {
+            case "WORKOUT_TYPES":
+                return Set([HKObjectType.workoutType()])
+            case "ACTIVITY_SUMMARY":
+                return Set([HKObjectType.activitySummaryType()])
+            case "LOCATION":
+                return Set([HKSeriesType.workoutRoute()])
+            case "CALORIES":
+                return Set([HKObjectType.quantityType(forIdentifier:.activeEnergyBurned)!])
+            case "STEPS":
+                return Set([HKQuantityType.quantityType(forIdentifier: .stepCount)!])
+            case "HEART_RATE":
+                return Set([HKObjectType.quantityType(forIdentifier: .heartRate)!])
+            case "HEART_RATE_VARIABILITY":
+                return Set([HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!])
+            case "VO2MAX":
+                return Set([HKObjectType.quantityType(forIdentifier: .vo2Max)!])
+            case "HEIGHT":
+                return Set([HKObjectType.quantityType(forIdentifier: .height)!])
+            case "ACTIVE_DURATIONS":
+                return Set([HKObjectType.quantityType(forIdentifier: .appleExerciseTime)!])
+            case "WEIGHT":
+                return Set([HKObjectType.quantityType(forIdentifier: .bodyMass)!])
+            case "FLIGHTS_CLIMBED":
+                return Set([HKObjectType.quantityType(forIdentifier: .flightsClimbed)!])
+            case "BMI":
+                return Set([HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!])
+            case "BODY_FAT":
+                return Set([HKObjectType.quantityType(forIdentifier: .bodyFatPercentage)!])
+            case "EXERCISE_DISTANCE":
+                return Set([HKObjectType.quantityType(forIdentifier: .distanceSwimming)!, HKObjectType.quantityType(forIdentifier: .distanceCycling)!, HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!])
+            case "GENDER":
+                return Set([HKObjectType.characteristicType(forIdentifier: .biologicalSex)!])
+            case "DATE_OF_BIRTH":
+                return Set([HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!])
+            case "BASAL_ENERGY_BURNED":
+                return Set([HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!])
+            case "SWIMMING_SUMMARY":
+                return Set([HKObjectType.quantityType(forIdentifier: .swimmingStrokeCount)!])
+            case "RESTING_HEART_RATE":
+                return Set([HKObjectType.quantityType(forIdentifier: .restingHeartRate)!])
+            case "BLOOD_PRESSURE":
+                return Set([HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!, HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!])
+            case "BLOOD_GLUCOSE":
+                return Set([HKObjectType.quantityType(forIdentifier: .bloodGlucose)!])
+            case "BODY_TEMPERATURE":
+                return Set([HKObjectType.quantityType(forIdentifier: .bodyTemperature)!])
+            case "LEAN_BODY_MASS":
+                return Set([HKObjectType.quantityType(forIdentifier: .leanBodyMass)!])
+            case "OXYGEN_SATURATION":
+                return Set([HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!])
+            case "SLEEP_ANALYSIS":
+                return Set([HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!])
+            case "RESPIRATORY_RATE":
+                return Set([HKObjectType.quantityType(forIdentifier: .respiratoryRate)!])
+            case "NUTRITION_SODIUM":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietarySodium)!])
+            case "NUTRITION_PROTEIN":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryProtein)!])
+            case "NUTRITION_CARBOHYDRATES":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!])
+            case "NUTRITION_FIBRE":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryFiber)!])
+            case "NUTRITION_FAT_TOTAL":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryFatTotal)!])
+            case "NUTRITION_SUGAR":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietarySugar)!])
+            case "NUTRITION_VITAMIN_C":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryVitaminC)!])
+            case "NUTRITION_VITAMIN_A":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryVitaminA)!])
+            case "NUTRITION_CALORIES":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryEnergyConsumed)!])
+            case "NUTRITION_WATER":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryWater)!])
+            case "NUTRITION_CHOLESTEROL":
+                return Set([HKObjectType.quantityType(forIdentifier: .dietaryCholesterol)!])
+            default:
+                return Set([])
+        }
+        return Set([])
+    }
     
     // connection array to connection set
     private func connectionsSet(connections: [String]) -> Set<Connections> {
@@ -68,9 +153,19 @@ class TerraReact: NSObject {
         return out
     }
 
+    private func customPermissionsSet(customPermissions: [String]) -> Set<HKObjectType> {
+        var out: Set<HKObjectType> = Set([])
+
+        for permission in customPermissions {
+            out.formUnion(customPermissionParse(cPermission: permission))
+        }
+
+        return out
+    }
+
     // initialize
     @objc
-    func initTerra(_ devID: String, apiKey: String, referenceId: String, intervalMinutes: Int, connectionsStr: [String], permissionsStr: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func initTerra(_ devID: String, apiKey: String, referenceId: String, intervalMinutes: Int, connectionsStr: [String], permissionsStr: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         do {
             terra = try Terra(
                             devId: devID,
@@ -78,8 +173,8 @@ class TerraReact: NSObject {
                             referenceId: referenceId,
                             bodySleepDailyInterval: 60,
                             connections: connectionsSet(connections: connectionsStr),
-                            permissions: permissionsSet(permissions: permissionsStr)
-                            // TODO add HKTypes
+                            permissions: permissionsSet(permissions: permissionsStr),
+                            customReadTypes: customPermissionsSet(customPermissions: customPermissions)
                         ){(success: Bool) in resolve(["success": success])}
         } catch {
             reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
