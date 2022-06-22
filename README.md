@@ -20,7 +20,8 @@ export function initTerra(
     referenceId: string,
     intervalMinutes: number,
     connections: Connections[],
-    permissions: Permissions[]
+    permissions: Permissions[],
+    customPermissions: CustomPermissions[] // This is optional. It allows you to fine tune permission requests from Apple Health
 ): Promise<any>;
 
 // deauth a particular terra connection
@@ -90,6 +91,47 @@ export enum Connections {
     "FREESTYLE_LIBRE",
     "GOOGLE",
     "SAMSUNG",
+}
+
+export enum CustomPermissions {
+  'WORKOUT_TYPES',
+  'ACTIVITY_SUMMARY',
+  'LOCATION',
+  'CALORIES',
+  'STEPS',
+  'HEART_RATE',
+  'HEART_RATE_VARIABILITY',
+  'VO2MAX',
+  'HEIGHT',
+  'ACTIVE_DURATIONS',
+  'WEIGHT',
+  'FLIGHTS_CLIMBED',
+  'BMI',
+  'BODY_FAT',
+  'EXERCISE_DISTANCE',
+  'GENDER',
+  'DATE_OF_BIRTH',
+  'BASAL_ENERGY_BURNED',
+  'SWIMMING_SUMMARY',
+  'RESTING_HEART_RATE',
+  'BLOOD_PRESSURE',
+  'BLOOD_GLUCOSE',
+  'BODY_TEMPERATURE',
+  'LEAN_BODY_MASS',
+  'OXYGEN_SATURATION',
+  'SLEEP_ANALYSIS',
+  'RESPIRATORY_RATE',
+  'NUTRITION_SODIUM',
+  'NUTRITION_PROTEIN',
+  'NUTRITION_CARBOHYDRATES',
+  'NUTRITION_FIBRE',
+  'NUTRITION_FAT_TOTAL',
+  'NUTRITION_SUGAR',
+  'NUTRITION_VITAMIN_C',
+  'NUTRITION_VITAMIN_A',
+  'NUTRITION_CALORIES',
+  'NUTRITION_WATER',
+  'NUTRITION_CHOLESTEROL',
 }
 ```
 
