@@ -191,28 +191,38 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
 
 export function initTerra(
   devID: string,
-  apiKey: string,
   referenceId: string,
-  intervalMinutes: number,
-  connections: Connections[],
-  permissions: Permissions[],
-  customPermissions: CustomPermissions[] = []
+  sleepTimerMinutes: number,
+  dailyTimerMinutes: number,
+  bodyTimerMinutes: number,
+  activityTimerMinutes: number,
+  nutritionTimerMinutes: number
 ): Promise<any> {
   return TerraReact.initTerra(
     devID,
-    apiKey,
     referenceId,
-    intervalMinutes,
-    connections.map((c) => ConnectionToString(c)),
-    permissions.map((p) => PermissionsToString(p)),
-    customPermissions.length > 0
-      ? customPermissions.map((p) => CustomPermissionsToString(p))
-      : []
+    sleepTimerMinutes,
+    dailyTimerMinutes,
+    bodyTimerMinutes,
+    activityTimerMinutes,
+    nutritionTimerMinutes
   );
 }
 
-export function deauthTerra(connection: Connections) {
-  return TerraReact.deauth(ConnectionToString(connection));
+export function initConnection(
+  connection: Connections,
+  token: string,
+  schedulerOn: boolean,
+  permissions: Permissions[],
+  customPermissions: CustomPermissions[] = []
+): Promise<any> {
+  return TerraReact.initConnection(
+    ConnectionToString(connection),
+    token,
+    schedulerOn,
+    permissions.map((p) => PermissionsToString(p)),
+    customPermissions.map((p) => CustomPermissionsToString(p))
+  );
 }
 
 export function checkAuth(connection: Connections) {

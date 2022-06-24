@@ -49,52 +49,54 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
       return null;
     }
 
+    private Permissions parsePermissions(String permission){
+        switch (permission){
+            case "ACTIVITY":
+                return Permissions.ACTIVITY;
+            case "ATHLETE":
+                return Permissions.ATHLETE;
+            case "BODY":
+                return Permissions.BODY;
+            case "DAILY":
+                return Permissions.DAILY;
+            case "NUTRITION":
+                return Permissions.NUTRITION;
+            case "SLEEP":
+                return Permissions.SLEEP;
+        }
+        return null;
+    }
+
     @ReactMethod
-    public void initTerra(String devID, String apiKey, String referenceId, int intervalMinutes, ReadableArray connectionsStr, ReadableArray permissionsStr, ReadableArray customPermissions, Promise promise) {
+    public void initTerra(String devID, String referenceId, int sleepTimerMinutes, int dailyTimerMinutes, int bodyTimerMinutes, int activityTimerMinutes, int nutritionTimerMinutes, Promise promise) {
         this.terra = new Terra(
                 devID,
-                apiKey,
           Objects.requireNonNull(this.getCurrentActivity()),
-                intervalMinutes * 60 * 1000,
-                intervalMinutes * 60 * 1000,
-                intervalMinutes * 60 * 1000,
-                intervalMinutes * 60 * 1000,
-                intervalMinutes * 60 * 1000,
+                bodyTimerMinutes * 60 * 1000,
+                sleepTimerMinutes * 60 * 1000,
+                dailyTimerMinutes * 60 * 1000,
+                nutritionTimerMinutes * 60 * 1000,
+                activityTimerMinutes * 60 * 1000,
                 referenceId,
                 null
                 );
-        for (Object connection : connectionsStr.toArrayList()) {
-            switch ((String) connection) {
-                case "SAMSUNG":
-                    
-                    terra.initConnection(
-                      Connections.SAMSUNG,
-                      this.getCurrentActivity(),
-                      new HashSet<>(Arrays.asList(Permissions.ACTIVITY, Permissions.ATHLETE, Permissions.BODY, Permissions.DAILY, Permissions.NUTRITION, Permissions.SLEEP)),
-                      null
-                    );
-                    break;
-                case "GOOGLE":
-                    terra.initConnection(
-                        Connections.GOOGLE_FIT,
-                        this.getCurrentActivity(),
-                        new HashSet<>(Arrays.asList(Permissions.ACTIVITY, Permissions.ATHLETE, Permissions.BODY, Permissions.DAILY, Permissions.NUTRITION, Permissions.SLEEP)),
-                      null
-                    );
-                    break;
-                case "FREESTYLE_LIBRE":
-                    terra.initConnection(
-                        Connections.FREESTYLE_LIBRE,
-                        this.getCurrentActivity(),
-                        new HashSet<>(),
-                        null
-                    );
-                    break;
-                default:
-                    break;
-            }
-        }
         promise.resolve("success");
+    }
+
+    @ReactMethod
+    public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, Promise promise){
+        if (parseConnection(connection) == null){
+            return; 
+        }
+        
+        HashSet<Permissions> perms = new HashSet<>();
+        for (Object permission: permissions.toArrayList()){
+            perms.add(parsePermissions((String) permission));
+        }
+        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null, 
+            (success)-> {promise.resolve(success);
+            return Unit.INSTANCE;
+        });
     }
 
     @ReactMethod
@@ -173,10 +175,5 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void readGlucoseData(String connection, Promise promise){
         promise.reject("`Unimplemented function for Android");
-    }
-
-    @ReactMethod
-    public void deauth(String connection){
-        this.terra.disconnect(Objects.requireNonNull(parseConnection(connection)));
     }
 }

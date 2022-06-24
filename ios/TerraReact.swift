@@ -135,14 +135,6 @@ class TerraReact: NSObject {
         return Set([])
     }
     
-    // connection array to connection set
-    private func connectionsSet(connections: [String]) -> Set<Connections> {
-        var out: Set<Connections> = Set([])
-        for connection in connections {
-            out.insert(connectionParse(connection: connection))
-        }
-        return out
-    }
 
     // permissions array to permissions set
     private func permissionsSet(permissions: [String]) -> Set<Permissions> {
@@ -165,22 +157,23 @@ class TerraReact: NSObject {
 
     // initialize
     @objc
-    func initTerra(_ devID: String, apiKey: String, referenceId: String, intervalMinutes: Int, connectionsStr: [String], permissionsStr: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        do {
-            terra = try Terra(
-                            devId: devID,
-                            xAPIKey: apiKey,
-                            referenceId: referenceId,
-                            bodySleepDailyInterval: 60,
-                            connections: connectionsSet(connections: connectionsStr),
-                            permissions: permissionsSet(permissions: permissionsStr),
-                            customReadTypes: customPermissionsSet(customPermissions: customPermissions)
-                        ){(success: Bool) in resolve(["success": success])}
-        } catch {
-            reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
-        }
+    func initTerra(_ devID: String, referenceId: String, sleepTimerMinutes: Int, dailyTimerMinutes: Int, bodyTimerMinutes: Int, activityTimerMinutes: Int, nutritionTimerMinutes: Int, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        terra = Terra(
+            devId: devID,
+            referenceId: referenceId,
+            bodyTimer: Double(bodyTimerMinutes * 60),
+            dailyTimer: Double(dailyTimerMinutes * 60),
+            nutritionTimer: Double(nutritionTimerMinutes * 60), 
+            sleepTimer: Double(sleepTimerMinutes * 60)
+        )
+        resolve(true)
     }
   
+    @objc
+    func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        terra?.initConnection(type: connectionParse(connection: connection), token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
+    }
+
     // check connection
     @objc
     func checkAuth(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
@@ -220,9 +213,4 @@ class TerraReact: NSObject {
         }
     }
     
-    // deauth
-    @objc
-    func deauth(_ connection: String){
-        terra?.disconnectTerra(type: connectionParse(connection: connection))
-    }
 }

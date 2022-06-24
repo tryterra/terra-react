@@ -3,9 +3,9 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
-  CustomPermissions,
   getActivity,
   getDaily,
+  initConnection,
   // deauthTerra,
   initTerra,
   Permissions,
@@ -13,31 +13,34 @@ import {
 
 export default function App() {
   // can also use a .env file
-  const devID = 'devId';
-  const apiKey = 'xAPIKey';
+  const devID = 'testingElliott';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
   function initThings() {
-    initTerra(
-      devID,
-      apiKey,
-      'refid',
-      60,
-      [Connections.APPLE_HEALTH],
-      [Permissions.ACTIVITY, Permissions.DAILY]
-    ).then((d) => {
+    initTerra(devID, 'refid', 1, 1, 1, 1, 1).then((d) => {
       console.log(d); // returns details such as success and user id
-      // make a backfill request
-      getDaily(Connections.APPLE_HEALTH, new Date(), new Date())
+    });
+    initConnection(
+      Connections.GOOGLE,
+      '07503fbe4a1ba4672950ff84fb7c9eddf7f1dcf7c7ef92e256c48c6008517bc6',
+      true,
+      [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
+    ).then((d) => {
+      console.log(d);
+      let startDate = new Date();
+      startDate.setDate(20);
+      startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      console.log(startDate.toISOString());
+      console.log(new Date());
+      getDaily(Connections.GOOGLE, startDate, new Date())
         .then((d) => console.log(d))
         .catch((e) => console.log(e));
     });
-
-    // deauth example
-    // deauthTerra(Connections.GOOGLE);
   }
 
   React.useEffect(() => {
