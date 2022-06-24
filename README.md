@@ -8,24 +8,31 @@ React Native SDK mapping
 npm install terra-react
 ```
 
-## Usage
+## Usage latest update (1.0.13): 
 
 Regardless of Android or iOS, here are the functions available that you can import from `terra-react` (platform check is delt with under the hood):
 
 ```js
-// initialise terra with a set of connections and permissions
+// initialise terra with timer intervals
 export function initTerra(
     devID: string,
-    apiKey: string,
     referenceId: string,
     intervalMinutes: number,
-    connections: Connections[],
-    permissions: Permissions[],
-    customPermissions: CustomPermissions[] // This is optional. It allows you to fine tune permission requests from Apple Health
+    sleepTimerMinutes: number,
+    dailyTimerMinutes: number,
+    bodyTimerMinutes: number,
+    activityTimerMinutes: number,
+    nutritionTimerMinutes: number
 ): Promise<any>;
 
-// deauth a particular terra connection
-export function deauthTerra(connection: Connections): void;
+// initialise connections
+export function initConnection(
+  connection: Connections,
+  token: string, //Auth token by our backend: https://docs.tryterra.co/reference/generate-authentication-token
+  schedulerOn: boolean,
+  permissions: Permissions[],
+  customPermissions: CustomPermissions[] = [] //defaults to empty, however if provided, it will overwrite permissions
+): Promise<any>;
 
 // check a particular terra connection auth
 export function checkAuth(connection: Connections): Promise<any>;
