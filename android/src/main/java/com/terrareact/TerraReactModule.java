@@ -24,6 +24,7 @@ import java.time.Instant;
 import co.tryterra.terra.*;
 import kotlin.Unit;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 @ReactModule(name = TerraReactModule.NAME)
 public class TerraReactModule extends ReactContextBaseJavaModule {
     public static final String NAME = "TerraReact";
@@ -71,7 +72,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initTerra(String devID, String referenceId, int sleepTimerMinutes, int dailyTimerMinutes, int bodyTimerMinutes, int activityTimerMinutes, int nutritionTimerMinutes, Promise promise) {
         try{
-            his.terra = new Terra(
+            this.terra = new Terra(
                 devID,
             Objects.requireNonNull(this.getCurrentActivity()),
                 bodyTimerMinutes * 60 * 1000,
@@ -92,27 +93,23 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, Promise promise){
         if (parseConnection(connection) == null){
-            return; 
+            return;
         }
-        
+
         HashSet<Permissions> perms = new HashSet<>();
         for (Object permission: permissions.toArrayList()){
             perms.add(parsePermissions((String) permission));
         }
-        try {
-            this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null, 
-                (success)-> {promise.resolve(success);
-                return Unit.INSTANCE;
-            });
-        } catch (IOException e) {
-            promise.reject(false);
-        }
+      this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null,
+          (success)-> {promise.resolve(success);
+          return Unit.INSTANCE;
+      });
     }
 
     @ReactMethod
     public void getAthlete(String connection, Promise promise){
       this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success, payload) ->{
-            promise.resolve("success");
+            promise.resolve(success);
             return Unit.INSTANCE;
         });
     }
