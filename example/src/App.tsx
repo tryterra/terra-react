@@ -25,7 +25,7 @@ export default function App() {
     });
     initConnection(
       Connections.GOOGLE,
-      '07503fbe4a1ba4672950ff84fb7c9eddf7f1dcf7c7ef92e256c48c6008517bc6',
+      'xxx',
       true,
       [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
     ).then((d) => {

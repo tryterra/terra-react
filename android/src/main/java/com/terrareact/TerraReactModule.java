@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Date;
+import java.io.IOException;
 import java.time.Instant;
 
 import co.tryterra.terra.*;
@@ -69,9 +70,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initTerra(String devID, String referenceId, int sleepTimerMinutes, int dailyTimerMinutes, int bodyTimerMinutes, int activityTimerMinutes, int nutritionTimerMinutes, Promise promise) {
-        this.terra = new Terra(
+        try{
+            his.terra = new Terra(
                 devID,
-          Objects.requireNonNull(this.getCurrentActivity()),
+            Objects.requireNonNull(this.getCurrentActivity()),
                 bodyTimerMinutes * 60 * 1000,
                 sleepTimerMinutes * 60 * 1000,
                 dailyTimerMinutes * 60 * 1000,
@@ -80,7 +82,11 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 referenceId,
                 null
                 );
-        promise.resolve("success");
+            promise.resolve(true);
+        }
+        catch(Exception e){
+            promise.resolve(false);
+        }
     }
 
     @ReactMethod
@@ -93,10 +99,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         for (Object permission: permissions.toArrayList()){
             perms.add(parsePermissions((String) permission));
         }
-        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null, 
-            (success)-> {promise.resolve(success);
-            return Unit.INSTANCE;
-        });
+        try {
+            this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null, 
+                (success)-> {promise.resolve(success);
+                return Unit.INSTANCE;
+            });
+        } catch (IOException e) {
+            promise.reject(false);
+        }
     }
 
     @ReactMethod
