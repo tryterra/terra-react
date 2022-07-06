@@ -37,6 +37,12 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
+RCT_EXTERN_METHOD(
+    getUserId: (NSString *)connection
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
 // getters
 RCT_EXTERN_METHOD(
     getAthlete: (NSString *)connection

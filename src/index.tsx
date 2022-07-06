@@ -72,7 +72,6 @@ export enum Connections {
   'FREESTYLE_LIBRE',
   'GOOGLE',
   'SAMSUNG',
-  'POLAR',
 }
 
 function ConnectionToString(connection: Connections) {
@@ -85,8 +84,6 @@ function ConnectionToString(connection: Connections) {
       return 'GOOGLE';
     case Connections.SAMSUNG:
       return 'SAMSUNG';
-    case Connections.POLAR:
-      return 'POLAR';
     default:
       return undefined;
   }
@@ -230,6 +227,10 @@ export function initConnection(
 
 export function checkAuth(connection: Connections) {
   return TerraReact.checkAuth(ConnectionToString(connection));
+}
+
+export function getUserId(connection: Connections): Promise<any> {
+  return TerraReact.getUserId(ConnectionToString(connection));
 }
 
 export function getBody(

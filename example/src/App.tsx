@@ -5,6 +5,7 @@ import {
   Connections,
   getActivity,
   getDaily,
+  getUserId,
   initConnection,
   // deauthTerra,
   initTerra,
@@ -24,7 +25,7 @@ export default function App() {
       console.log(d); // returns details such as success and user id
     });
     initConnection(
-      Connections.GOOGLE,
+      Connections.SAMSUNG,
       'xxx',
       true,
       [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
@@ -35,16 +36,19 @@ export default function App() {
       startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      console.log(startDate.toISOString());
-      console.log(new Date());
-      getDaily(Connections.GOOGLE, startDate, new Date())
-        .then((d) => console.log(d))
-        .catch((e) => console.log(e));
+      // getDaily(Connections.GOOGLE, startDate, new Date())
+      //   .then((d) => console.log(d))
+      //   .catch((e) => console.log(e));
     });
   }
 
   React.useEffect(() => {
     initThings();
+    setTimeout(function () {
+      getUserId(Connections.SAMSUNG)
+        .then((de) => console.log(de))
+        .catch((ee) => console.log(ee));
+    }, 1000);
   }, []);
 
   return (

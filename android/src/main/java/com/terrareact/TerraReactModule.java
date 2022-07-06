@@ -106,6 +106,11 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
       });
     }
 
+    @ReactMethod 
+    public void getUserId(String connection, Promise promise){
+        promise.resolve(this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
+    }
+
     @ReactMethod
     public void getAthlete(String connection, Promise promise){
       this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success, payload) ->{

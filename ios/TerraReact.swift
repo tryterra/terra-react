@@ -168,12 +168,17 @@ class TerraReact: NSObject {
         )
         resolve(true)
     }
-  
+    
     @objc
     func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         terra?.initConnection(type: connectionParse(connection: connection), token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
     }
 
+    @objc
+    func getUserId(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        resolve(terra?.getUserid(type: connectionParse(connection: connection)))
+    }
+  
     // check connection
     @objc
     func checkAuth(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
