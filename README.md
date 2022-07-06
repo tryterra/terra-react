@@ -8,7 +8,7 @@ React Native SDK mapping
 npm install terra-react
 ```
 
-## Usage latest update (1.0.13): 
+## Usage latest update (1.0.18): 
 
 Regardless of Android or iOS, here are the functions available that you can import from `terra-react` (platform check is delt with under the hood):
 
