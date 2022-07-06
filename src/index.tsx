@@ -72,6 +72,7 @@ export enum Connections {
   'FREESTYLE_LIBRE',
   'GOOGLE',
   'SAMSUNG',
+  'POLAR',
 }
 
 function ConnectionToString(connection: Connections) {
@@ -84,6 +85,8 @@ function ConnectionToString(connection: Connections) {
       return 'GOOGLE';
     case Connections.SAMSUNG:
       return 'SAMSUNG';
+    case Connections.POLAR:
+      return 'POLAR';
     default:
       return undefined;
   }
