@@ -34,6 +34,9 @@ export function initConnection(
   customPermissions: CustomPermissions[] = [] //defaults to empty, however if provided, it will overwrite permissions
 ): Promise<any>;
 
+//Getting the user ID for a given connection.
+export function getUserId(connection: Connections): Promise<any>
+
 // check a particular terra connection auth
 export function checkAuth(connection: Connections): Promise<any>;
 
