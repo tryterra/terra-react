@@ -26,7 +26,7 @@ export default function App() {
     });
     initConnection(
       Connections.SAMSUNG,
-      'xxx',
+      '8177148efe02b0b261241a996d1c562ead695a87b58d61fb6b2739ee42c2a921',
       true,
       [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
     ).then((d) => {

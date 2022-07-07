@@ -93,6 +93,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, Promise promise){
         if (parseConnection(connection) == null){
+            promise.resolve(false);
             return;
         }
 
@@ -100,10 +101,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         for (Object permission: permissions.toArrayList()){
             perms.add(parsePermissions((String) permission));
         }
-      this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null,
-          (success)-> {promise.resolve(success);
-          return Unit.INSTANCE;
-      });
+        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null,
+            (success)-> {promise.resolve(success);
+            return Unit.INSTANCE;
+        });
     }
 
     @ReactMethod 
@@ -125,7 +126,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success, payload) ->{
+          (success, payload) -> {
             promise.resolve("success");
             return Unit.INSTANCE;
         });
@@ -181,11 +182,16 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void checkAuth(String connection, Promise promise){
-        promise.reject("`Unimplemented function for Android");
+        promise.reject("Unimplemented function for Android");
     }
 
     @ReactMethod
     public void readGlucoseData(String connection, Promise promise){
-        promise.reject("`Unimplemented function for Android");
+        promise.reject("Unimplemented function for Android");
+    }
+
+    @ReactMethod 
+    public void activateSensor(){
+        this.terra.activateSensor();
     }
 }

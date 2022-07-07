@@ -91,6 +91,11 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
+RCT_EXTERN_METHOD(
+    activateSensor:(RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
 // Deauth
 RCT_EXTERN_METHOD(
     deauth: (NSString *)connection

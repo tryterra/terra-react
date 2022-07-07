@@ -19,7 +19,7 @@ class TerraReact: NSObject {
     private var terra: Terra?
     
     // connection type translate
-    private func connectionParse(connection: String) -> Connections {
+    private func connectionParse(connection: String) -> Connections? {
         switch connection {
             case "APPLE_HEALTH":
                 return Connections.APPLE_HEALTH
@@ -28,7 +28,7 @@ class TerraReact: NSObject {
             default:
                 print("Passed invalid connection")
         }
-      return Connections.APPLE_HEALTH
+      return nil
     }
     // permission type translate
     private func permissionParse(permission: String) -> Permissions {
@@ -171,7 +171,12 @@ class TerraReact: NSObject {
     
     @objc
     func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.initConnection(type: connectionParse(connection: connection), token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
+        if let connection = connectionParse(connection: connection){
+            terra?.initConnection(type: connection, token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
+        }
+        else {
+            reject(false)
+        }
     }
 
     @objc
@@ -215,6 +220,17 @@ class TerraReact: NSObject {
             resolve([])
         } catch {
             reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
+        }
+    }
+
+    @objc
+    func activateSensor(_ reslve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        do {
+            try terra?.activateSensor()
+            resolve([])
+        }
+        catch {
+            reject("Init", "Error activating sensor", nil)
         }
     }
     

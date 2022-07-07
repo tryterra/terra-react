@@ -300,3 +300,7 @@ export function getAthlete(connection: Connections) {
 export function readGlucoseData() {
   return TerraReact.readGlucoseData();
 }
+
+export function activateSensor() {
+  return TerraReact.activateSensor();
+}
