@@ -175,41 +175,55 @@ class TerraReact: NSObject {
             terra?.initConnection(type: connection, token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
         }
         else {
-            reject(false)
+            resolve(["success": false])
         }
     }
 
     @objc
     func getUserId(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        resolve(terra?.getUserid(type: connectionParse(connection: connection)))
+        if let connection = connectionParse(connection: connection){
+            resolve(terra?.getUserid(type: connection))
+        }
     }
   
     // check connection
     @objc
     func checkAuth(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
-        resolve(["authed": terra?.checkAuthentication(connection: connectionParse(connection: connection))])
+        if let connection = connectionParse(connection: connection){
+            resolve(["authed": terra?.checkAuthentication(connection: connection)])
+        }
     }
     
     // getters
     @objc
     func getBody(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.getBody(type: connectionParse(connection: connection), startDate: startDate, endDate: endDate){(success: Bool, data: [TerraBodyData]?) in resolve(["success": success, "data": data])}
+        if let connection = connectionParse(connection: connection){
+            terra?.getBody(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraBodyData]?) in resolve(["success": success, "data": data])}
+        }
     }
     @objc
     func getActivity(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.getActivity(type: connectionParse(connection: connection), startDate: startDate, endDate: endDate){(success: Bool, data: [TerraActivityData]?) in resolve(["success": success, "data": data])}
+        if let connection = connectionParse(connection: connection){
+            terra?.getActivity(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraActivityData]?) in resolve(["success": success, "data": data])}
+        }
     }
     @objc
     func getAthlete(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.getAthlete(type: connectionParse(connection: connection)){(success: Bool, data: TerraAthleteData?) in resolve(["success": success, "data": data])}
+        if let connection = connectionParse(connection: connection){
+            terra?.getAthlete(type: connection){(success: Bool, data: TerraAthleteData?) in resolve(["success": success, "data": data])}
+        }
     }
     @objc
     func getDaily(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.getDaily(type: connectionParse(connection: connection), startDate: startDate, endDate: endDate){(success: Bool, data: [TerraDailyData]?) in resolve(["success": success, "data": data])}
+        if let connection = connectionParse(connection: connection){
+            terra?.getDaily(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraDailyData]?) in resolve(["success": success, "data": data])}
+        }
     }
     @objc
     func getSleep(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.getSleep(type: connectionParse(connection: connection), startDate: startDate, endDate: endDate){(success: Bool, data: [TerraSleepData]?) in resolve(["success": success, "data": data])}
+        if let connection = connectionParse(connection: connection){
+            terra?.getSleep(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraSleepData]?) in resolve(["success": success, "data": data])}
+        }
     }
     
     // Freestyle glucose init
@@ -224,7 +238,7 @@ class TerraReact: NSObject {
     }
 
     @objc
-    func activateSensor(_ reslve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func activateSensor(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         do {
             try terra?.activateSensor()
             resolve([])

@@ -25,8 +25,8 @@ export default function App() {
       console.log(d); // returns details such as success and user id
     });
     initConnection(
-      Connections.SAMSUNG,
-      '8177148efe02b0b261241a996d1c562ead695a87b58d61fb6b2739ee42c2a921',
+      Connections.FREESTYLE_LIBRE,
+      '440f0c35fc41e4390217b6ec4dde94de635252fb15cea51d682a136aced0ceff',
       true,
       [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
     ).then((d) => {
@@ -36,19 +36,17 @@ export default function App() {
       startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      // getDaily(Connections.GOOGLE, startDate, new Date())
-      //   .then((d) => console.log(d))
+      // getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+      //   .then((d) => console.log('daily', d))
       //   .catch((e) => console.log(e));
+      getUserId(Connections.FREESTYLE_LIBRE)
+        .then((de) => console.log(de))
+        .catch((ee) => console.log(ee));
     });
   }
 
   React.useEffect(() => {
     initThings();
-    setTimeout(function () {
-      getUserId(Connections.SAMSUNG)
-        .then((de) => console.log(de))
-        .catch((ee) => console.log(ee));
-    }, 1000);
   }, []);
 
   return (

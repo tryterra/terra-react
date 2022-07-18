@@ -96,9 +96,4 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
-// Deauth
-RCT_EXTERN_METHOD(
-    deauth: (NSString *)connection
-)
-
 @end
