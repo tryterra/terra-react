@@ -297,10 +297,10 @@ export function getAthlete(connection: Connections) {
   return TerraReact.getAthlete(ConnectionToString(connection));
 }
 
-export function readGlucoseData() {
+export function readGlucoseData(): Promise<any> {
   return TerraReact.readGlucoseData();
 }
 
-export function activateSensor() {
+export function activateSensor(): Promise<any> {
   return TerraReact.activateSensor();
 }

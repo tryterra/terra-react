@@ -229,11 +229,14 @@ class TerraReact: NSObject {
     // Freestyle glucose init
     @objc
     func readGlucoseData(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        do {
-            try terra?.readGlucoseData()
-            resolve([])
-        } catch {
-            reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
+        terra?.readGlucoseData {data in 
+            do{
+                let jsonData = try JSONEncoder().encode(data)
+                resolve(String(data: jsonData, encoding: .utf8) ?? "")
+            }
+            catch {
+                reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
+            }   
         }
     }
 

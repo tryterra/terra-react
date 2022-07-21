@@ -10,6 +10,7 @@ import {
   // deauthTerra,
   initTerra,
   Permissions,
+  readGlucoseData,
 } from 'terra-react';
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
     });
     initConnection(
       Connections.FREESTYLE_LIBRE,
-      '440f0c35fc41e4390217b6ec4dde94de635252fb15cea51d682a136aced0ceff',
+      '822bc69401f17d22b8c61a4e0eb3f035af0104504d41cee6f0dc50b0a40118b3',
       true,
       [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
     ).then((d) => {
@@ -40,7 +41,13 @@ export default function App() {
       //   .then((d) => console.log('daily', d))
       //   .catch((e) => console.log(e));
       getUserId(Connections.FREESTYLE_LIBRE)
-        .then((de) => console.log(de))
+        .then((de) => {
+          console.log(de);
+          readGlucoseData().then((d) => {
+            console.log(JSON.parse(d));
+            console.log(typeof d);
+          });
+        })
         .catch((ee) => console.log(ee));
     });
   }

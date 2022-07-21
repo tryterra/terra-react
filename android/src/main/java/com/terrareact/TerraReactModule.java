@@ -21,6 +21,8 @@ import java.util.Date;
 import java.io.IOException;
 import java.time.Instant;
 
+import com.google.gson.Gson;
+
 import co.tryterra.terra.*;
 import kotlin.Unit;
 
@@ -28,6 +30,8 @@ import kotlin.Unit;
 @ReactModule(name = TerraReactModule.NAME)
 public class TerraReactModule extends ReactContextBaseJavaModule {
     public static final String NAME = "TerraReact";
+
+    private Gson gson = new Gson();
 
     public TerraReactModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -186,12 +190,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void readGlucoseData(String connection, Promise promise){
-        promise.reject("Unimplemented function for Android");
+    public void readGlucoseData(Promise promise){
+        promise.resolve(
+            gson.toJson(this.terra.readGlucoseData())
+        );
     }
 
-    @ReactMethod 
-    public void activateSensor(){
-        this.terra.activateSensor();
+    @ReactMethod
+    public void activateSensor(Promise promise){
+        promise.resolve("success");
     }
 }
