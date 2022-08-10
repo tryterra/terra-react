@@ -95,7 +95,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, Promise promise){
+    public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, String startIntent, Promise promise){
         if (parseConnection(connection) == null){
             promise.resolve(false);
             return;
@@ -105,7 +105,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         for (Object permission: permissions.toArrayList()){
             perms.add(parsePermissions((String) permission));
         }
-        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, null,
+        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, startIntent,
             (success)-> {promise.resolve(success);
             return Unit.INSTANCE;
         });
@@ -191,9 +191,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void readGlucoseData(Promise promise){
-        promise.resolve(
-            gson.toJson(this.terra.readGlucoseData())
-        );
+        this.terra.readGlucoseData((details) -> {
+            promise.resolve(gson.toJson(details));
+            return Unit.INSTANCE;
+        });
     }
 
     @ReactMethod

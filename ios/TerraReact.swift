@@ -170,7 +170,7 @@ class TerraReact: NSObject {
     }
     
     @objc
-    func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], startIntent: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
             terra?.initConnection(type: connection, token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
         }
@@ -229,14 +229,14 @@ class TerraReact: NSObject {
     // Freestyle glucose init
     @objc
     func readGlucoseData(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra?.readGlucoseData {data in 
-            do{
-                let jsonData = try JSONEncoder().encode(data)
+        terra?.readGlucoseData{(details) in
+            do {
+                let jsonData = try JSONEncoder().encode(details)
                 resolve(String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch {
-                reject("Init", "Init failed, further debug messages avaialble in Xcode", nil)
-            }   
+                print(error) //Should never execute
+            }
         }
     }
 

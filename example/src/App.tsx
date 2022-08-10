@@ -4,6 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
   getActivity,
+  getBody,
   getDaily,
   getUserId,
   initConnection,
@@ -15,7 +16,7 @@ import {
 
 export default function App() {
   // can also use a .env file
-  const devID = 'testingElliott';
+  const devID = 'DEV ID';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
@@ -26,10 +27,12 @@ export default function App() {
       console.log(d); // returns details such as success and user id
     });
     initConnection(
-      Connections.FREESTYLE_LIBRE,
-      '822bc69401f17d22b8c61a4e0eb3f035af0104504d41cee6f0dc50b0a40118b3',
+      Connections.APPLE_HEALTH,
+      'TOKEN',
       true,
-      [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY]
+      [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY],
+      [],
+      'com.example.terrareact.MainActivity'
     ).then((d) => {
       console.log(d);
       let startDate = new Date();
@@ -37,16 +40,12 @@ export default function App() {
       startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      // getDaily(Connections.APPLE_HEALTH, startDate, new Date())
-      //   .then((d) => console.log('daily', d))
-      //   .catch((e) => console.log(e));
-      getUserId(Connections.FREESTYLE_LIBRE)
+      getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+        .then((d) => console.log('daily', d))
+        .catch((e) => console.log(e));
+      getUserId(Connections.APPLE_HEALTH)
         .then((de) => {
           console.log(de);
-          readGlucoseData().then((d) => {
-            console.log(JSON.parse(d));
-            console.log(typeof d);
-          });
         })
         .catch((ee) => console.log(ee));
     });
