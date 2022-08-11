@@ -13,17 +13,16 @@ import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableArray;
 
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Date;
-import java.io.IOException;
 import java.time.Instant;
 
 import com.google.gson.Gson;
 
-import co.tryterra.terra.*;
+
+import co.tryterra.terra.Terra;
+import co.tryterra.terra.enums.Connections;
+import co.tryterra.terra.enums.Permissions;
 import kotlin.Unit;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -74,20 +73,15 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initTerra(String devID, String referenceId, int sleepTimerMinutes, int dailyTimerMinutes, int bodyTimerMinutes, int activityTimerMinutes, int nutritionTimerMinutes, Promise promise) {
+    public void initTerra(String devID, String referenceId, Promise promise) {
         try{
             this.terra = new Terra(
                 devID,
-            Objects.requireNonNull(this.getCurrentActivity()),
-                bodyTimerMinutes * 60 * 1000,
-                sleepTimerMinutes * 60 * 1000,
-                dailyTimerMinutes * 60 * 1000,
-                nutritionTimerMinutes * 60 * 1000,
-                activityTimerMinutes * 60 * 1000,
+                Objects.requireNonNull(this.getCurrentActivity()),
                 referenceId,
                 null
                 );
-            promise.resolve(true);
+             promise.resolve(true);
         }
         catch(Exception e){
             promise.resolve(false);
@@ -95,23 +89,19 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray permissions, ReadableArray customPermissions, String startIntent, Promise promise){
+    public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray customPermissions, String startIntent, Promise promise){
         if (parseConnection(connection) == null){
             promise.resolve(false);
             return;
         }
 
-        HashSet<Permissions> perms = new HashSet<>();
-        for (Object permission: permissions.toArrayList()){
-            perms.add(parsePermissions((String) permission));
-        }
-        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), perms, schedulerOn, startIntent,
+        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), schedulerOn, startIntent,
             (success)-> {promise.resolve(success);
             return Unit.INSTANCE;
         });
     }
 
-    @ReactMethod 
+    @ReactMethod
     public void getUserId(String connection, Promise promise){
         promise.resolve(this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
     }

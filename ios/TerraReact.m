@@ -10,25 +10,23 @@
 RCT_EXTERN_METHOD(
     initTerra: (NSString *)devID
     referenceId: (NSString *)referenceId
-    sleepTimerMinutes: (NSInteger *)sleepTimerMinutes
-    dailyTimerMinutes: (NSInteger *)dailyTimerMinutes
-    bodyTimerMinutes: (NSInteger *)bodyTimerMinutes
-    activityTimerMinutes: (NSInteger *)activityTimerMinutes
-    nutritionTimerMinutes: (NSInteger *)nutritionTimerMinutes
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
-
+// initConnection
 RCT_EXTERN_METHOD(
     initConnection: (NSString *)connection
     token: (NSString *)token
     schedulerOn: (BOOL)schedulerOn
-    permissions: (NSArray *)permissions
     customPermissions: (NSArray *)customPermissions
     startIntent: (NSString *)startIntent
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    setUpBackgroundDelivery
 )
 
 // check connection

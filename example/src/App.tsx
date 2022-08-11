@@ -3,34 +3,31 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
-  getActivity,
-  getBody,
+  // getActivity,
   getDaily,
   getUserId,
   initConnection,
   // deauthTerra,
   initTerra,
-  Permissions,
-  readGlucoseData,
+  // readGlucoseData,
 } from 'terra-react';
 
 export default function App() {
   // can also use a .env file
-  const devID = 'DEV ID';
+  const devID = 'testing';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
   function initThings() {
-    initTerra(devID, 'refid', 1, 1, 1, 1, 1).then((d) => {
+    initTerra(devID, 'refid').then((d) => {
       console.log(d); // returns details such as success and user id
     });
     initConnection(
-      Connections.APPLE_HEALTH,
-      'TOKEN',
+      Connections.FREESTYLE_LIBRE,
+      '8e25b7f1ced7a9f79bfb2ac09ce3e7a4f2c51d0094aeb2d39b725fd2328af7da',
       true,
-      [Permissions.ACTIVITY, Permissions.SLEEP, Permissions.DAILY],
       [],
       'com.example.terrareact.MainActivity'
     ).then((d) => {
@@ -41,8 +38,8 @@ export default function App() {
       startDate.setMinutes(0);
       startDate.setSeconds(0);
       getDaily(Connections.APPLE_HEALTH, startDate, new Date())
-        .then((d) => console.log('daily', d))
-        .catch((e) => console.log(e));
+        .then((d: any) => console.log('daily', d))
+        .catch((e: any) => console.log(e));
       getUserId(Connections.APPLE_HEALTH)
         .then((de) => {
           console.log(de);

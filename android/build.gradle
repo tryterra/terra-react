@@ -7,7 +7,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
+            classpath 'com.android.tools.build:gradle:3.5.4'
         }
     }
 }
@@ -42,7 +42,7 @@ android {
     }
 
     dependencies {
-        implementation 'co.tryterra:terra-android:1.0.23'
+        implementation 'co.tryterra:terra-android:1.1.0'
     }
 }
 
@@ -59,6 +59,6 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'co.tryterra:terra-android:1.0.23'
-    implementation "com.google.code.gson:gson:2.8.7"
+    implementation 'co.tryterra:terra-android:1.1.0'
+    implementation 'com.google.code.gson:gson:2.9.1'
 }

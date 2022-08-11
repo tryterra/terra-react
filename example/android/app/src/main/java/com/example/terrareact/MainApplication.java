@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ArrayList;
+
+import com.terrareact.BuildConfig;
 import com.terrareact.TerraReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {

@@ -17,12 +17,6 @@ Regardless of Android or iOS, here are the functions available that you can impo
 export function initTerra(
     devID: string,
     referenceId: string,
-    intervalMinutes: number,
-    sleepTimerMinutes: number,
-    dailyTimerMinutes: number,
-    bodyTimerMinutes: number,
-    activityTimerMinutes: number,
-    nutritionTimerMinutes: number
 ): Promise<any>;
 
 // initialise connections

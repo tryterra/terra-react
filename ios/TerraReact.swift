@@ -157,22 +157,18 @@ class TerraReact: NSObject {
 
     // initialize
     @objc
-    func initTerra(_ devID: String, referenceId: String, sleepTimerMinutes: Int, dailyTimerMinutes: Int, bodyTimerMinutes: Int, activityTimerMinutes: Int, nutritionTimerMinutes: Int, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func initTerra(_ devID: String, referenceId: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         terra = Terra(
             devId: devID,
-            referenceId: referenceId,
-            bodyTimer: Double(bodyTimerMinutes * 60),
-            dailyTimer: Double(dailyTimerMinutes * 60),
-            nutritionTimer: Double(nutritionTimerMinutes * 60), 
-            sleepTimer: Double(sleepTimerMinutes * 60)
+            referenceId: referenceId, completion: {success in resolve(["success": success])}
         )
-        resolve(true)
+        // resolve(true)
     }
     
     @objc
-    func initConnection(_ connection: String, token: String, schedulerOn: Bool, permissions: [String], customPermissions: [String], startIntent: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func initConnection(_ connection: String, token: String, schedulerOn: Bool, customPermissions: [String], startIntent: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.initConnection(type: connection, token: token, permissions: permissionsSet(permissions: permissions), customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
+            terra?.initConnection(type: connection, token: token, customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
         }
         else {
             resolve(["success": false])
@@ -182,15 +178,21 @@ class TerraReact: NSObject {
     @objc
     func getUserId(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            resolve(terra?.getUserid(type: connection))
+            resolve(terra?.getUserId(type: connection))
         }
+    }
+    
+    @objc
+    func setUpBackgroundDelivery(){
+        Terra.setUpBackgroundDelivery()
     }
   
     // check connection
     @objc
-    func checkAuth(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+    func checkAuth(_ connection: String, devID: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         if let connection = connectionParse(connection: connection){
-            resolve(["authed": terra?.checkAuthentication(connection: connection)])
+            resolve(["authed": Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])
+            })])
         }
     }
     

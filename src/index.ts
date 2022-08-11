@@ -89,25 +89,6 @@ function ConnectionToString(connection: Connections) {
   }
 }
 
-function PermissionsToString(permission: Permissions) {
-  switch (permission) {
-    case Permissions.ACTIVITY:
-      return 'ACTIVITY';
-    case Permissions.ATHLETE:
-      return 'ATHLETE';
-    case Permissions.BODY:
-      return 'BODY';
-    case Permissions.DAILY:
-      return 'DAILY';
-    case Permissions.NUTRITION:
-      return 'NUTRITION';
-    case Permissions.SLEEP:
-      return 'SLEEP';
-    default:
-      return undefined;
-  }
-}
-
 function CustomPermissionsToString(cPermission: CustomPermissions) {
   switch (cPermission) {
     case CustomPermissions.WORKOUT_TYPES:
@@ -189,31 +170,14 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
   }
 }
 
-export function initTerra(
-  devID: string,
-  referenceId: string,
-  sleepTimerMinutes: number,
-  dailyTimerMinutes: number,
-  bodyTimerMinutes: number,
-  activityTimerMinutes: number,
-  nutritionTimerMinutes: number
-): Promise<any> {
-  return TerraReact.initTerra(
-    devID,
-    referenceId,
-    sleepTimerMinutes,
-    dailyTimerMinutes,
-    bodyTimerMinutes,
-    activityTimerMinutes,
-    nutritionTimerMinutes
-  );
+export function initTerra(devID: string, referenceId: string): Promise<any> {
+  return TerraReact.initTerra(devID, referenceId);
 }
 
 export function initConnection(
   connection: Connections,
   token: string,
   schedulerOn: boolean,
-  permissions: Permissions[],
   customPermissions: CustomPermissions[] = [],
   startIntent: String | null = null
 ): Promise<any> {
@@ -221,14 +185,13 @@ export function initConnection(
     ConnectionToString(connection),
     token,
     schedulerOn,
-    permissions.map((p) => PermissionsToString(p)),
     customPermissions.map((p) => CustomPermissionsToString(p)),
     startIntent
   );
 }
 
-export function checkAuth(connection: Connections) {
-  return TerraReact.checkAuth(ConnectionToString(connection));
+export function checkAuth(connection: Connections, devID: string) {
+  return TerraReact.checkAuth(ConnectionToString(connection), devID);
 }
 
 export function getUserId(connection: Connections): Promise<any> {
