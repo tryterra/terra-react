@@ -6,15 +6,13 @@ import {
   // getActivity,
   getDaily,
   getUserId,
-  initConnection,
   // deauthTerra,
   initTerra,
-  // readGlucoseData,
 } from 'terra-react';
 
 export default function App() {
   // can also use a .env file
-  const devID = 'testing';
+  const devID = 'YOUR DEC ID';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
@@ -23,15 +21,6 @@ export default function App() {
   function initThings() {
     initTerra(devID, 'refid').then((d) => {
       console.log(d); // returns details such as success and user id
-    });
-    initConnection(
-      Connections.FREESTYLE_LIBRE,
-      '8e25b7f1ced7a9f79bfb2ac09ce3e7a4f2c51d0094aeb2d39b725fd2328af7da',
-      true,
-      [],
-      'com.example.terrareact.MainActivity'
-    ).then((d) => {
-      console.log(d);
       let startDate = new Date();
       startDate.setDate(20);
       startDate.setHours(0);

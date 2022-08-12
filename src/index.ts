@@ -59,7 +59,6 @@ export enum CustomPermissions {
 }
 
 export enum Permissions {
-  'ATHLETE',
   'ACTIVITY',
   'BODY',
   'DAILY',
@@ -268,4 +267,8 @@ export function readGlucoseData(): Promise<any> {
 
 export function activateSensor(): Promise<any> {
   return TerraReact.activateSensor();
+}
+
+export function setUpBackgroundDelivery() {
+  return TerraReact.setUpBackgroundDelivery();
 }

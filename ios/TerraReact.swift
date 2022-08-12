@@ -35,8 +35,6 @@ class TerraReact: NSObject {
         switch permission {
             case "ACTIVITY":
                 return Permissions.ACTIVITY
-            case "ATHLETE":
-                return Permissions.ATHLETE
             case "BODY":
                 return Permissions.BODY
             case "DAILY":
@@ -191,8 +189,7 @@ class TerraReact: NSObject {
     @objc
     func checkAuth(_ connection: String, devID: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         if let connection = connectionParse(connection: connection){
-            resolve(["authed": Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])
-            })])
+            Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])})
         }
     }
     

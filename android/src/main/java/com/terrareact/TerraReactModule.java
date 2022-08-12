@@ -58,8 +58,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         switch (permission){
             case "ACTIVITY":
                 return Permissions.ACTIVITY;
-            case "ATHLETE":
-                return Permissions.ATHLETE;
             case "BODY":
                 return Permissions.BODY;
             case "DAILY":
@@ -79,9 +77,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 devID,
                 Objects.requireNonNull(this.getCurrentActivity()),
                 referenceId,
-                null
-                );
-             promise.resolve(true);
+                (success) -> {
+                    promise.resolve(success);
+                    return Unit.INSTANCE;
+                });
         }
         catch(Exception e){
             promise.resolve(false);
@@ -190,5 +189,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void activateSensor(Promise promise){
         promise.resolve("success");
+    }
+
+    @ReactMethod
+    public void setUpBackgroundDelivery(){
+        return;
     }
 }
