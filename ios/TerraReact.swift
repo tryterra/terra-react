@@ -241,12 +241,14 @@ class TerraReact: NSObject {
 
     @objc
     func activateSensor(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        do {
-            try terra?.activateSensor()
-            resolve([])
-        }
-        catch {
-            reject("Init", "Error activating sensor", nil)
+        terra?.activateSensor{(details) in
+            do {
+                let jsonData = try JSONEncoder().encode(details)
+                resolve(String(data: jsonData, encoding: .utf8) ?? "")
+            }
+            catch {
+                print(error) //Should never execute
+            }
         }
     }
     

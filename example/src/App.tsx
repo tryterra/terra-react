@@ -12,7 +12,7 @@ import {
 
 export default function App() {
   // can also use a .env file
-  const devID = 'YOUR DEC ID';
+  const devID = 'YOUR DEV ID';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
