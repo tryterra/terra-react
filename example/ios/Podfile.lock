@@ -294,10 +294,10 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - terra-react (1.1.0):
+  - terra-react (1.1.1):
     - React-Core
-    - TerraiOS (= 1.1.2)
-  - TerraiOS (1.1.2)
+    - TerraiOS (= 1.1.4)
+  - TerraiOS (1.1.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -461,8 +461,8 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  terra-react: 6cf6273144181b35c93c481c086ebd52e3ce6f8c
-  TerraiOS: 119549f7ea63789df4ac935b0984acd3af9d2035
+  terra-react: 447635a8d78f7a13eca35860c0ea0bc35da8ccf8
+  TerraiOS: 096b0517623087f9745ba5076872e48ce16efa30
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

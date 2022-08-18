@@ -8,6 +8,7 @@ import {
   getUserId,
   // deauthTerra,
   initTerra,
+  readGlucoseData
 } from 'terra-react';
 
 export default function App() {
@@ -26,10 +27,13 @@ export default function App() {
       startDate.setHours(0);
       startDate.setMinutes(0);
       startDate.setSeconds(0);
-      getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+      readGlucoseData().then((d) => {
+        console.log(d);
+      });
+      getDaily(Connections.SAMSUNG, startDate, new Date())
         .then((d: any) => console.log('daily', d))
         .catch((e: any) => console.log(e));
-      getUserId(Connections.APPLE_HEALTH)
+      getUserId(Connections.FREESTYLE_LIBRE)
         .then((de) => {
           console.log(de);
         })
