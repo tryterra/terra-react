@@ -251,5 +251,4 @@ class TerraReact: NSObject {
             }
         }
     }
-    
 }

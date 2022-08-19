@@ -8,7 +8,7 @@ import {
   getUserId,
   // deauthTerra,
   initTerra,
-  readGlucoseData
+  activateSensor
 } from 'terra-react';
 
 export default function App() {
