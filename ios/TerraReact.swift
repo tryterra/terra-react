@@ -97,6 +97,8 @@ class TerraReact: NSObject {
                 return Set([HKObjectType.quantityType(forIdentifier: .bloodGlucose)!])
             case "BODY_TEMPERATURE":
                 return Set([HKObjectType.quantityType(forIdentifier: .bodyTemperature)!])
+            case "MINDFULNESS":
+                return Set([HKObjectType.categoryType(forIdentifier: .mindfulSession)!])
             case "LEAN_BODY_MASS":
                 return Set([HKObjectType.quantityType(forIdentifier: .leanBodyMass)!])
             case "OXYGEN_SATURATION":
@@ -191,37 +193,55 @@ class TerraReact: NSObject {
         if let connection = connectionParse(connection: connection){
             Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])})
         }
+        else{
+            resolve(["success": false])
+        }
     }
     
     // getters
     @objc
     func getBody(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getBody(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraBodyData]?) in resolve(["success": success, "data": data])}
+            terra?.getBody(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraBodyData]?) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
         }
     }
     @objc
     func getActivity(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getActivity(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraActivityData]?) in resolve(["success": success, "data": data])}
+            terra?.getActivity(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraActivityData]?) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
         }
     }
     @objc
     func getAthlete(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getAthlete(type: connection){(success: Bool, data: TerraAthleteData?) in resolve(["success": success, "data": data])}
+            terra?.getAthlete(type: connection){(success: Bool, data: TerraAthleteData?) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
         }
     }
     @objc
     func getDaily(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getDaily(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraDailyData]?) in resolve(["success": success, "data": data])}
+            terra?.getDaily(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraDailyData]?) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
         }
     }
     @objc
     func getSleep(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getSleep(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraSleepData]?) in resolve(["success": success, "data": data])}
+            terra?.getSleep(type: connection, startDate: startDate, endDate: endDate){(success: Bool, data: [TerraSleepData]?) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
         }
     }
     

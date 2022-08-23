@@ -8,36 +8,51 @@ import {
   getUserId,
   // deauthTerra,
   initTerra,
-  activateSensor
+  activateSensor,
+  initConnection,
+  CustomPermissions,
+  getActivity
 } from 'terra-react';
 
 export default function App() {
   // can also use a .env file
-  const devID = 'YOUR DEV ID';
+  const devID = 'DEV ID';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
   function initThings() {
-    initTerra(devID, 'refid').then((d) => {
-      console.log(d); // returns details such as success and user id
-      let startDate = new Date();
-      startDate.setDate(20);
-      startDate.setHours(0);
-      startDate.setMinutes(0);
-      startDate.setSeconds(0);
-      readGlucoseData().then((d) => {
-        console.log(d);
+    initTerra(devID, 'refid').then((dd) => {
+      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true, [
+        CustomPermissions.WORKOUT_TYPES,
+        CustomPermissions.ACTIVITY_SUMMARY,
+        CustomPermissions.LOCATION,
+        CustomPermissions.CALORIES,
+        CustomPermissions.STEPS,
+        CustomPermissions.HEART_RATE,
+        CustomPermissions.ACTIVE_DURATIONS,
+        CustomPermissions.EXERCISE_DISTANCE,
+        CustomPermissions.SWIMMING_SUMMARY,
+      ]).then((d) => {
+        console.log(d); // returns details such as success and user id
+        let startDate = new Date();
+        startDate.setDate(20);
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('daily', d))
+          .catch((e: any) => console.log(e));
+        getActivity(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('activity', d))
+          .catch((e: any) => console.log(e));
+        getUserId(Connections.APPLE_HEALTH)
+          .then((de) => {
+            console.log(de);
+          })
+          .catch((ee) => console.log(ee));
       });
-      getDaily(Connections.SAMSUNG, startDate, new Date())
-        .then((d: any) => console.log('daily', d))
-        .catch((e: any) => console.log(e));
-      getUserId(Connections.FREESTYLE_LIBRE)
-        .then((de) => {
-          console.log(de);
-        })
-        .catch((ee) => console.log(ee));
     });
   }
 

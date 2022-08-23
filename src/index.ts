@@ -41,6 +41,7 @@ export enum CustomPermissions {
   'BLOOD_PRESSURE',
   'BLOOD_GLUCOSE',
   'BODY_TEMPERATURE',
+  'MINDFULNESS',
   'LEAN_BODY_MASS',
   'OXYGEN_SATURATION',
   'SLEEP_ANALYSIS',
@@ -136,6 +137,8 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
       return 'BLOOD_GLUCOSE';
     case CustomPermissions.BODY_TEMPERATURE:
       return 'BODY_TEMPERATURE';
+    case CustomPermissions.MINDFULNESS:
+      return 'MINDFULNESS';
     case CustomPermissions.LEAN_BODY_MASS:
       return 'LEAN_BODY_MASS';
     case CustomPermissions.OXYGEN_SATURATION:
