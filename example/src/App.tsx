@@ -3,15 +3,11 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
-  // getActivity,
   getDaily,
   getUserId,
-  // deauthTerra,
   initTerra,
-  activateSensor,
   initConnection,
   CustomPermissions,
-  getActivity
 } from 'terra-react';
 
 export default function App() {
