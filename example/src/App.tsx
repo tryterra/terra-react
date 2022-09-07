@@ -5,6 +5,7 @@ import {
   Connections,
   getDaily,
   getUserId,
+  getActivity,
   initTerra,
   initConnection,
   CustomPermissions,
@@ -20,7 +21,7 @@ export default function App() {
   // you can have multiple connections in the array
   function initThings() {
     initTerra(devID, 'refid').then((dd) => {
-      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true, [
+      initConnection(Connections.SAMSUNG, 'TOKEN', true, [
         CustomPermissions.WORKOUT_TYPES,
         CustomPermissions.ACTIVITY_SUMMARY,
         CustomPermissions.LOCATION,
@@ -33,17 +34,17 @@ export default function App() {
       ]).then((d) => {
         console.log(d); // returns details such as success and user id
         let startDate = new Date();
-        startDate.setDate(20);
+        startDate.setDate(1);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
-        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+        getDaily(Connections.SAMSUNG, startDate, new Date())
           .then((d: any) => console.log('daily', d))
           .catch((e: any) => console.log(e));
-        getActivity(Connections.APPLE_HEALTH, startDate, new Date())
+        getActivity(Connections.SAMSUNG, startDate, new Date())
           .then((d: any) => console.log('activity', d))
           .catch((e: any) => console.log(e));
-        getUserId(Connections.APPLE_HEALTH)
+        getUserId(Connections.SAMSUNG)
           .then((de) => {
             console.log(de);
           })
