@@ -227,6 +227,19 @@ export function getActivity(
   );
 }
 
+export function getMenstruation(
+  connection: Connections,
+  startDate: Date,
+  endDate: Date
+): Promise<any> {
+  return TerraReact.getMenstruation(
+    ConnectionToString(connection),
+    startDate.toISOString(),
+    endDate.toISOString()
+  );
+}
+
+
 export function getDaily(
   connection: Connections,
   startDate: Date,

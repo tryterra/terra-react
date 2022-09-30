@@ -77,6 +77,13 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(
+    getMenstruation:  (NSString *)connection
+    startDate: (NSDate *)startDate
+    endDate:(NSDate *)endDate
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+RCT_EXTERN_METHOD(
     getNutrition:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate

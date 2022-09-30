@@ -252,6 +252,11 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getMenstruation(String connection, String startDate, String endDate, Promise promise){
+        promise.reject("Unimplemented function for Android");
+    }
+    
+    @ReactMethod
     public void checkAuth(String connection, Promise promise){
         promise.reject("Unimplemented function for Android");
     }

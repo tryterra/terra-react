@@ -9,6 +9,7 @@ import {
   initTerra,
   initConnection,
   CustomPermissions,
+  getMenstruation,
 } from 'terra-react';
 
 export default function App() {
@@ -21,30 +22,23 @@ export default function App() {
   // you can have multiple connections in the array
   function initThings() {
     initTerra(devID, 'refid').then((dd) => {
-      initConnection(Connections.SAMSUNG, 'TOKEN', true, [
-        CustomPermissions.WORKOUT_TYPES,
-        CustomPermissions.ACTIVITY_SUMMARY,
-        CustomPermissions.LOCATION,
-        CustomPermissions.CALORIES,
-        CustomPermissions.STEPS,
-        CustomPermissions.HEART_RATE,
-        CustomPermissions.ACTIVE_DURATIONS,
-        CustomPermissions.EXERCISE_DISTANCE,
-        CustomPermissions.SWIMMING_SUMMARY,
-      ]).then((d) => {
+      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true).then((d) => {
         console.log(d); // returns details such as success and user id
         let startDate = new Date();
-        startDate.setDate(1);
+        startDate.setDate(25);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
-        getDaily(Connections.SAMSUNG, startDate, new Date())
+        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
           .then((d: any) => console.log('daily', d))
           .catch((e: any) => console.log(e));
-        getActivity(Connections.SAMSUNG, startDate, new Date())
+        getActivity(Connections.APPLE_HEALTH, startDate, new Date())
           .then((d: any) => console.log('activity', d))
           .catch((e: any) => console.log(e));
-        getUserId(Connections.SAMSUNG)
+        getMenstruation(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('menstruation', d))
+          .catch((e: any) => console.log(e));
+        getUserId(Connections.APPLE_HEALTH)
           .then((de) => {
             console.log(de);
           })

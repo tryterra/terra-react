@@ -185,6 +185,16 @@ class TerraReact: NSObject {
             resolve(["success": false])
         }
     }
+
+    @objc
+    func getMenstruation(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getMenstruation(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
+        }
+    }
     @objc
     func getAthlete(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
