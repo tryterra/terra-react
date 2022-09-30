@@ -57,6 +57,7 @@ export enum CustomPermissions {
   'NUTRITION_CALORIES',
   'NUTRITION_WATER',
   'NUTRITION_CHOLESTEROL',
+  'MENSTRUATION',
 }
 
 export enum Permissions {
@@ -169,6 +170,8 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
       return 'NUTRITION_WATER';
     case CustomPermissions.NUTRITION_CHOLESTEROL:
       return 'NUTRITION_CHOLESTEROL';
+    case CustomPermissions.MENSTRUATION:
+      return 'MENSTRUATION';
   }
 }
 

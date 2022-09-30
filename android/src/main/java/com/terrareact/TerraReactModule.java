@@ -166,6 +166,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         
         HashSet<CustomPermissions> cPermissions = new HashSet<>();
         for (Object customPermission: customPermissions.toArrayList()){
+            if (customPermission == null){
+                continue;
+            }
             cPermissions.add(parseCustomPermission((String) customPermission));
         }
 
