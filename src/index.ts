@@ -239,7 +239,6 @@ export function getMenstruation(
   );
 }
 
-
 export function getDaily(
   connection: Connections,
   startDate: Date,
