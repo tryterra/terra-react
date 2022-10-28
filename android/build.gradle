@@ -19,9 +19,9 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('TerraReact_compileSdkVersion', 30)
+    compileSdkVersion safeExtGet('TerraReact_compileSdkVersion', 33)
     defaultConfig {
-        minSdkVersion safeExtGet('TerraReact_minSdkVersion', 26)
+        minSdkVersion safeExtGet('TerraReact_minSdkVersion', 28)
         targetSdkVersion safeExtGet('TerraReact_targetSdkVersion', 29)
         versionCode 1
         versionName "1.0"
@@ -42,7 +42,7 @@ android {
     }
 
     dependencies {
-        implementation 'co.tryterra:terra-android:1.2.0'
+        implementation 'co.tryterra:terra-android:1.2.1'
     }
 }
 
@@ -59,6 +59,6 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'co.tryterra:terra-android:1.2.0'
+    implementation 'co.tryterra:terra-android:1.2.1'
     implementation 'com.google.code.gson:gson:2.9.1'
 }
