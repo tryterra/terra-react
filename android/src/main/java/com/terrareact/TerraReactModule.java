@@ -1,6 +1,7 @@
 package com.terrareact;
 
 import android.os.Build;
+import android.app.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -163,7 +164,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             promise.resolve(false);
             return;
         }
-        
+
+        Activity activity = this.getCurrentActivity();
+
+        if (activity == null){
+            promise.resolve(false);
+            return;
+        }
+
         HashSet<CustomPermissions> cPermissions = new HashSet<>();
         for (Object customPermission: customPermissions.toArrayList()){
             if (customPermission == null){
@@ -172,10 +180,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             cPermissions.add(parseCustomPermission((String) customPermission));
         }
 
-        this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
-            (success)-> {promise.resolve(success);
-            return Unit.INSTANCE;
-        });
+        try {
+            this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
+                (success)-> {promise.resolve(success);
+                return Unit.INSTANCE;
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @ReactMethod

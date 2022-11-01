@@ -14,37 +14,37 @@ import {
 
 export default function App() {
   // can also use a .env file
-  const devID = 'DEV ID';
+  const devID = 'DEVID';
 
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
   function initThings() {
-    initTerra(devID, 'refid').then((dd) => {
-      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true).then((d) => {
-        console.log(d); // returns details such as success and user id
-        let startDate = new Date();
-        startDate.setDate(25);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('daily', d))
-          .catch((e: any) => console.log(e));
-        getActivity(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('activity', d))
-          .catch((e: any) => console.log(e));
-        getMenstruation(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('menstruation', d))
-          .catch((e: any) => console.log(e));
-        getUserId(Connections.APPLE_HEALTH)
-          .then((de) => {
-            console.log(de);
-          })
-          .catch((ee) => console.log(ee));
-      });
+    initTerra(devID, 'REFID').then((dd) => {
+      initConnection(Connections.SAMSUNG, 'TOKEN', true).then((d) => {console.log(dd)});
+      console.log(dd); // returns details such as success and user id
+      let startDate = new Date();
+      startDate.setDate(1);
+      startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      getDaily(Connections.SAMSUNG, startDate, new Date())
+        .then((d: any) => console.log('daily', d))
+        .catch((e: any) => console.log(e));
+      getActivity(Connections.SAMSUNG, startDate, new Date())
+        .then((d: any) => console.log('activity', d))
+        .catch((e: any) => console.log(e));
+      getMenstruation(Connections.SAMSUNG, startDate, new Date())
+        .then((d: any) => console.log('menstruation', d))
+        .catch((e: any) => console.log(e));
+      getUserId(Connections.SAMSUNG)
+        .then((de) => {
+          console.log(de);
+        })
+        .catch((ee) => console.log(ee));
     });
+    // });
   }
 
   React.useEffect(() => {
