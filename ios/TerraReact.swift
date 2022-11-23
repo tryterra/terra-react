@@ -222,6 +222,16 @@ class TerraReact: NSObject {
             resolve(["success": false])
         }
     }
+
+    @objc
+    func getNutrition(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getNutrition(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
+        }
+        else{
+            resolve(["success": false])
+        }
+    }
     
     // Freestyle glucose init
     @objc

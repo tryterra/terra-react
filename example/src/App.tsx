@@ -8,8 +8,11 @@ import {
   getActivity,
   initTerra,
   initConnection,
-  CustomPermissions,
   getMenstruation,
+  getAthlete,
+  getBody,
+  getNutrition,
+  getSleep,
 } from 'terra-react';
 
 export default function App() {
@@ -21,22 +24,34 @@ export default function App() {
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
   function initThings() {
-    initTerra(devID, 'refid').then((dd) => {
-      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true).then((d) => {
-        console.log(d); // returns details such as success and user id
+    initTerra(devID, 'refid').then((_) => {
+      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true).then((a) => {
+        console.log(a); // returns details such as success and user id
         let startDate = new Date();
         startDate.setDate(25);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
-        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('daily', d))
-          .catch((e: any) => console.log(e));
         getActivity(Connections.APPLE_HEALTH, startDate, new Date())
           .then((d: any) => console.log('activity', d))
           .catch((e: any) => console.log(e));
+        getAthlete(Connections.APPLE_HEALTH)
+          .then((d: any) => console.log('athlete', d))
+          .catch((e: any) => console.log(e));
+        getBody(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('body', d))
+          .catch((e: any) => console.log(e));
+        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('daily', d))
+          .catch((e: any) => console.log(e));
         getMenstruation(Connections.APPLE_HEALTH, startDate, new Date())
           .then((d: any) => console.log('menstruation', d))
+          .catch((e: any) => console.log(e));
+        getNutrition(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('nutrition', d))
+          .catch((e: any) => console.log(e));
+        getSleep(Connections.APPLE_HEALTH, startDate, new Date())
+          .then((d: any) => console.log('sleep', d))
           .catch((e: any) => console.log(e));
         getUserId(Connections.APPLE_HEALTH)
           .then((de) => {
