@@ -3,7 +3,7 @@ name: ci
 on:
   pull_request:
     branches:
-      - 'main'
+      - 'master'
 jobs:
   ios-test:
     name: iOS Testing
