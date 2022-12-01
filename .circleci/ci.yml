@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  ios-test:
+    name: iOS Testing
+    runs-on: macOS-latest
+    defaults:
+      run:
+        working-directory: example
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup Ruby (bundle)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Install Pods
+        run: cd ios && pod install --repo-update && cd ..
+
+      - name: Build IOS App
+        uses: yukiarrr/ios-build-action@v1.4.0
+        with:
+          project-path: ios/MyApp.xcodeproj
+          p12-base64: ${{ secrets.IOS_P12_BASE64 }}
+          mobileprovision-base64: ${{ secrets.IOS_MOBILE_PROVISION_BASE64 }}
+          code-signing-identity: 'iPhone Distribution'
+          team-id: ${{ secrets.IOS_TEAM_ID }}
+          certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          workspace-path: ios/MyApp.xcworkspace
+          scheme: MyApp
+
+      - name: 'Upload app to TestFlight'
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: 'output.ipa'
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
