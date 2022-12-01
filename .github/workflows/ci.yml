@@ -39,11 +39,13 @@ jobs:
         working-directory: example
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Node
-        uses: actions/setup-node@v1
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Cache node modules
         uses: actions/cache@v1
