@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
@@ -31,4 +31,4 @@ jobs:
         run: echo "${{ secrets.CONFIG_FILE }}" > ./src/config.ts
 
       - name: Run tests
-        run: npm run ios::sim::debug
+        run: yarn run ios::sim::debug
