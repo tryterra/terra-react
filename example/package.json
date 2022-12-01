@@ -6,7 +6,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start"
+    "start": "react-native start",
+    "ios::sim::debug": "detox build --configuration ios.sim.debug && detox test --configuration ios.sim.debug"
   },
   "dependencies": {
     "react": "18.0.0",
