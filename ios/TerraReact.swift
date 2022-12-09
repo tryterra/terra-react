@@ -151,7 +151,7 @@ class TerraReact: NSObject {
     @objc
     func getUserId(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            resolve(terra?.getUserId(type: connection))
+            resolve(["success": true, "userId": terra?.getUserId(type: connection)])
         }
     }
     

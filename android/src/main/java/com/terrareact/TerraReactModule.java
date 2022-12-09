@@ -9,17 +9,21 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableArray;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Map;
 
 import com.google.gson.Gson;
-
 
 import co.tryterra.terra.Terra;
 import co.tryterra.terra.enums.Connections;
@@ -37,6 +41,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         super(reactContext);
     }
     public Terra terra;
+
     @Override
     @NonNull
     public String getName() {
@@ -148,12 +153,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 Objects.requireNonNull(this.getCurrentActivity()),
                 referenceId,
                 (success) -> {
-                    promise.resolve(success);
+                    WritableMap map = new WritableNativeMap();
+                    map.putBoolean("success", success);
+                    promise.resolve(map);
                     return Unit.INSTANCE;
                 });
         }
         catch(Exception e){
-            promise.resolve(false);
+            promise.resolve(e.toString());
         }
     }
 
@@ -163,7 +170,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             promise.resolve(false);
             return;
         }
-        
+
         HashSet<CustomPermissions> cPermissions = new HashSet<>();
         for (Object customPermission: customPermissions.toArrayList()){
             if (customPermission == null){
@@ -173,21 +180,29 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         }
 
         this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
-            (success)-> {promise.resolve(success);
+            (success)-> {
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
     public void getUserId(String connection, Promise promise){
-        promise.resolve(this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
+        WritableMap map = new WritableNativeMap();
+        map.putBoolean("success", true);
+        map.putString("userId", this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
+        promise.resolve(map);
     }
 
     @ReactMethod
     public void getAthlete(String connection, Promise promise){
       this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success) ->{
-            promise.resolve(success);
-            return Unit.INSTANCE;
+          WritableMap map = new WritableNativeMap();
+          map.putBoolean("success", success);
+          promise.resolve(map);
+          return Unit.INSTANCE;
         });
     }
 
@@ -198,7 +213,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           (success) -> {
-            promise.resolve(success);
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
@@ -210,7 +227,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           (success) ->{
-            promise.resolve(success);
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
@@ -222,7 +241,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           (success) ->{
-            promise.resolve(success);
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
@@ -234,7 +255,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           (success) ->{
-            promise.resolve(success);
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
@@ -246,7 +269,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           (success) ->{
-            promise.resolve(success);
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
@@ -255,7 +280,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public void getMenstruation(String connection, String startDate, String endDate, Promise promise){
         promise.reject("Unimplemented function for Android");
     }
-    
+
     @ReactMethod
     public void checkAuth(String connection, Promise promise){
         promise.reject("Unimplemented function for Android");
@@ -271,7 +296,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void activateSensor(Promise promise){
-        promise.resolve("success");
+        WritableMap map = new WritableNativeMap();
+        map.putBoolean("success", true);
+        promise.resolve(map);
     }
 
     @ReactMethod

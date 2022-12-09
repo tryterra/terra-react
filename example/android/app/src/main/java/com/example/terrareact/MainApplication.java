@@ -16,7 +16,6 @@ import com.terrareact.BuildConfig;
 import com.terrareact.TerraReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {
-
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -31,7 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for TerraReactExample:
           // packages.add(new MyReactNativePackage());
           // List<ReactPackage> packages = new ArrayList();
-          packages.add(new TerraReactPackage());
+//          packages.add(new TerraReactPackage());
           return packages;
         }
 
@@ -39,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+
       };
 
   @Override

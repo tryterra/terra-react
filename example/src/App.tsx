@@ -9,53 +9,64 @@ import {
   initTerra,
   initConnection,
   getMenstruation,
+  readGlucoseData,
   getAthlete,
   getBody,
   getNutrition,
   getSleep,
 } from 'terra-react';
+import { config } from './config';
 
 export default function App() {
-  // can also use a .env file
-  const devID = 'DEV ID';
-
   // after showing the widget to the users
   // initialise accordingle which connection / reference_id
   // example if user wants connect Google using SDK
   // you can have multiple connections in the array
-  function initThings() {
-    initTerra(devID, 'refid').then((_) => {
-      initConnection(Connections.APPLE_HEALTH, 'TOKEN', true).then((a) => {
-        console.log(a); // returns details such as success and user id
+
+  const [results, setResults] = React.useState({});
+
+  function initThings(devId: string, token: string, connection: Connections) {
+    initTerra(devId, 'reid').then((aa) => {
+      setResults((r) => ({ ...r, initTerra: aa.success }));
+      initConnection(connection, token, true).then((a) => {
+        setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(25);
+        startDate.setDate(1);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
-        getActivity(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('activity', d))
+        getActivity(connection, startDate, new Date())
+          .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
-        getAthlete(Connections.APPLE_HEALTH)
-          .then((d: any) => console.log('athlete', d))
+        getAthlete(connection)
+          .then((d: any) =>
+            setResults((r) => ({ ...r, getAthlete: d.success }))
+          )
           .catch((e: any) => console.log(e));
-        getBody(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('body', d))
+        getBody(connection, startDate, new Date())
+          .then((d: any) => setResults((r) => ({ ...r, getBody: d.success })))
           .catch((e: any) => console.log(e));
-        getDaily(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('daily', d))
+        getDaily(connection, startDate, new Date())
+          .then((d: any) => setResults((r) => ({ ...r, getDaily: d.success })))
           .catch((e: any) => console.log(e));
-        getMenstruation(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('menstruation', d))
+        getMenstruation(connection, startDate, new Date())
+          .then((d: any) =>
+            setResults((r) => ({ ...r, getMenstruation: d.success }))
+          )
           .catch((e: any) => console.log(e));
-        getNutrition(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('nutrition', d))
+        getNutrition(connection, startDate, new Date())
+          .then((d: any) =>
+            setResults((r) => ({ ...r, getNutrition: d.success }))
+          )
           .catch((e: any) => console.log(e));
-        getSleep(Connections.APPLE_HEALTH, startDate, new Date())
-          .then((d: any) => console.log('sleep', d))
+        getSleep(connection, startDate, new Date())
+          .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
-        getUserId(Connections.APPLE_HEALTH)
+        readGlucoseData().then((d) => console.log(d));
+        getUserId(connection)
           .then((de) => {
-            console.log(de);
+            console.log(de.userId);
+            setResults((r) => ({ ...r, getUserId: de.userId }));
           })
           .catch((ee) => console.log(ee));
       });
@@ -63,12 +74,29 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    initThings();
+    const devId = config.devId;
+    const apiKey = config.apiKey;
+    const connection = Connections.APPLE_HEALTH;
+    fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
+      method: 'POST',
+      headers: {
+        'dev-id': devId,
+        'x-api-key': apiKey,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => initThings(devId, result.token, connection))
+      .catch((error) => console.log('error', error));
   }, []);
 
   return (
     <View style={styles.container}>
       <Text>Hello from Terra</Text>
+      {Object.entries(results).map(([k, v], i) => (
+        <Text key={i}>
+          {k}: {v !== undefined ? v!.toString() : 'undefined'}
+        </Text>
+      ))}
     </View>
   );
 }

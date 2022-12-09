@@ -17,6 +17,15 @@ const TerraReact = NativeModules.TerraReact
       }
     );
 
+export type GetUserId = {
+  success: Boolean;
+  userId: String;
+};
+
+export type SuccessMessage = {
+  success: Boolean;
+};
+
 export enum CustomPermissions {
   'WORKOUT_TYPES',
   'ACTIVITY_SUMMARY',
@@ -175,7 +184,10 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
   }
 }
 
-export function initTerra(devID: string, referenceId: string): Promise<any> {
+export function initTerra(
+  devID: string,
+  referenceId: string
+): Promise<SuccessMessage> {
   return TerraReact.initTerra(devID, referenceId);
 }
 
@@ -185,7 +197,7 @@ export function initConnection(
   schedulerOn: boolean,
   customPermissions: CustomPermissions[] = [],
   startIntent: String | null = null
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.initConnection(
     ConnectionToString(connection),
     token,
@@ -199,7 +211,7 @@ export function checkAuth(connection: Connections, devID: string) {
   return TerraReact.checkAuth(ConnectionToString(connection), devID);
 }
 
-export function getUserId(connection: Connections): Promise<any> {
+export function getUserId(connection: Connections): Promise<GetUserId> {
   return TerraReact.getUserId(ConnectionToString(connection));
 }
 
@@ -207,7 +219,7 @@ export function getBody(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getDaily(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -219,7 +231,7 @@ export function getActivity(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getActivity(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -231,7 +243,7 @@ export function getMenstruation(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getMenstruation(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -243,7 +255,7 @@ export function getDaily(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getDaily(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -255,7 +267,7 @@ export function getNutrition(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getNutrition(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -267,7 +279,7 @@ export function getSleep(
   connection: Connections,
   startDate: Date,
   endDate: Date
-): Promise<any> {
+): Promise<SuccessMessage> {
   return TerraReact.getSleep(
     ConnectionToString(connection),
     startDate.toISOString(),
@@ -283,7 +295,7 @@ export function readGlucoseData(): Promise<any> {
   return TerraReact.readGlucoseData();
 }
 
-export function activateSensor(): Promise<any> {
+export function activateSensor(): Promise<SuccessMessage> {
   return TerraReact.activateSensor();
 }
 
