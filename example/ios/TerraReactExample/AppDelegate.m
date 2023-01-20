@@ -49,6 +49,7 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [Terra setUpBackgroundDelivery];
+  [Terra overwriteLogLevel:@"debug"];
   return YES;
 }
 

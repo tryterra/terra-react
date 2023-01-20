@@ -62,7 +62,6 @@ export default function App() {
         getSleep(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
-        readGlucoseData().then((d) => console.log(d));
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);
