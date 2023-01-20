@@ -1,0 +1,6 @@
+{
+    "ios": {
+      "appDelegateSubscribers": ["AppLifecycleDelegate"]
+    }
+  }
+  
