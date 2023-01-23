@@ -1,10 +1,10 @@
 import ExpoModulesCore
+import TerraiOS
 
 public class AppLifecycleDelegate: ExpoAppDelegateSubscriber {
   public func applicationDidBecomeActive(_ application: UIApplication) {
     // The app has become active.
     Terra.setUpBackgroundDelivery()
-    return  true;
   }
 
   public func applicationWillResignActive(_ application: UIApplication) {
