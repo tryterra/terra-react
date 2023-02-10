@@ -26,6 +26,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import co.tryterra.terra.Terra;
+import co.tryterra.terra.TerraManager;
 import co.tryterra.terra.enums.Connections;
 import co.tryterra.terra.enums.CustomPermissions;
 import kotlin.Unit;
@@ -40,7 +41,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public TerraReactModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
-    public Terra terra;
+    public TerraManager terra;
 
     @Override
     @NonNull
@@ -147,21 +148,20 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initTerra(String devID, String referenceId, Promise promise) {
-        try{
-            this.terra = new Terra(
-                devID,
-                Objects.requireNonNull(this.getCurrentActivity()),
-                referenceId,
-                (success) -> {
-                    WritableMap map = new WritableNativeMap();
-                    map.putBoolean("success", success);
-                    promise.resolve(map);
-                    return Unit.INSTANCE;
-                });
-        }
-        catch(Exception e){
-            promise.resolve(e.toString());
-        }
+        Terra.Companion.instance(
+            devID,
+            referenceId,
+            Objects.requireNonNull(this.getCurrentActivity()),
+            (terraManager, error) ->{
+                this.terra = terraManager;
+                WritableMap map = new WritableNativeMap();
+                map.putBoolean("success", true);
+                if (error != null){
+                    map.putString("error", error.getMessage());
+                }
+                promise.resolve(map);
+                return Unit.INSTANCE;
+            });
     }
 
     @ReactMethod
@@ -180,9 +180,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         }
 
         this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
-            (success)-> {
+            (success, error)-> {
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -197,87 +200,117 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getAthlete(String connection, Promise promise){
-      this.terra.getAthlete(Objects.requireNonNull(parseConnection(connection)), (success) ->{
-          WritableMap map = new WritableNativeMap();
-          map.putBoolean("success", success);
-          promise.resolve(map);
-          return Unit.INSTANCE;
-        });
+    public void getAthlete(String connection, Boolean toWebhook, Promise promise){
+        promise.reject("Unimplemented function for Android");
     }
 
     @ReactMethod
-    public void getBody(String connection, String startDate, String endDate, Promise promise){
+    public void getBody(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         this.terra.getBody(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success) -> {
+          toWebhook,
+          (success, data, error) ->{
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (data != null){
+                map.putString("data", gson.toJson(data));
+            }
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
-    public void getActivity(String connection, String startDate, String endDate, Promise promise){
+    public void getActivity(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         this.terra.getActivity(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success) ->{
+          toWebhook,
+          (success, data, error) ->{
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (data != null){
+                map.putString("data", gson.toJson(data));
+            }            
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
-    public void getDaily(String connection, String startDate, String endDate, Promise promise){
+    public void getDaily(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         this.terra.getDaily(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success) ->{
+          toWebhook,
+          (success, data, error) ->{
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (data != null){
+                map.putString("data", gson.toJson(data));
+            }
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
-    public void getNutrition(String connection, String startDate, String endDate, Promise promise){
+    public void getNutrition(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         this.terra.getNutrition(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success) ->{
+          toWebhook,
+          (success, data, error) ->{
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (data != null){
+                map.putString("data", gson.toJson(data));
+            }
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
-    public void getSleep(String connection, String startDate, String endDate, Promise promise){
+    public void getSleep(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         this.terra.getSleep(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          (success) ->{
+          toWebhook,
+          (success, data, error) ->{
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
+            if (data != null){
+                map.putString("data", gson.toJson(data));
+            }
+            if (error != null){
+                map.putString("error", error.getMessage());
+            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
     }
 
     @ReactMethod
-    public void getMenstruation(String connection, String startDate, String endDate, Promise promise){
+    public void getMenstruation(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
         promise.reject("Unimplemented function for Android");
     }
 

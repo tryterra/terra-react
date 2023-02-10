@@ -25,10 +25,6 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
-RCT_EXTERN_METHOD(
-    setUpBackgroundDelivery
-)
-
 // check connection
 RCT_EXTERN_METHOD(
     checkAuth: (NSString *)connection
@@ -45,13 +41,15 @@ RCT_EXTERN_METHOD(
 // getters
 RCT_EXTERN_METHOD(
     getAthlete: (NSString *)connection
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(
     getBody: (NSString *)connection
     startDate: (NSDate *)startDate
-    endDate:(NSDate *)endDate
+    endDate: (NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
@@ -59,6 +57,7 @@ RCT_EXTERN_METHOD(
     getDaily:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
@@ -66,6 +65,7 @@ RCT_EXTERN_METHOD(
     getSleep:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
@@ -73,6 +73,7 @@ RCT_EXTERN_METHOD(
     getActivity:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
@@ -80,6 +81,7 @@ RCT_EXTERN_METHOD(
     getMenstruation:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
@@ -87,6 +89,7 @@ RCT_EXTERN_METHOD(
     getNutrition:  (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
+    toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )

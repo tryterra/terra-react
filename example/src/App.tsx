@@ -38,11 +38,6 @@ export default function App() {
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
-        getAthlete(connection)
-          .then((d: any) =>
-            setResults((r) => ({ ...r, getAthlete: d.success }))
-          )
-          .catch((e: any) => console.log(e));
         getBody(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getBody: d.success })))
           .catch((e: any) => console.log(e));
