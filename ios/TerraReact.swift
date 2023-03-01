@@ -14,8 +14,33 @@ class TerraReact: NSObject {
         return true
     }
 
+    private func errorMessage(_ err: TerraError) -> String{
+        switch(err){
+            case .HealthKitUnavailable: return "Health Kit Unavailable"
+            case .ServiceUnavailable: return "Service Unavailable"
+            case .Unauthenticated: return "Unauthenticated"
+            case .InvalidUserID: return "Invalid User ID"
+            case .InvalidDevID: return "Invalid Dev ID"
+            case .Forbidden: return "Forbidden"
+            case .BadRequest: return "Bad Request"
+            case .UnknownOpcode: return "Unknown Op Code"
+            case .UnexpectedError: return "Unexpected Error"
+            case .NFCError: return "NFC Error"
+            case .SensorExpired: return "Sensor Expired"
+            case .SensorReadingFailed: return "Sensor Reading Failed"
+            case .NoInternet: return "No Internet"
+            case .UserLimitsReached: return "User Limit Reached"
+            case .IncorrectDevId: return "Incorrect Dev ID"
+            case .InvalidToken: return "Invalid Token"
+            case .HealthKitAuthorizationError: return "Health Kit Authorization Error"
+            case .UnsupportedResource: return "Unsupported Resource"
+            default: "Unknown Error Type. Please contact dev@tryterra.co"
+        }
+        return ""
+    } 
+
     // terra instance managed
-    private var terra: Terra?
+    private var terra: TerraManager?
     
     // connection type translate
     private func connectionParse(connection: String) -> Connections? {
@@ -131,20 +156,32 @@ class TerraReact: NSObject {
     // initialize
     @objc
     func initTerra(_ devID: String, referenceId: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        terra = Terra(
-            devId: devID,
-            referenceId: referenceId, completion: {success in resolve(["success": success])}
-        )
-        // resolve(true)
+        Terra.instance(devId: devID, referenceId: referenceId){instance, error in
+            if let error = error{
+                resolve(["success": false, "error": self.errorMessage(error)])
+            }
+            else{
+                self.terra = instance
+                resolve(["success": true])
+            }
+        }
     }
     
     @objc
     func initConnection(_ connection: String, token: String, schedulerOn: Bool, customPermissions: [String], startIntent: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.initConnection(type: connection, token: token, customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success in resolve(["success": success])})
+            terra?.initConnection(type: connection, token: token, customReadTypes: customPermissionsSet(customPermissions: customPermissions), schedulerOn: schedulerOn, completion: {success, error in
+                    if let error = error{
+                        resolve(["success": success, "error": self.errorMessage(error)])
+                    }
+                    else{
+                        resolve(["success": success])
+                    }
+                }
+            )
         }
         else {
-            resolve(["success": false])
+            resolve(["success", false, "error", "Invalid Connection Type"])
         }
     }
 
@@ -159,77 +196,172 @@ class TerraReact: NSObject {
     @objc
     func checkAuth(_ connection: String, devID: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         if let connection = connectionParse(connection: connection){
-            Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])})
+            Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success", success])})
         }
         else{
-            resolve(["success": false])
+            resolve(["success", false])
         }
     }
     
     // getters
     @objc
-    func getBody(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func getBody(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getBody(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
+            terra?.getBody(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
         }
         else{
-            resolve(["success": false])
-        }
-    }
-    @objc
-    func getActivity(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        if let connection = connectionParse(connection: connection){
-            terra?.getActivity(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
-        }
-        else{
-            resolve(["success": false])
-        }
-    }
-
-    @objc
-    func getMenstruation(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        if let connection = connectionParse(connection: connection){
-            terra?.getMenstruation(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
-        }
-        else{
-            resolve(["success": false])
-        }
-    }
-    @objc
-    func getAthlete(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        if let connection = connectionParse(connection: connection){
-            terra?.getAthlete(type: connection){(success) in resolve(["success": success])}
-        }
-        else{
-            resolve(["success": false])
-        }
-    }
-    @objc
-    func getDaily(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        if let connection = connectionParse(connection: connection){
-            terra?.getDaily(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
-        }
-        else{
-            resolve(["success": false])
-        }
-    }
-    @objc
-    func getSleep(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        if let connection = connectionParse(connection: connection){
-            terra?.getSleep(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
-        }
-        else{
-            resolve(["success": false])
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
         }
     }
 
     @objc
-    func getNutrition(_ connection: String, startDate: Date, endDate: Date, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func getActivity(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getNutrition(type: connection, startDate: startDate, endDate: endDate){(success) in resolve(["success": success])}
+            terra?.getActivity(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
         }
         else{
-            resolve(["success": false])
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+
+    @objc
+    func getMenstruation(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getMenstruation(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
+        }
+        else{
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+
+    @objc
+    func getAthlete(_ connection: String, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getAthlete(type: connection, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
+        }
+        else{
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+
+    @objc
+    func getDaily(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getDaily(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
+        }
+        else{
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+    
+    @objc
+    func getSleep(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getSleep(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
+        }
+        else{
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+
+    @objc
+    func getNutrition(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        if let connection = connectionParse(connection: connection){
+            terra?.getNutrition(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+                (success, data, err) in 
+                if let err = err {
+                    resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+                }
+                else{
+                    do {
+                        let jsonData = try JSONEncoder().encode(data)
+                        resolve(["success": success, "data": String(data: jsonData, encoding: .utf8) ?? ""])
+                    }
+                    catch {
+                        resolve(["success": success, "error": "Error decoding data into correct format"])}
+                    }
+                }
+        }
+        else{
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
         }
     }
     

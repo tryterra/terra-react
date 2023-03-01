@@ -38,11 +38,6 @@ export default function App() {
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
-        getAthlete(connection)
-          .then((d: any) =>
-            setResults((r) => ({ ...r, getAthlete: d.success }))
-          )
-          .catch((e: any) => console.log(e));
         getBody(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getBody: d.success })))
           .catch((e: any) => console.log(e));
@@ -62,7 +57,6 @@ export default function App() {
         getSleep(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
-        readGlucoseData().then((d) => console.log(d));
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);

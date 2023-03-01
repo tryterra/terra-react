@@ -19,11 +19,18 @@ const TerraReact = NativeModules.TerraReact
 
 export type GetUserId = {
   success: Boolean;
-  userId: String;
+  userId: String | null;
 };
 
 export type SuccessMessage = {
   success: Boolean;
+  error: String | null;
+};
+
+export type DataMessage = {
+  success: Boolean;
+  data: Object;
+  error: String | null;
 };
 
 export enum CustomPermissions {
@@ -186,7 +193,7 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
 
 export function initTerra(
   devID: string,
-  referenceId: string
+  referenceId: string | null
 ): Promise<SuccessMessage> {
   return TerraReact.initTerra(devID, referenceId);
 }
@@ -218,87 +225,184 @@ export function getUserId(connection: Connections): Promise<GetUserId> {
 export function getBody(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getDaily(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getBody(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function getActivity(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getActivity(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getActivity(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data:
+            d.data !== undefined || d.data !== null ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function getMenstruation(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getMenstruation(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getMenstruation(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function getDaily(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getDaily(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getDaily(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data:
+            d.data !== undefined || d.data !== null ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function getNutrition(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getNutrition(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getNutrition(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data:
+            d.data !== undefined || d.data !== null ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function getSleep(
   connection: Connections,
   startDate: Date,
-  endDate: Date
-): Promise<SuccessMessage> {
-  return TerraReact.getSleep(
-    ConnectionToString(connection),
-    startDate.toISOString(),
-    endDate.toISOString()
-  );
+  endDate: Date,
+  toWebhook: Boolean = true
+): Promise<DataMessage> {
+  return new Promise<DataMessage>((resolve, reject) => {
+    TerraReact.getSleep(
+      ConnectionToString(connection),
+      startDate.toISOString(),
+      endDate.toISOString(),
+      toWebhook
+    )
+      .then((d: any) => {
+        const data: DataMessage = {
+          success: d.success,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
-export function getAthlete(connection: Connections) {
-  return TerraReact.getAthlete(ConnectionToString(connection));
+export function getAthlete(connection: Connections, toWebhook: Boolean) {
+  return TerraReact.getAthlete(ConnectionToString(connection), toWebhook);
 }
 
-export function readGlucoseData(): Promise<any> {
-  return TerraReact.readGlucoseData();
+export function readGlucoseData(): Promise<Object> {
+  return new Promise<Object>((resolve, reject) => {
+    TerraReact.readGlucoseData()
+      .then((d: any) => {
+        resolve(JSON.parse(d));
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function activateSensor(): Promise<SuccessMessage> {
   return TerraReact.activateSensor();
-}
-
-export function setUpBackgroundDelivery() {
-  return TerraReact.setUpBackgroundDelivery();
 }
