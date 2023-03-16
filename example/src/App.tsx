@@ -14,6 +14,7 @@ import {
   getBody,
   getNutrition,
   getSleep,
+  activateSensor,
 } from 'terra-react';
 import { config } from './config';
 
@@ -57,6 +58,7 @@ export default function App() {
         getSleep(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
+        readGlucoseData().then((d) => {console.log(d);});
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);
@@ -70,7 +72,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.APPLE_HEALTH;
+    const connection = Connections.FREESTYLE_LIBRE;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

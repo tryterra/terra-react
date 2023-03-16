@@ -403,6 +403,14 @@ export function readGlucoseData(): Promise<Object> {
   });
 }
 
-export function activateSensor(): Promise<SuccessMessage> {
-  return TerraReact.activateSensor();
+export function activateSensor(): Promise<Object> {
+  return new Promise<Object>((resolve, reject) => {
+    TerraReact.activateSensor()
+      .then((d: any) => {
+        resolve(JSON.parse(d));
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
