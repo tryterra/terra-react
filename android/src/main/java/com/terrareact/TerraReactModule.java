@@ -205,7 +205,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getBody(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
+    public void getBody(String connection, String startDate, String endDate, Boolean latestReading, Boolean toWebhook, Promise promise){
         this.terra.getBody(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),

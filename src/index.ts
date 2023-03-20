@@ -226,6 +226,7 @@ export function getBody(
   connection: Connections,
   startDate: Date,
   endDate: Date,
+  latestReading: Boolean = false,
   toWebhook: Boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
@@ -233,6 +234,7 @@ export function getBody(
       ConnectionToString(connection),
       startDate.toISOString(),
       endDate.toISOString(),
+      latestReading,
       toWebhook
     )
       .then((d: any) => {

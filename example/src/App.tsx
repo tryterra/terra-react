@@ -39,8 +39,10 @@ export default function App() {
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
-        getBody(connection, startDate, new Date())
-          .then((d: any) => setResults((r) => ({ ...r, getBody: d.success })))
+        getBody(connection, startDate, new Date(), true, false)
+          .then((d: any) => {
+            setResults((r) => ({ ...r, getBody: d.success }));
+          })
           .catch((e: any) => console.log(e));
         getDaily(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getDaily: d.success })))
@@ -72,7 +74,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.FREESTYLE_LIBRE;
+    const connection = Connections.SAMSUNG;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
