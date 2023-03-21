@@ -416,3 +416,18 @@ export function activateSensor(): Promise<Object> {
       });
   });
 }
+
+export function openHealthConnect(): void {
+  TerraReact.openHealthConnect().catch((e) => {
+    console.log(e);
+    return;
+  });
+}
+
+export function isHealthConnectAvailable(): Promise<Boolean> {
+  return TerraReact.isHealthConnectAvailable();
+}
+
+export function grantedPermissions(): Promise<Array<String>> {
+  return TerraReact.grantedPermissions();
+}

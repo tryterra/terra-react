@@ -391,4 +391,19 @@ class TerraReact: NSObject {
             }
         }
     }
+
+    @objc
+    func isHealthConnectAvailable(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
+    }
+
+    @objc
+    func grantedPermissions(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
+    }
+
+    @objc
+    func openHealthConnect(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
+    }
 }

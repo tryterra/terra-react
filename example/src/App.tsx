@@ -15,6 +15,9 @@ import {
   getNutrition,
   getSleep,
   activateSensor,
+  isHealthConnectAvailable,
+  openHealthConnect,
+  grantedPermissions,
 } from 'terra-react';
 import { config } from './config';
 

@@ -11,6 +11,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableArray;
@@ -335,7 +337,24 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setUpBackgroundDelivery(){
-        return;
+    public void grantedPermissions(Promise promise){
+        WritableArray perms = new WritableNativeArray();
+        terra.allGivenPermissions((permissions) -> {
+            permissions.forEach((perm) -> {
+                perms.pushString(perm);
+            });
+            promise.resolve(perms);
+            return Unit.INSTANCE;
+        });
+    }
+
+    @ReactMethod
+    public void openHealthConnect(Promise promise){
+        Terra.Companion.openHealthConnect(Objects.requireNonNull(this.getCurrentActivity()));
+    }
+
+    @ReactMethod
+    public void isHealthConnectAvailable(Promise promise){
+        promise.resolve(Terra.Companion.isHealthConnectAvailable(Objects.requireNonNull(this.getCurrentActivity())));
     }
 }
