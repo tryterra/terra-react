@@ -389,7 +389,7 @@ export function getSleep(
   });
 }
 
-export function getAthlete(connection: Connections, toWebhook: Boolean) {
+export function getAthlete(connection: Connections, toWebhook: Boolean = true) {
   return TerraReact.getAthlete(ConnectionToString(connection), toWebhook);
 }
 
@@ -418,7 +418,7 @@ export function activateSensor(): Promise<Object> {
 }
 
 export function openHealthConnect(): void {
-  TerraReact.openHealthConnect().catch((e) => {
+  TerraReact.openHealthConnect().catch((e: any) => {
     console.log(e);
     return;
   });
