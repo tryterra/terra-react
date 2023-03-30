@@ -188,7 +188,7 @@ class TerraReact: NSObject {
     @objc
     func getUserId(_ connection: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            resolve(["success": true, "userId": terra?.getUserId(type: connection)])
+            resolve(["success": true, "userId": terra?.getUserId(type: connection) as? String])
         }
     }
     
@@ -205,9 +205,9 @@ class TerraReact: NSObject {
     
     // getters
     @objc
-    func getBody(_ connection: String, startDate: Date, endDate: Date, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+    func getBody(_ connection: String, startDate: Date, endDate: Date, latestReading: Bool, toWebhook: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            terra?.getBody(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook){
+            terra?.getBody(type: connection, startDate: startDate, endDate: endDate, toWebhook: toWebhook, latestReading: latestReading){
                 (success, data, err) in 
                 if let err = err {
                     resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
@@ -390,5 +390,20 @@ class TerraReact: NSObject {
                 print(error) //Should never execute
             }
         }
+    }
+
+    @objc
+    func isHealthConnectAvailable(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
+    }
+
+    @objc
+    func grantedPermissions(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
+    }
+
+    @objc
+    func openHealthConnect(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        reject("NotImplementedError", "Function does not exist on iOS", nil)
     }
 }

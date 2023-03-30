@@ -226,6 +226,7 @@ export function getBody(
   connection: Connections,
   startDate: Date,
   endDate: Date,
+  latestReading: Boolean = false,
   toWebhook: Boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
@@ -233,6 +234,7 @@ export function getBody(
       ConnectionToString(connection),
       startDate.toISOString(),
       endDate.toISOString(),
+      latestReading,
       toWebhook
     )
       .then((d: any) => {
@@ -387,7 +389,7 @@ export function getSleep(
   });
 }
 
-export function getAthlete(connection: Connections, toWebhook: Boolean) {
+export function getAthlete(connection: Connections, toWebhook: Boolean = true) {
   return TerraReact.getAthlete(ConnectionToString(connection), toWebhook);
 }
 
@@ -403,6 +405,29 @@ export function readGlucoseData(): Promise<Object> {
   });
 }
 
-export function activateSensor(): Promise<SuccessMessage> {
-  return TerraReact.activateSensor();
+export function activateSensor(): Promise<Object> {
+  return new Promise<Object>((resolve, reject) => {
+    TerraReact.activateSensor()
+      .then((d: any) => {
+        resolve(JSON.parse(d));
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
+}
+
+export function openHealthConnect(): void {
+  TerraReact.openHealthConnect().catch((e: any) => {
+    console.log(e);
+    return;
+  });
+}
+
+export function isHealthConnectAvailable(): Promise<Boolean> {
+  return TerraReact.isHealthConnectAvailable();
+}
+
+export function grantedPermissions(): Promise<Array<String>> {
+  return TerraReact.grantedPermissions();
 }

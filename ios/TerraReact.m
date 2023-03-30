@@ -49,6 +49,7 @@ RCT_EXTERN_METHOD(
     getBody: (NSString *)connection
     startDate: (NSDate *)startDate
     endDate: (NSDate *)endDate
+    latestReading: (BOOL) latestReading
     toWebhook: (BOOL)toWebhook
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
@@ -102,6 +103,21 @@ RCT_EXTERN_METHOD(
 
 RCT_EXTERN_METHOD(
     activateSensor:(RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    isHealthConnectAvailable:(RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    openHealthConnect:(RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    grantedPermissions:(RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
