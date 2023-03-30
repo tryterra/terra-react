@@ -157,7 +157,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             (terraManager, error) ->{
                 this.terra = terraManager;
                 WritableMap map = new WritableNativeMap();
-                map.putBoolean("success", true);
+                map.putBoolean("success", terraManager == null);
                 if (error != null){
                     map.putString("error", error.getMessage());
                 }
@@ -168,6 +168,13 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray customPermissions, String startIntent, Promise promise){
+        if (this.terra == null){
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
         if (parseConnection(connection) == null){
             promise.resolve(false);
             return;
@@ -196,6 +203,11 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getUserId(String connection, Promise promise){
         WritableMap map = new WritableNativeMap();
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            promise.resolve(map);
+            return;
+        }
         map.putBoolean("success", true);
         map.putString("userId", this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
         promise.resolve(map);
