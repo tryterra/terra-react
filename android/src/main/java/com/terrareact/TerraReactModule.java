@@ -157,7 +157,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             (terraManager, error) ->{
                 this.terra = terraManager;
                 WritableMap map = new WritableNativeMap();
-                map.putBoolean("success", terraManager == null);
+                map.putBoolean("success", terraManager != null);
                 if (error != null){
                     map.putString("error", error.getMessage());
                 }

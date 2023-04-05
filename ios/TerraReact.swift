@@ -162,7 +162,7 @@ class TerraReact: NSObject {
             }
             else{
                 self.terra = instance
-                resolve(["success": true])
+                resolve(["success": instance != nil])
             }
         }
     }
