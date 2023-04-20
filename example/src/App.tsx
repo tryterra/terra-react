@@ -35,7 +35,7 @@ export default function App() {
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(1);
+        startDate.setDate(18);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
@@ -95,7 +95,7 @@ export default function App() {
       <Text>Hello from Terra</Text>
       {Object.entries(results).map(([k, v], i) => (
         <Text key={i}>
-          {k}: {v !== undefined ? v!.toString() : 'undefined'}
+          {k}: {v !== undefined || v !== null ? v!.toString() : 'undefined'}
         </Text>
       ))}
     </View>

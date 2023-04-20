@@ -150,6 +150,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initTerra(String devID, String referenceId, Promise promise) {
+        if (this.getCurrentActivity() == null){
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", false);
+            map.putString("error", "Unable to resolve current activity");
+            promise.resolve(map);
+            return;
+        }       
+
         Terra.Companion.instance(
             devID,
             referenceId,
@@ -168,15 +176,23 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initConnection(String connection, String token, Boolean schedulerOn, ReadableArray customPermissions, String startIntent, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (token == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure you pass a valid token");
+            return;
+        }
+
         if (this.terra == null){
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", false);
             map.putString("error", "Please make sure Terra is instantiated with initTerra");
             return;
         }
 
         if (parseConnection(connection) == null){
-            promise.resolve(false);
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
             return;
         }
 
@@ -190,7 +206,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
         this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
             (success, error)-> {
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (error != null){
                 map.putString("error", error.getMessage());
@@ -203,11 +218,19 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getUserId(String connection, Promise promise){
         WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
         if (parseConnection(connection) == null){
             map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
             promise.resolve(map);
             return;
         }
+
         map.putBoolean("success", true);
         map.putString("userId", this.terra.getUserId(Objects.requireNonNull(parseConnection(connection))));
         promise.resolve(map);
@@ -220,13 +243,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getBody(String connection, String startDate, String endDate, Boolean latestReading, Boolean toWebhook, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+        
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
+            return;
+        }
+
         this.terra.getBody(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           toWebhook,
           (success, data, error) ->{
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (data != null){
                 map.putString("data", gson.toJson(data));
@@ -241,13 +277,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActivity(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
+            return;
+        }
+
         this.terra.getActivity(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           toWebhook,
           (success, data, error) ->{
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (data != null){
                 map.putString("data", gson.toJson(data));
@@ -262,13 +311,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getDaily(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
+            return;
+        }
+
         this.terra.getDaily(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           toWebhook,
           (success, data, error) ->{
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (data != null){
                 map.putString("data", gson.toJson(data));
@@ -283,13 +345,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getNutrition(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
+            return;
+        }
+
         this.terra.getNutrition(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           toWebhook,
           (success, data, error) ->{
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (data != null){
                 map.putString("data", gson.toJson(data));
@@ -304,13 +379,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getSleep(String connection, String startDate, String endDate, Boolean toWebhook, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            map.putString("error", "Invalid Connection type passed");
+            promise.resolve(map);
+            return;
+        }
+
         this.terra.getSleep(
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
           toWebhook,
           (success, data, error) ->{
-            WritableMap map = new WritableNativeMap();
             map.putBoolean("success", success);
             if (data != null){
                 map.putString("data", gson.toJson(data));
@@ -335,6 +423,13 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void readGlucoseData(Promise promise){
+        if (this.terra == null){
+            WritableMap map = new WritableNativeMap();
+            map.putBoolean("success", false);
+            map.putString("error", "Please make sure Terra is instantiated with initTerra");
+            return;
+        }
+
         this.terra.readGlucoseData((details) -> {
             promise.resolve(gson.toJson(details));
             return Unit.INSTANCE;
@@ -350,8 +445,14 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void grantedPermissions(Promise promise){
-        WritableArray perms = new WritableNativeArray();
+        if (this.terra == null){
+            WritableArray perms = new WritableNativeArray();
+            promise.resolve(perms);
+            return;
+        }
+
         terra.allGivenPermissions((permissions) -> {
+            WritableArray perms = new WritableNativeArray();
             permissions.forEach((perm) -> {
                 perms.pushString(perm);
             });
@@ -362,11 +463,18 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openHealthConnect(Promise promise){
+        if (this.getCurrentActivity() == null){
+            return;
+        }
         Terra.Companion.openHealthConnect(Objects.requireNonNull(this.getCurrentActivity()));
     }
 
     @ReactMethod
     public void isHealthConnectAvailable(Promise promise){
+        if (this.getCurrentActivity() == null){
+            promise.resolve(false);
+            return;
+        }
         promise.resolve(Terra.Companion.isHealthConnectAvailable(Objects.requireNonNull(this.getCurrentActivity())));
     }
 }
