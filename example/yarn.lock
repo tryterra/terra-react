@@ -4340,7 +4340,7 @@
 
 "terra-react@file:..":
   "resolved" "file:.."
-  "version" "1.4.2"
+  "version" "1.3.2-f"
 
 "throat@^5.0.0":
   "integrity" "sha512-fcwX4mndzpLQKBS1DVYhGAcYaYt7vsHNIvQV+WXMvnow5cgjPphq5CaayLaGsjRdSCKZFNGt7/GYAuXaNOiYCA=="

@@ -15,10 +15,11 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		4C39C56BAD484C67AA576FFA /* libPods-TerraReactExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3E69C5B9553B26FBA2DF04 /* libPods-TerraReactExample.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9B71E39C29C37C79009B9A5F /* libterra-react.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF82BAF28A673B4009B7111 /* libterra-react.a */; };
 		9BC93C22288AC3580082A48D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 9BC93C21288AC3580082A48D /* main.jsbundle */; };
 		9BD9DBF92863164D0092FDD5 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BD9DBF82863164D0092FDD5 /* HealthKit.framework */; };
 		9BF82BB428A676E2009B7111 /* TerraiOS.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF82BA528A669F1009B7111 /* TerraiOS.xcframework */; };
-		A124DFDF5810DB9E1F324E5B /* libPods-TerraReactExample-TerraReactExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D53D0C97FF9B71FAAB96E4F7 /* libPods-TerraReactExample-TerraReactExampleTests.a */; };
+		F880E39F6F5FC9D6D39A3645 /* libPods-TerraReactExample-TerraReactExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A89A60C6D5137B7A14A65435 /* libPods-TerraReactExample-TerraReactExampleTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +60,8 @@
 		9BD9DBFA286321340092FDD5 /* TerraReactExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TerraReactExample.entitlements; path = TerraReactExample/TerraReactExample.entitlements; sourceTree = "<group>"; };
 		9BF82BA528A669F1009B7111 /* TerraiOS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TerraiOS.xcframework; path = Pods/TerraiOS/TerraiOS.xcframework; sourceTree = "<group>"; };
 		9BF82BAF28A673B4009B7111 /* libterra-react.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libterra-react.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A89A60C6D5137B7A14A65435 /* libPods-TerraReactExample-TerraReactExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TerraReactExample-TerraReactExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3E69C5B9553B26FBA2DF04 /* libPods-TerraReactExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TerraReactExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D53D0C97FF9B71FAAB96E4F7 /* libPods-TerraReactExample-TerraReactExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TerraReactExample-TerraReactExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E00ACF0FDA8BF921659E2F9A /* Pods-TerraReactExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TerraReactExample.release.xcconfig"; path = "Target Support Files/Pods-TerraReactExample/Pods-TerraReactExample.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -71,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A124DFDF5810DB9E1F324E5B /* libPods-TerraReactExample-TerraReactExampleTests.a in Frameworks */,
+				F880E39F6F5FC9D6D39A3645 /* libPods-TerraReactExample-TerraReactExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C39C56BAD484C67AA576FFA /* libPods-TerraReactExample.a in Frameworks */,
+				9B71E39C29C37C79009B9A5F /* libterra-react.a in Frameworks */,
 				9BD9DBF92863164D0092FDD5 /* HealthKit.framework in Frameworks */,
 				9BF82BB428A676E2009B7111 /* TerraiOS.xcframework in Frameworks */,
 			);
@@ -143,7 +145,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				CA3E69C5B9553B26FBA2DF04 /* libPods-TerraReactExample.a */,
-				D53D0C97FF9B71FAAB96E4F7 /* libPods-TerraReactExample-TerraReactExampleTests.a */,
+				A89A60C6D5137B7A14A65435 /* libPods-TerraReactExample-TerraReactExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,7 +290,6 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 8HP4B6QYR7;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -688,8 +689,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.terrareact;
 				PRODUCT_NAME = TerraReactExample;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -718,7 +723,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.terrareact;
 				PRODUCT_NAME = TerraReactExample;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -733,6 +742,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8HP4B6QYR7;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "TerraReactExample-tvOS/Info.plist";
@@ -764,6 +774,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8HP4B6QYR7;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "TerraReactExample-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -905,6 +916,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
 			};
 			name = Debug;
 		};
@@ -962,6 +974,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
