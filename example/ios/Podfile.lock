@@ -351,10 +351,10 @@ PODS:
     - React-logger (= 0.69.8)
     - React-perflogger (= 0.69.8)
   - SocketRocket (0.6.0)
-  - terra-react (1.4.6):
+  - terra-react (1.4.10):
     - React-Core
-    - TerraiOS (= 1.3.8)
-  - TerraiOS (1.3.8)
+    - TerraiOS (= 1.3.12)
+  - TerraiOS (1.3.12)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -550,8 +550,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 9df680f18497367bcf5c15b6b6406c0f2dfa2b6a
   ReactCommon: c10f046f3ef8561e7c8e7e9b9dae2ecc9ffc48ef
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  terra-react: 44778e7cba565abcd0d9536b254f61a9c061c693
-  TerraiOS: 1b49ffb25ecb29bb52465f75b7bda36f6fe9cc75
+  terra-react: ed9d1243c278ea963676fc0c0b3a4c2758943bcd
+  TerraiOS: a2ebcb8e5e99ead2e753d4101000934571fe6701
   Yoga: d3820731e0ca3a4933f061ad29defaf7726e3251
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

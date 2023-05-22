@@ -35,7 +35,7 @@ export default function App() {
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(3);
+        startDate.setDate(13);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
@@ -63,7 +63,7 @@ export default function App() {
         getSleep(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
-        readGlucoseData().then((d) => {console.log(d);});
+        // readGlucoseData().then((d) => {console.log(d.data.blood_glucose_samples);});
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);
