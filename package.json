@@ -1,6 +1,6 @@
 {
   "name": "terra-react",
-  "version": "1.4.10-nofsl",
+  "version": "1.4.11-nofsl",
   "description": "React Native SDK mapping for Terra API",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

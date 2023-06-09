@@ -9,7 +9,6 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -28,7 +27,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import co.tryterra.terra.Terra;
-import co.tryterra.terra.TerraManager;
 import co.tryterra.terra.enums.Connections;
 import co.tryterra.terra.enums.CustomPermissions;
 import kotlin.Unit;
@@ -43,7 +41,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public TerraReactModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
-    public TerraManager terra;
+    public Terra terra;
 
     @Override
     @NonNull
@@ -156,19 +154,15 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             map.putString("error", "Unable to resolve current activity");
             promise.resolve(map);
             return;
-        }       
+        }
 
-        Terra.Companion.instance(
+        this.terra = new Terra(
             devID,
-            referenceId,
             Objects.requireNonNull(this.getCurrentActivity()),
-            (terraManager, error) ->{
-                this.terra = terraManager;
+            referenceId,
+            (success) ->{
                 WritableMap map = new WritableNativeMap();
-                map.putBoolean("success", terraManager != null);
-                if (error != null){
-                    map.putString("error", error.getMessage());
-                }
+                map.putBoolean("success", success);
                 promise.resolve(map);
                 return Unit.INSTANCE;
             });
@@ -205,11 +199,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         }
 
         this.terra.initConnection(Objects.requireNonNull(parseConnection(connection)), token, Objects.requireNonNull(this.getCurrentActivity()), cPermissions, schedulerOn, startIntent,
-            (success, error)-> {
+            (success)-> {
             map.putBoolean("success", success);
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -249,7 +240,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             map.putString("error", "Please make sure Terra is instantiated with initTerra");
             return;
         }
-        
+
         if (parseConnection(connection) == null){
             map.putBoolean("success", false);
             map.putString("error", "Invalid Connection type passed");
@@ -261,15 +252,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          toWebhook,
-          (success, data, error) ->{
+          (success) ->{
             map.putBoolean("success", success);
-            if (data != null){
-                map.putString("data", gson.toJson(data));
-            }
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -295,15 +279,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          toWebhook,
-          (success, data, error) ->{
+          (success) ->{
             map.putBoolean("success", success);
-            if (data != null){
-                map.putString("data", gson.toJson(data));
-            }            
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -329,15 +306,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          toWebhook,
-          (success, data, error) ->{
+          (success) ->{
             map.putBoolean("success", success);
-            if (data != null){
-                map.putString("data", gson.toJson(data));
-            }
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -363,15 +333,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          toWebhook,
-          (success, data, error) ->{
+          (success) ->{
             map.putBoolean("success", success);
-            if (data != null){
-                map.putString("data", gson.toJson(data));
-            }
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -397,15 +360,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
           Objects.requireNonNull(parseConnection(connection)),
           Date.from(Instant.parse(startDate)),
           Date.from(Instant.parse(endDate)),
-          toWebhook,
-          (success, data, error) ->{
+          (success) ->{
             map.putBoolean("success", success);
-            if (data != null){
-                map.putString("data", gson.toJson(data));
-            }
-            if (error != null){
-                map.putString("error", error.getMessage());
-            }
             promise.resolve(map);
             return Unit.INSTANCE;
         });
@@ -429,11 +385,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
             map.putString("error", "Please make sure Terra is instantiated with initTerra");
             return;
         }
-
-        this.terra.readGlucoseData((details) -> {
-            promise.resolve(gson.toJson(details));
-            return Unit.INSTANCE;
-        });
+        WritableMap map = new WritableNativeMap();
+        map.putBoolean("success", false);
+        map.putString("error", "Please make sure Terra is instantiated with initTerra");
+        promise.resolve(map);
     }
 
     @ReactMethod
@@ -445,36 +400,16 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void grantedPermissions(Promise promise){
-        if (this.terra == null){
-            WritableArray perms = new WritableNativeArray();
-            promise.resolve(perms);
-            return;
-        }
-
-        terra.allGivenPermissions((permissions) -> {
-            WritableArray perms = new WritableNativeArray();
-            permissions.forEach((perm) -> {
-                perms.pushString(perm);
-            });
-            promise.resolve(perms);
-            return Unit.INSTANCE;
-        });
+        WritableArray perms = new WritableNativeArray();
+        promise.resolve(perms);
     }
 
     @ReactMethod
     public void openHealthConnect(Promise promise){
-        if (this.getCurrentActivity() == null){
-            return;
-        }
-        Terra.Companion.openHealthConnect(Objects.requireNonNull(this.getCurrentActivity()));
     }
 
     @ReactMethod
     public void isHealthConnectAvailable(Promise promise){
-        if (this.getCurrentActivity() == null){
-            promise.resolve(false);
-            return;
-        }
-        promise.resolve(Terra.Companion.isHealthConnectAvailable(Objects.requireNonNull(this.getCurrentActivity())));
+        promise.resolve(false);
     }
 }
