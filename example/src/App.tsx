@@ -18,6 +18,7 @@ import {
   isHealthConnectAvailable,
   openHealthConnect,
   grantedPermissions,
+  checkAuth,
 } from 'terra-react';
 import { config } from './config';
 
@@ -70,6 +71,9 @@ export default function App() {
             setResults((r) => ({ ...r, getUserId: de.userId }));
           })
           .catch((ee) => console.log(ee));
+        checkAuth(connection, devId).then((d) => {
+          console.log(d);
+        });
       });
     });
   }
