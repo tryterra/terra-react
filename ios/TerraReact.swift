@@ -196,10 +196,10 @@ class TerraReact: NSObject {
     @objc
     func checkAuth(_ connection: String, devID: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         if let connection = connectionParse(connection: connection){
-            Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success", success])})
+            Terra.checkAuthentication(connection: connection, devId: devID, completion: {success in resolve(["success": success])})
         }
         else{
-            resolve(["success", false])
+            resolve(["success": false])
         }
     }
     

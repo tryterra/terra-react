@@ -477,4 +477,26 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
         }
         promise.resolve(Terra.Companion.isHealthConnectAvailable(Objects.requireNonNull(this.getCurrentActivity())));
     }
+
+    @ReactMethod
+    public void checkAuth(String connection, String devID, Promise promise){
+        WritableMap map = new WritableNativeMap();
+        if (this.terra == null){
+            map.putBoolean("success", false);
+            return;
+        }
+
+
+        if (parseConnection(connection) == null){
+            map.putBoolean("success", false);
+            promise.resolve(map);
+            return;
+        }
+
+        this.terra.checkAuth(parseConnection(connection), (success) -> {
+            map.putBoolean("success", success);
+            promise.resolve(map);
+            return Unit.INSTANCE;
+        });
+    }
 }

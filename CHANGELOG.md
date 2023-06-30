@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## 1.4.15
+
+### Changed
+- Bump TerraAndroid SDK to 1.4.13 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log)
+
+### Bug Fixes
+- Fix bug where checkAuth function was not executing correctly for iOS
+
+### Added
+- Added checkAuth functionality for Android
+
 ## 1.4.14
 
 ### Changed

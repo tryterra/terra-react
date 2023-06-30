@@ -28,6 +28,7 @@ RCT_EXTERN_METHOD(
 // check connection
 RCT_EXTERN_METHOD(
     checkAuth: (NSString *)connection
+    devID: (NSString *)devID
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )
