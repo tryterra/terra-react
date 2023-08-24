@@ -18,6 +18,7 @@ import {
   isHealthConnectAvailable,
   openHealthConnect,
   grantedPermissions,
+  checkAuth,
 } from 'terra-react';
 import { config } from './config';
 
@@ -35,7 +36,7 @@ export default function App() {
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(1);
+        startDate.setDate(13);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
@@ -63,13 +64,16 @@ export default function App() {
         getSleep(connection, startDate, new Date())
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
-        readGlucoseData().then((d) => {console.log(d);});
+        // readGlucoseData().then((d) => {console.log(d.data.blood_glucose_samples);});
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);
             setResults((r) => ({ ...r, getUserId: de.userId }));
           })
           .catch((ee) => console.log(ee));
+        checkAuth(connection, devId).then((d) => {
+          console.log(d);
+        });
       });
     });
   }
@@ -77,7 +81,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.SAMSUNG;
+    const connection = Connections.APPLE_HEALTH;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
@@ -95,7 +99,7 @@ export default function App() {
       <Text>Hello from Terra</Text>
       {Object.entries(results).map(([k, v], i) => (
         <Text key={i}>
-          {k}: {v !== undefined ? v!.toString() : 'undefined'}
+          {k}: {v !== undefined || v !== null ? v!.toString() : 'undefined'}
         </Text>
       ))}
     </View>
