@@ -79,6 +79,8 @@ class TerraReact: NSObject {
                 return CustomPermissions.ACTIVE_DURATIONS;
             case "WEIGHT":
                 return CustomPermissions.WEIGHT;
+            case "INTERBEAT":
+                return CustomPermissions.INTERBEAT;
             case "FLIGHTS_CLIMBED":
                 return CustomPermissions.FLIGHTS_CLIMBED;
             case "BMI":

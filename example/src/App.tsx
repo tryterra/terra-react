@@ -9,16 +9,11 @@ import {
   initTerra,
   initConnection,
   getMenstruation,
-  readGlucoseData,
-  getAthlete,
   getBody,
   getNutrition,
   getSleep,
-  activateSensor,
-  isHealthConnectAvailable,
-  openHealthConnect,
-  grantedPermissions,
   checkAuth,
+  // CustomPermissions,
 } from 'terra-react';
 import { config } from './config';
 
@@ -30,16 +25,18 @@ export default function App() {
 
   const [results, setResults] = React.useState({});
 
-  function initThings(devId: string, token: string, connection: Connections) {
+  async function initThings(
+    devId: string,
+    token: string,
+    connection: Connections
+  ) {
     initTerra(devId, 'reid').then((aa) => {
       setResults((r) => ({ ...r, initTerra: aa.success }));
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(13);
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
+        startDate.setDate(25);
+        startDate.setMonth(7);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -48,8 +45,9 @@ export default function App() {
             setResults((r) => ({ ...r, getBody: d.success }));
           })
           .catch((e: any) => console.log(e));
+        // setResults((r) => ({ ...r, getDaily: d.success }))
         getDaily(connection, startDate, new Date())
-          .then((d: any) => setResults((r) => ({ ...r, getDaily: d.success })))
+          .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
         getMenstruation(connection, startDate, new Date())
           .then((d: any) =>
@@ -62,7 +60,10 @@ export default function App() {
           )
           .catch((e: any) => console.log(e));
         getSleep(connection, startDate, new Date())
-          .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
+          .then((d: any) => {
+            setResults((r) => ({ ...r, getSleep: d.success }));
+            console.log(d);
+          })
           .catch((e: any) => console.log(e));
         // readGlucoseData().then((d) => {console.log(d.data.blood_glucose_samples);});
         getUserId(connection)
@@ -71,7 +72,7 @@ export default function App() {
             setResults((r) => ({ ...r, getUserId: de.userId }));
           })
           .catch((ee) => console.log(ee));
-        checkAuth(connection, devId).then((d) => {
+        checkAuth(connection, devId).then((d: any) => {
           console.log(d);
         });
       });
@@ -81,7 +82,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.APPLE_HEALTH;
+    const connection = Connections.SAMSUNG;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

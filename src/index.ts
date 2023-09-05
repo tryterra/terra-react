@@ -57,6 +57,7 @@ export enum CustomPermissions {
   'BLOOD_PRESSURE',
   'BLOOD_GLUCOSE',
   'BODY_TEMPERATURE',
+  'INTERBEAT',
   'MINDFULNESS',
   'LEAN_BODY_MASS',
   'OXYGEN_SATURATION',
@@ -110,6 +111,8 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
   switch (cPermission) {
     case CustomPermissions.WORKOUT_TYPES:
       return 'WORKOUT_TYPES';
+    case CustomPermissions.INTERBEAT:
+      return 'INTERBEAT';
     case CustomPermissions.ACTIVITY_SUMMARY:
       return 'ACTIVITY_SUMMARY';
     case CustomPermissions.LOCATION:

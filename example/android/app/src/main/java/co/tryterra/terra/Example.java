@@ -1,4 +1,4 @@
-package com.example.terrareact;
+package co.tryterra.terra;
 
 import android.app.Activity;
 import android.os.Bundle;
