@@ -137,6 +137,8 @@ class TerraReact: NSObject {
                 return CustomPermissions.NUTRITION_CHOLESTEROL;
             case "MENSTRUATION":
                 return CustomPermissions.MENSTRUATION;
+            case "INTERBEAT":
+                return CustomPermissions.INTERBEAT;
             default:
                 return nil
         }
