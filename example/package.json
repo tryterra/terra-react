@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "18.0.0",
     "react-native": "0.69",
-    "terra-react": "0.2.1"
+    "terra-react": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
