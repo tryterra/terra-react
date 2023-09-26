@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native/scripts/.packager.env b/node_modules/react-native/scripts/.packager.env
+new file mode 100644
+index 0000000..361f5fb
+--- /dev/null
++++ b/node_modules/react-native/scripts/.packager.env
+@@ -0,0 +1 @@
++export RCT_METRO_PORT=8081
+diff --git a/node_modules/react-native/scripts/react_native_pods.rb b/node_modules/react-native/scripts/react_native_pods.rb
+index 265fff1..5237089 100644
+--- a/node_modules/react-native/scripts/react_native_pods.rb
++++ b/node_modules/react-native/scripts/react_native_pods.rb
+@@ -407,7 +407,7 @@ def get_react_codegen_spec(options={})
+     'source' => { :git => '' },
+     'header_mappings_dir' => './',
+     'platforms' => {
+-      'ios' => '11.0',
++      'ios' => '12.0',
+     },
+     'source_files' => "**/*.{h,mm,cpp}",
+     'pod_target_xcconfig' => { "HEADER_SEARCH_PATHS" =>
