@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.0
+
+### Changed
+- Bumped TerraiOS SDK to 1.5.1 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+    - Update uses new iOS 17 features and requires an Xcode update!
+
+## 1.5.1
+
+### Changed
+- Bumped TerraiOS SDK to 1.4.9 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+
+## 1.5.1
+
+### Changed
+- Bumped TerraiOS SDK to 1.4.8 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+- Bump TerraAndroid SDK to 1.4.18 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log)
+    - Needs compileSdk 34
+- Improve local normalisation
+- Propagate Libre sensor state on activation of sensor
+
+## 1.5.0
+
+### Changed
+- Bumped TerraiOS SDK to 1.4.5 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+- Improved iOS background delivery
+- Updated Terra data models to latest
+
 ## 1.4.19
 
 ### Changed

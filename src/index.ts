@@ -74,6 +74,7 @@ export enum CustomPermissions {
   'NUTRITION_WATER',
   'NUTRITION_CHOLESTEROL',
   'MENSTRUATION',
+  'INTERBEAT',
 }
 
 export enum Permissions {
@@ -188,6 +189,8 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
       return 'NUTRITION_CHOLESTEROL';
     case CustomPermissions.MENSTRUATION:
       return 'MENSTRUATION';
+    case CustomPermissions.INTERBEAT:
+      return 'INTERBEAT';
   }
 }
 
@@ -214,7 +217,10 @@ export function initConnection(
   );
 }
 
-export function checkAuth(connection: Connections, devID: string) {
+export function checkAuth(
+  connection: Connections,
+  devID: string
+): Promise<Pick<SuccessMessage, 'success'>> {
   return TerraReact.checkAuth(ConnectionToString(connection), devID);
 }
 

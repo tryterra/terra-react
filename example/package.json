@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "react": "18.0.0",
-    "react-native": "0.69",
+    "react-native": "0.69.2",
     "terra-react": "file:.."
   },
   "devDependencies": {
@@ -20,6 +20,3 @@
     "metro-react-native-babel-preset": "^0.64.0"
   }
 }
-
-
- 
