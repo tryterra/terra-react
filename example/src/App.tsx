@@ -36,7 +36,7 @@ export default function App() {
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(13);
+        startDate.setDate(1);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);

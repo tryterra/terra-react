@@ -5,13 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## 1.6.1
+
+### Changed
+- Bump TerraiOS SDK to 1.5.2 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+- Bump TerraAndroid SDK to 1.4.19 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log)
+
 ## 1.6.0
 
 ### Changed
 - Bumped TerraiOS SDK to 1.5.1 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
     - Update uses new iOS 17 features and requires an Xcode update!
 
-## 1.5.1
+## 1.5.2
 
 ### Changed
 - Bumped TerraiOS SDK to 1.4.9 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
