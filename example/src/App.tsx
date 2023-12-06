@@ -32,9 +32,11 @@ export default function App() {
   ) {
     initTerra(devId, 'reid').then((aa) => {
       setResults((r) => ({ ...r, initTerra: aa.success }));
-      initConnection(connection, token, true).then((a) => {
+      initConnection(connection, token, true).then(async (a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
+        let x = await checkAuth(connection, devId);
+        console.log("checkAuth", x);
         startDate.setDate(25);
         startDate.setMonth(7);
         getActivity(connection, startDate, new Date())
@@ -82,7 +84,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.SAMSUNG;
+    const connection = Connections.APPLE_HEALTH;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

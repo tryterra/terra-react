@@ -1,4 +1,4 @@
-package co.tryterra.example;
+package co.tryterra.terra;
 
 import com.facebook.react.ReactActivity;
 

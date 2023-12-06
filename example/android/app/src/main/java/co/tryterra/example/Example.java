@@ -1,4 +1,4 @@
-package co.tryterra.example;
+package co.tryterra.terra;
 
 import android.app.Activity;
 import android.os.Bundle;

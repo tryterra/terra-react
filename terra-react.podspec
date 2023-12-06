@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.frameworks = ['HealthKit']
-  s.dependency "TerraiOS", "=1.3.21"
+  s.dependency "TerraiOS", "=1.5.2"
   s.dependency "React-Core"
 end
