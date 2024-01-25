@@ -15,6 +15,8 @@ import {
   checkAuth,
   // CustomPermissions,
 } from 'terra-react';
+
+import * as terra from 'terra-react';
 import { config } from './config';
 
 export default function App() {
@@ -37,8 +39,8 @@ export default function App() {
         let startDate = new Date();
         let x = await checkAuth(connection, devId);
         console.log("checkAuth", x);
-        startDate.setDate(25);
-        startDate.setMonth(7);
+        startDate.setDate(20);
+        startDate.setMonth(0);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -48,7 +50,8 @@ export default function App() {
           })
           .catch((e: any) => console.log(e));
         // setResults((r) => ({ ...r, getDaily: d.success }))
-        getDaily(connection, startDate, new Date())
+        terra
+          .getDaily(terra.Connections.SAMSUNG, startDate, new Date(), true)
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
         getMenstruation(connection, startDate, new Date())
@@ -84,7 +87,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.APPLE_HEALTH;
+    const connection = Connections.SAMSUNG;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
