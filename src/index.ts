@@ -57,6 +57,7 @@ export enum CustomPermissions {
   'BLOOD_PRESSURE',
   'BLOOD_GLUCOSE',
   'BODY_TEMPERATURE',
+  'INTERBEAT',
   'MINDFULNESS',
   'LEAN_BODY_MASS',
   'OXYGEN_SATURATION',
@@ -74,7 +75,6 @@ export enum CustomPermissions {
   'NUTRITION_WATER',
   'NUTRITION_CHOLESTEROL',
   'MENSTRUATION',
-  'INTERBEAT',
 }
 
 export enum Permissions {
@@ -111,6 +111,8 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
   switch (cPermission) {
     case CustomPermissions.WORKOUT_TYPES:
       return 'WORKOUT_TYPES';
+    case CustomPermissions.INTERBEAT:
+      return 'INTERBEAT';
     case CustomPermissions.ACTIVITY_SUMMARY:
       return 'ACTIVITY_SUMMARY';
     case CustomPermissions.LOCATION:
@@ -189,8 +191,6 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
       return 'NUTRITION_CHOLESTEROL';
     case CustomPermissions.MENSTRUATION:
       return 'MENSTRUATION';
-    case CustomPermissions.INTERBEAT:
-      return 'INTERBEAT';
   }
 }
 
@@ -217,10 +217,7 @@ export function initConnection(
   );
 }
 
-export function checkAuth(
-  connection: Connections,
-  devID: string
-): Promise<Pick<SuccessMessage, 'success'>> {
+export function checkAuth(connection: Connections, devID: string) {
   return TerraReact.checkAuth(ConnectionToString(connection), devID);
 }
 
