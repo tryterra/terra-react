@@ -5,12 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## 1.6.5
+
+### Changed
+- Bump TerraiOS SDK to 1.6.3 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+- Fixed a bug where if INTERBEAT CustomPermissions is used in Samsung, it causes a crash
+
 ## 1.6.4
 
 ### Changed
 - Bump TerraiOS SDK to 1.6.2 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
 - Bump TerraAndroid SDK to 1.4.23 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log)
-
 
 ## 1.6.3-noperm
 
