@@ -19,6 +19,7 @@ import {
   openHealthConnect,
   grantedPermissions,
   checkAuth,
+  setIgnoredSources,
 } from 'terra-react';
 import { config } from './config';
 
@@ -31,15 +32,20 @@ export default function App() {
   const [results, setResults] = React.useState({});
 
   function initThings(devId: string, token: string, connection: Connections) {
+    setIgnoredSources(['com.apple.Health']);
     initTerra(devId, 'reid').then((aa) => {
       setResults((r) => ({ ...r, initTerra: aa.success }));
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(1);
+        startDate.setMonth(3);
+        startDate.setDate(28);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
+        let endDate = new Date();
+        endDate.setMonth(3);
+        endDate.setDate(30);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -48,8 +54,11 @@ export default function App() {
             setResults((r) => ({ ...r, getBody: d.success }));
           })
           .catch((e: any) => console.log(e));
-        getDaily(connection, startDate, new Date())
-          .then((d: any) => setResults((r) => ({ ...r, getDaily: d.success })))
+        getDaily(connection, startDate, endDate, false)
+          .then((d: any) => {
+            setResults((r) => ({ ...r, getDaily: d.success }));
+            console.log(JSON.stringify(d.data));
+          })
           .catch((e: any) => console.log(e));
         getMenstruation(connection, startDate, new Date())
           .then((d: any) =>
@@ -81,7 +90,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.SAMSUNG;
+    const connection = Connections.APPLE_HEALTH;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

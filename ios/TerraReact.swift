@@ -408,4 +408,10 @@ class TerraReact: NSObject {
     func openHealthConnect(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         reject("NotImplementedError", "Function does not exist on iOS", nil)
     }
+
+    @objc
+    func setIgnoredSources(_ ignoredSources: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        Terra.setIgnoredSources(ignoredSources)
+        resolve(["success": true])
+    }
 }

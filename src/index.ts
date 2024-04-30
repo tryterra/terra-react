@@ -437,3 +437,7 @@ export function isHealthConnectAvailable(): Promise<Boolean> {
 export function grantedPermissions(): Promise<Array<String>> {
   return TerraReact.grantedPermissions();
 }
+
+export function setIgnoredSources(ignoredSources: Array<String>): void {
+  TerraReact.setIgnoredSources(ignoredSources).then();
+}
