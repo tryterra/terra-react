@@ -503,4 +503,5 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setIgnoredSources(ReadableArray sources, Promise promise){
         // Functionality not implemented for Android yet
+    }
 }
