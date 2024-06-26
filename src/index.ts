@@ -18,19 +18,19 @@ const TerraReact = NativeModules.TerraReact
     );
 
 export type GetUserId = {
-  success: Boolean;
-  userId: String | null;
+  success: boolean;
+  userId: string | null;
 };
 
 export type SuccessMessage = {
-  success: Boolean;
-  error: String | null;
+  success: boolean;
+  error: string | null;
 };
 
 export type DataMessage = {
-  success: Boolean;
+  success: boolean;
   data: Object;
-  error: String | null;
+  error: string | null;
 };
 
 export enum CustomPermissions {
@@ -206,7 +206,7 @@ export function initConnection(
   token: string,
   schedulerOn: boolean,
   customPermissions: CustomPermissions[] = [],
-  startIntent: String | null = null
+  startIntent: string | null = null
 ): Promise<SuccessMessage> {
   return TerraReact.initConnection(
     ConnectionToString(connection),
@@ -232,8 +232,8 @@ export function getBody(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  latestReading: Boolean = false,
-  toWebhook: Boolean = true
+  latestReading: boolean = false,
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getBody(
@@ -261,7 +261,7 @@ export function getActivity(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  toWebhook: Boolean = true
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getActivity(
@@ -289,7 +289,7 @@ export function getMenstruation(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  toWebhook: Boolean = true
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getMenstruation(
@@ -316,7 +316,7 @@ export function getDaily(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  toWebhook: Boolean = true
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getDaily(
@@ -344,7 +344,7 @@ export function getNutrition(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  toWebhook: Boolean = true
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getNutrition(
@@ -372,7 +372,7 @@ export function getSleep(
   connection: Connections,
   startDate: Date,
   endDate: Date,
-  toWebhook: Boolean = true
+  toWebhook: boolean = true
 ): Promise<DataMessage> {
   return new Promise<DataMessage>((resolve, reject) => {
     TerraReact.getSleep(
@@ -395,7 +395,7 @@ export function getSleep(
   });
 }
 
-export function getAthlete(connection: Connections, toWebhook: Boolean = true) {
+export function getAthlete(connection: Connections, toWebhook: boolean = true) {
   return TerraReact.getAthlete(ConnectionToString(connection), toWebhook);
 }
 
@@ -430,11 +430,11 @@ export function openHealthConnect(): void {
   });
 }
 
-export function isHealthConnectAvailable(): Promise<Boolean> {
+export function isHealthConnectAvailable(): Promise<boolean> {
   return TerraReact.isHealthConnectAvailable();
 }
 
-export function grantedPermissions(): Promise<Array<String>> {
+export function grantedPermissions(): Promise<Array<string>> {
   return TerraReact.grantedPermissions();
 }
 
