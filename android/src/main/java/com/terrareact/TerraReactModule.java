@@ -417,11 +417,6 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void checkAuth(String connection, Promise promise){
-        promise.reject("Unimplemented function for Android");
-    }
-
-    @ReactMethod
     public void readGlucoseData(Promise promise){
         if (this.terra == null){
             WritableMap map = new WritableNativeMap();
