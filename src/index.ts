@@ -273,8 +273,7 @@ export function getActivity(
       .then((d: any) => {
         const data: DataMessage = {
           success: d.success,
-          data:
-            d.data !== undefined ? JSON.parse(d.data) : null,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
           error: d.error,
         };
         resolve(data);
@@ -328,8 +327,7 @@ export function getDaily(
       .then((d: any) => {
         const data: DataMessage = {
           success: d.success,
-          data:
-            d.data !== undefined ? JSON.parse(d.data) : null,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
           error: d.error,
         };
         resolve(data);
@@ -356,8 +354,7 @@ export function getNutrition(
       .then((d: any) => {
         const data: DataMessage = {
           success: d.success,
-          data:
-            d.data !== undefined ? JSON.parse(d.data) : null,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
           error: d.error,
         };
         resolve(data);

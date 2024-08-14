@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 1.6.16
+
+### Changed
+- Bump TerraiOS SDK to 1.6.14 (https://github.com/tryterra/TerraiOS/wiki/Change-Log)
+- Remove specific null checks to getter functions
+- Change typings to use primitive types when possible
+
 ## 1.6.15
 
 ### Changed
