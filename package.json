@@ -1,57 +1,44 @@
 {
-  "name": "terra-react",
-  "version": "0.3.2",
-  "description": "React Native SDK mapping for Terra API",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index",
-  "source": "src/index",
-  "files": [
-    "src",
-    "lib",
-    "android",
-    "ios",
-    "cpp",
-    "terra-react.podspec",
-    "!lib/typescript/example",
-    "!android/build",
-    "!ios/build",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__"
-  ],
-  "scripts": {
-    "test": "jest",
-    "typescript": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts}\"",
-    "prepare": "bob build",
-    "release": "release-it",
-    "example": "yarn --cwd example",
-    "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods",
-    "build": "tsc",
-    "format": "prettier --write \"**/*.{js,ts}\"",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+  "_from": "terra-react@0.3.4",
+  "_id": "terra-react@0.3.4",
+  "_inBundle": false,
+  "_integrity": "sha512-bsevX8vEnsrAXmmeguNF8NrGm0iEjUsvaJfbzFyCQZgPYqPZCY2VXGdtDFKbj5ZEse3LDqf+4Sx5i0lZHy/RNA==",
+  "_location": "/terra-react",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "terra-react@0.3.4",
+    "name": "terra-react",
+    "escapedName": "terra-react",
+    "rawSpec": "0.3.4",
+    "saveSpec": null,
+    "fetchSpec": "0.3.4"
   },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android"
+  "_requiredBy": [
+    "#USER",
+    "/"
   ],
-  "repository": "https://github.com/tryterra/terra-react",
-  "author": "TerraDev <dev@tryterra.co> (https://tryterra.co)",
-  "license": "MIT",
+  "_resolved": "https://registry.npmjs.org/terra-react/-/terra-react-0.3.4.tgz",
+  "_shasum": "fed8f6abf4eff4948dc6595cefc4ff0f6e4c2338",
+  "_spec": "terra-react@0.3.4",
+  "_where": "/Users/robin-standard/development/project/defit/defit-web-reward",
+  "author": {
+    "name": "TerraDev",
+    "email": "dev@tryterra.co",
+    "url": "https://tryterra.co"
+  },
   "bugs": {
     "url": "https://github.com/tryterra/terra-react/issues"
   },
-  "homepage": "https://github.com/tryterra/terra-react#readme",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+  "bundleDependencies": false,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
+  "deprecated": false,
+  "description": "React Native SDK mapping for Terra API",
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -63,7 +50,6 @@
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.1.3",
-    "expo-modules-core": "^1.1.1",
     "husky": "^6.0.0",
     "jest": "^26.0.1",
     "pod-install": "^0.1.0",
@@ -73,40 +59,6 @@
     "react-native-builder-bob": "^0.18.2",
     "release-it": "^14.2.2",
     "typescript": "^4.1.3"
-  },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*",
-    "expo": "*"
-  },
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
   },
   "eslintConfig": {
     "root": true,
@@ -131,6 +83,41 @@
     "node_modules/",
     "lib/"
   ],
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "terra-react.podspec",
+    "!lib/typescript/example",
+    "!android/build",
+    "!ios/build",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+  ],
+  "homepage": "https://github.com/tryterra/terra-react#readme",
+  "jest": {
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/node_modules",
+      "<rootDir>/lib/"
+    ]
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "license": "MIT",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "name": "terra-react",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
@@ -138,6 +125,10 @@
     "trailingComma": "es5",
     "useTabs": false
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "react-native": "src/index",
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -151,5 +142,45 @@
         }
       ]
     ]
-  }
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryterra/terra-react.git"
+  },
+  "scripts": {
+    "bootstrap": "yarn example && yarn && yarn pods",
+    "build": "tsc",
+    "example": "yarn --cwd example",
+    "format": "prettier --write \"**/*.{js,ts}\"",
+    "lint": "eslint \"**/*.{js,ts}\"",
+    "pods": "cd example && pod-install --quiet",
+    "postversion": "git push && git push --tags",
+    "prepare": "bob build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "release": "release-it",
+    "test": "jest",
+    "typescript": "tsc --noEmit",
+    "version": "npm run format && git add -A src"
+  },
+  "source": "src/index",
+  "types": "lib/typescript/index.d.ts",
+  "version": "0.3.4"
 }
