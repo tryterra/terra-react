@@ -34,10 +34,20 @@ class TerraReact: NSObject {
             case .InvalidToken: return "Invalid Token"
             case .HealthKitAuthorizationError: return "Health Kit Authorization Error"
             case .UnsupportedResource: return "Unsupported Resource"
+            case .InvalidDateFormat: return "Invalid Date Format"
+            case .PlannedWorkoutNotSupportedOnDevice: return "Planned workout not supported on device"
+            case .PermissionsDenied: return "Permission denied"
+            case .InvalidPostWorkoutFormat: return "Invalid Post workout format"
+            case .PlannedWorkoutNotFound: return "PlannedWorkout Not Found"
+            case .StartTimeCannotBeNil: return "Start time cannot be nil"
+            case .EndTimeCannotBeNil: return "End time cannot be nil"
+            case .SamplesDateOutOfRange: return "Sample contains time outside of range"
+            case .InvalidDevice: return "Device data must contain at least one of: name, hardware_version, software_version, serial_number, and manufacturer"
+            case .StartDateMustPrecedeEndDate: return "Start date must be before end date"
             default: "Unknown Error Type. Please contact dev@tryterra.co"
         }
         return ""
-    } 
+    }
 
     // terra instance managed
     private var terra: TerraManager?
@@ -364,6 +374,33 @@ class TerraReact: NSObject {
         }
         else{
             resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+        }
+    }
+
+    @objc
+    func postActivity(_ connection: String, payload: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+        guard let connection = connectionParse(connection: connection) else {
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+            return
+        }
+        
+        guard let activityPayload = convertToTerraActivityPayload(payload) else {
+            resolve(["success": false, "data": nil, "error": "Invalid intput payload"])
+            return
+        }
+        
+        if #available(iOS 14, *) {
+            terra?.postActivity(type: connection, payload: activityPayload){
+                (success, err) in
+                if let err = err {
+                    resolve(["success": false, "error": self.errorMessage(err)])
+                }
+                else{
+                    resolve(["success": success, "error": nil])
+                }
+            }
+        } else {
+            resolve(["success": false, "error": "postActivity is only available for iOS 14 and above"])
         }
     }
     

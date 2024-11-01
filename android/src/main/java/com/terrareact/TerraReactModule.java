@@ -499,4 +499,9 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public void setIgnoredSources(ReadableArray sources, Promise promise){
         // Functionality not implemented for Android yet
     }
+
+    @ReactMethod
+    public void postActivity(String connection, ReadableMap payload, Promise promise) {
+        promise.reject("Unimplemented function for Android");
+    }
 }

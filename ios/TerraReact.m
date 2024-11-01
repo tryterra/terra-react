@@ -80,7 +80,7 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(
-    getMenstruation:  (NSString *)connection
+    getMenstruation: (NSString *)connection
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
     toWebhook: (BOOL)toWebhook
@@ -92,6 +92,13 @@ RCT_EXTERN_METHOD(
     startDate: (NSDate *)startDate
     endDate:(NSDate *)endDate
     toWebhook: (BOOL)toWebhook
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    postActivity: (NSString *)connection
+    payload: (NSDictionary *)payload
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )

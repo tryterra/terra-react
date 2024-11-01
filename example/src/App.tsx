@@ -20,6 +20,8 @@ import {
   grantedPermissions,
   checkAuth,
   setIgnoredSources,
+  postActivity,
+  Activity
 } from 'terra-react';
 import { config } from './config';
 
@@ -74,6 +76,9 @@ export default function App() {
           .then((d: any) => setResults((r) => ({ ...r, getSleep: d.success })))
           .catch((e: any) => console.log(e));
         // readGlucoseData().then((d) => {console.log(d.data.blood_glucose_samples);});
+        // postActivity(connection, {metadata: {start_time: "2024-11-01T04:00:00+01:00", end_time: "2024-11-01T05:00:00+01:00", type: 8, upload_type: 1}, device_data: {name: "Equinox"}, distance_data: {summary: {distance_meters: 1000}}, calories_data: {net_activity_calories: 200}}).then((d) => {
+        //   console.log(d)
+        // })
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);

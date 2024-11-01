@@ -1,4 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
+import { CustomPermissions as CustomPermissions_ } from './enums/CustomPermissions';
+import { Connections as Connections_ } from './enums/Connections';
+import { Activity as TerraActivityPayload } from './models/Activity';
 
 const LINKING_ERROR =
   `The package 'terra-react' doesn't seem to be linked. Make sure: \n\n` +
@@ -33,163 +36,104 @@ export type DataMessage = {
   error: string | null;
 };
 
-export enum CustomPermissions {
-  'WORKOUT_TYPES',
-  'ACTIVITY_SUMMARY',
-  'LOCATION',
-  'CALORIES',
-  'STEPS',
-  'HEART_RATE',
-  'HEART_RATE_VARIABILITY',
-  'VO2MAX',
-  'HEIGHT',
-  'ACTIVE_DURATIONS',
-  'WEIGHT',
-  'FLIGHTS_CLIMBED',
-  'BMI',
-  'BODY_FAT',
-  'EXERCISE_DISTANCE',
-  'GENDER',
-  'DATE_OF_BIRTH',
-  'BASAL_ENERGY_BURNED',
-  'SWIMMING_SUMMARY',
-  'RESTING_HEART_RATE',
-  'BLOOD_PRESSURE',
-  'BLOOD_GLUCOSE',
-  'BODY_TEMPERATURE',
-  'MINDFULNESS',
-  'LEAN_BODY_MASS',
-  'OXYGEN_SATURATION',
-  'SLEEP_ANALYSIS',
-  'RESPIRATORY_RATE',
-  'NUTRITION_SODIUM',
-  'NUTRITION_PROTEIN',
-  'NUTRITION_CARBOHYDRATES',
-  'NUTRITION_FIBRE',
-  'NUTRITION_FAT_TOTAL',
-  'NUTRITION_SUGAR',
-  'NUTRITION_VITAMIN_C',
-  'NUTRITION_VITAMIN_A',
-  'NUTRITION_CALORIES',
-  'NUTRITION_WATER',
-  'NUTRITION_CHOLESTEROL',
-  'MENSTRUATION',
-  'INTERBEAT',
-}
-
-export enum Permissions {
-  'ACTIVITY',
-  'BODY',
-  'DAILY',
-  'NUTRITION',
-  'SLEEP',
-}
-
-export enum Connections {
-  'APPLE_HEALTH',
-  'FREESTYLE_LIBRE',
-  'GOOGLE',
-  'SAMSUNG',
-}
-
-function ConnectionToString(connection: Connections) {
+function ConnectionToString(connection: Connections_) {
   switch (connection) {
-    case Connections.APPLE_HEALTH:
+    case Connections_.APPLE_HEALTH:
       return 'APPLE_HEALTH';
-    case Connections.FREESTYLE_LIBRE:
+    case Connections_.FREESTYLE_LIBRE:
       return 'FREESTYLE_LIBRE';
-    case Connections.GOOGLE:
+    case Connections_.GOOGLE:
       return 'GOOGLE';
-    case Connections.SAMSUNG:
+    case Connections_.SAMSUNG:
       return 'SAMSUNG';
     default:
       return undefined;
   }
 }
 
-function CustomPermissionsToString(cPermission: CustomPermissions) {
+function CustomPermissions_ToString(cPermission: CustomPermissions_) {
   switch (cPermission) {
-    case CustomPermissions.WORKOUT_TYPES:
+    case CustomPermissions_.WORKOUT_TYPES:
       return 'WORKOUT_TYPES';
-    case CustomPermissions.ACTIVITY_SUMMARY:
+    case CustomPermissions_.ACTIVITY_SUMMARY:
       return 'ACTIVITY_SUMMARY';
-    case CustomPermissions.LOCATION:
+    case CustomPermissions_.LOCATION:
       return 'LOCATION';
-    case CustomPermissions.CALORIES:
+    case CustomPermissions_.CALORIES:
       return 'CALORIES';
-    case CustomPermissions.STEPS:
+    case CustomPermissions_.STEPS:
       return 'STEPS';
-    case CustomPermissions.HEART_RATE:
+    case CustomPermissions_.HEART_RATE:
       return 'HEART_RATE';
-    case CustomPermissions.HEART_RATE_VARIABILITY:
+    case CustomPermissions_.HEART_RATE_VARIABILITY:
       return 'HEART_RATE_VARIABILITY';
-    case CustomPermissions.VO2MAX:
+    case CustomPermissions_.VO2MAX:
       return 'VO2MAX';
-    case CustomPermissions.HEIGHT:
+    case CustomPermissions_.HEIGHT:
       return 'HEIGHT';
-    case CustomPermissions.ACTIVE_DURATIONS:
+    case CustomPermissions_.ACTIVE_DURATIONS:
       return 'ACTIVE_DURATIONS';
-    case CustomPermissions.WEIGHT:
+    case CustomPermissions_.WEIGHT:
       return 'WEIGHT';
-    case CustomPermissions.FLIGHTS_CLIMBED:
+    case CustomPermissions_.FLIGHTS_CLIMBED:
       return 'FLIGHTS_CLIMBED';
-    case CustomPermissions.BMI:
+    case CustomPermissions_.BMI:
       return 'BMI';
-    case CustomPermissions.BODY_FAT:
+    case CustomPermissions_.BODY_FAT:
       return 'BODY_FAT';
-    case CustomPermissions.EXERCISE_DISTANCE:
+    case CustomPermissions_.EXERCISE_DISTANCE:
       return 'EXERCISE_DISTANCE';
-    case CustomPermissions.GENDER:
+    case CustomPermissions_.GENDER:
       return 'GENDER';
-    case CustomPermissions.DATE_OF_BIRTH:
+    case CustomPermissions_.DATE_OF_BIRTH:
       return 'DATE_OF_BIRTH';
-    case CustomPermissions.BASAL_ENERGY_BURNED:
+    case CustomPermissions_.BASAL_ENERGY_BURNED:
       return 'BASAL_ENERGY_BURNED';
-    case CustomPermissions.SWIMMING_SUMMARY:
+    case CustomPermissions_.SWIMMING_SUMMARY:
       return 'SWIMMING_SUMMARY';
-    case CustomPermissions.RESTING_HEART_RATE:
+    case CustomPermissions_.RESTING_HEART_RATE:
       return 'RESTING_HEART_RATE';
-    case CustomPermissions.BLOOD_PRESSURE:
+    case CustomPermissions_.BLOOD_PRESSURE:
       return 'BLOOD_PRESSURE';
-    case CustomPermissions.BLOOD_GLUCOSE:
+    case CustomPermissions_.BLOOD_GLUCOSE:
       return 'BLOOD_GLUCOSE';
-    case CustomPermissions.BODY_TEMPERATURE:
+    case CustomPermissions_.BODY_TEMPERATURE:
       return 'BODY_TEMPERATURE';
-    case CustomPermissions.MINDFULNESS:
+    case CustomPermissions_.MINDFULNESS:
       return 'MINDFULNESS';
-    case CustomPermissions.LEAN_BODY_MASS:
+    case CustomPermissions_.LEAN_BODY_MASS:
       return 'LEAN_BODY_MASS';
-    case CustomPermissions.OXYGEN_SATURATION:
+    case CustomPermissions_.OXYGEN_SATURATION:
       return 'OXYGEN_SATURATION';
-    case CustomPermissions.SLEEP_ANALYSIS:
+    case CustomPermissions_.SLEEP_ANALYSIS:
       return 'SLEEP_ANALYSIS';
-    case CustomPermissions.RESPIRATORY_RATE:
+    case CustomPermissions_.RESPIRATORY_RATE:
       return 'RESPIRATORY_RATE';
-    case CustomPermissions.NUTRITION_SODIUM:
+    case CustomPermissions_.NUTRITION_SODIUM:
       return 'NUTRITION_SODIUM';
-    case CustomPermissions.NUTRITION_PROTEIN:
+    case CustomPermissions_.NUTRITION_PROTEIN:
       return 'NUTRITION_PROTEIN';
-    case CustomPermissions.NUTRITION_CARBOHYDRATES:
+    case CustomPermissions_.NUTRITION_CARBOHYDRATES:
       return 'NUTRITION_CARBOHYDRATES';
-    case CustomPermissions.NUTRITION_FIBRE:
+    case CustomPermissions_.NUTRITION_FIBRE:
       return 'NUTRITION_FIBRE';
-    case CustomPermissions.NUTRITION_FAT_TOTAL:
+    case CustomPermissions_.NUTRITION_FAT_TOTAL:
       return 'NUTRITION_FAT_TOTAL';
-    case CustomPermissions.NUTRITION_SUGAR:
+    case CustomPermissions_.NUTRITION_SUGAR:
       return 'NUTRITION_SUGAR';
-    case CustomPermissions.NUTRITION_VITAMIN_C:
+    case CustomPermissions_.NUTRITION_VITAMIN_C:
       return 'NUTRITION_VITAMIN_C';
-    case CustomPermissions.NUTRITION_VITAMIN_A:
+    case CustomPermissions_.NUTRITION_VITAMIN_A:
       return 'NUTRITION_VITAMIN_A';
-    case CustomPermissions.NUTRITION_CALORIES:
+    case CustomPermissions_.NUTRITION_CALORIES:
       return 'NUTRITION_CALORIES';
-    case CustomPermissions.NUTRITION_WATER:
+    case CustomPermissions_.NUTRITION_WATER:
       return 'NUTRITION_WATER';
-    case CustomPermissions.NUTRITION_CHOLESTEROL:
+    case CustomPermissions_.NUTRITION_CHOLESTEROL:
       return 'NUTRITION_CHOLESTEROL';
-    case CustomPermissions.MENSTRUATION:
+    case CustomPermissions_.MENSTRUATION:
       return 'MENSTRUATION';
-    case CustomPermissions.INTERBEAT:
+    case CustomPermissions_.INTERBEAT:
       return 'INTERBEAT';
   }
 }
@@ -202,34 +146,34 @@ export function initTerra(
 }
 
 export function initConnection(
-  connection: Connections,
+  connection: Connections_,
   token: string,
   schedulerOn: boolean,
-  customPermissions: CustomPermissions[] = [],
+  customPermissions_: CustomPermissions_[] = [],
   startIntent: string | null = null
 ): Promise<SuccessMessage> {
   return TerraReact.initConnection(
     ConnectionToString(connection),
     token,
     schedulerOn,
-    customPermissions.map((p) => CustomPermissionsToString(p)),
+    customPermissions_.map((p) => CustomPermissions_ToString(p)),
     startIntent
   );
 }
 
 export function checkAuth(
-  connection: Connections,
+  connection: Connections_,
   devID: string
 ): Promise<Pick<SuccessMessage, 'success'>> {
   return TerraReact.checkAuth(ConnectionToString(connection), devID);
 }
 
-export function getUserId(connection: Connections): Promise<GetUserId> {
+export function getUserId(connection: Connections_): Promise<GetUserId> {
   return TerraReact.getUserId(ConnectionToString(connection));
 }
 
 export function getBody(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   latestReading: boolean = false,
@@ -258,7 +202,7 @@ export function getBody(
 }
 
 export function getActivity(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   toWebhook: boolean = true
@@ -285,7 +229,7 @@ export function getActivity(
 }
 
 export function getMenstruation(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   toWebhook: boolean = true
@@ -312,7 +256,7 @@ export function getMenstruation(
 }
 
 export function getDaily(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   toWebhook: boolean = true
@@ -339,7 +283,7 @@ export function getDaily(
 }
 
 export function getNutrition(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   toWebhook: boolean = true
@@ -366,7 +310,7 @@ export function getNutrition(
 }
 
 export function getSleep(
-  connection: Connections,
+  connection: Connections_,
   startDate: Date,
   endDate: Date,
   toWebhook: boolean = true
@@ -392,8 +336,29 @@ export function getSleep(
   });
 }
 
-export function getAthlete(connection: Connections, toWebhook: boolean = true) {
+export function getAthlete(
+  connection: Connections_,
+  toWebhook: boolean = true
+) {
   return TerraReact.getAthlete(ConnectionToString(connection), toWebhook);
+}
+
+/*
+@Only availble on iOS
+*/
+export function postActivity(
+  connection: Connections_,
+  payload: TerraActivityPayload
+) {
+  return new Promise<SuccessMessage>((resolve, reject) => {
+    TerraReact.postActivity(ConnectionToString(connection), payload)
+      .then((d: any) => {
+        resolve({ success: d.success, error: d.error } as SuccessMessage);
+      })
+      .catch((e: Error) => {
+        reject(e);
+      });
+  });
 }
 
 export function readGlucoseData(): Promise<Object> {
@@ -438,3 +403,7 @@ export function grantedPermissions(): Promise<Array<string>> {
 export function setIgnoredSources(ignoredSources: Array<String>): void {
   TerraReact.setIgnoredSources(ignoredSources).then();
 }
+
+export type Activity = TerraActivityPayload;
+export { Connections } from './enums/Connections';
+export { CustomPermissions } from './enums/CustomPermissions';
