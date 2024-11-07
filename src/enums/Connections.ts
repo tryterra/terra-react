@@ -3,4 +3,5 @@ export enum Connections {
   'FREESTYLE_LIBRE',
   'GOOGLE',
   'SAMSUNG',
+  'HEALTH_CONNECT',
 }

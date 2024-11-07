@@ -46,6 +46,8 @@ function ConnectionToString(connection: Connections_) {
       return 'GOOGLE';
     case Connections_.SAMSUNG:
       return 'SAMSUNG';
+    case Connections_.HEALTH_CONNECT:
+      return 'HEALTH_CONNECT';
     default:
       return undefined;
   }
@@ -349,7 +351,7 @@ export function getAthlete(
 export function postActivity(
   connection: Connections_,
   payload: TerraActivityPayload
-) {
+): Promise<SuccessMessage> {
   return new Promise<SuccessMessage>((resolve, reject) => {
     TerraReact.postActivity(ConnectionToString(connection), payload)
       .then((d: any) => {

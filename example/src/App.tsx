@@ -95,7 +95,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.APPLE_HEALTH;
+    const connection = Connections.HEALTH_CONNECT;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

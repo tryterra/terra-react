@@ -59,6 +59,8 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 return Connections.GOOGLE_FIT;
             case "FREESTYLE_LIBRE":
                 return Connections.FREESTYLE_LIBRE;
+            case "HEALTH_CONNECT":
+                return Connections.HEALTH_CONNECT;
         }
       return null;
     }

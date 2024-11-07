@@ -7,7 +7,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.4'
+            classpath('com.android.tools.build:gradle:7.2.2')
         }
     }
 }
@@ -25,7 +25,7 @@ android {
         targetSdkVersion safeExtGet('TerraReact_targetSdkVersion', 29)
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -40,7 +40,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    namespace "com.terrareact"
 }
 
 repositories {
@@ -56,6 +56,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'co.tryterra:terra-android:1.4.24'
+    implementation 'co.tryterra:terra-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.1'
     implementation 'com.google.code.gson:gson:2.9.1'
 }
