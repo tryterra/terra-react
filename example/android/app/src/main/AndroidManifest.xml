@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="co.tryterra.terra">
+  xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
 
     <application
       android:name=".MainApplication"
@@ -18,22 +20,28 @@
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize">
         <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+          <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
         </intent-filter>
         <intent-filter>
-            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+          <action android:name="android.intent.action.MAIN" />
+          <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <!-- <meta-data
-            android:name="health_permissions"
-            android:resource="@array/health_permissions" /> -->
       </activity>
+      <activity-alias
+        android:exported="true"
+        tools:ignore="ExtraText"
+        android:name="AndroidURationaleActivity"
+        android:targetActivity=".MainActivity"
+        android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+          <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+        </intent-filter>
+      </activity-alias>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-      <activity android:name=".Example"/>
-      <!-- <meta-data android:name="com.samsung.android.health.permission.read" tools:replace="android:value"
-        android:value="com.samsung.shealth.step_daily_trend;com.samsung.health.step_count;com.samsung.health.heart_rate;com.samsung.health.floors_climbed;com.samsung.health.height;com.samsung.health.weight;com.samsung.health.user_profile;com.samsung.health.blood_pressure;com.samsung.health.blood_glucose;com.samsung.health.body_temperature;com.samsung.health.body_muscle;com.samsung.health.oxygen_saturation;com.samsung.health.sleep_stage;com.samsung.health.sleep;com.samsung.health.nutrition;com.samsung.health.total_protein;com.samsung.health.water_intake;com.samsung.health.total_cholesterol"/>
-      <meta-data android:name="com.samsung.android.health.permission.write"
-          android:value="com.samsung.health.exercise"/> -->
+      <activity android:name=".Example"
+        android:exported="true">
+      </activity>
     </application>
 
 </manifest>

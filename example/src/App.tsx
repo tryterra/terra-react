@@ -3,7 +3,6 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import {
   Connections,
-  getDaily,
   getUserId,
   getActivity,
   initTerra,
@@ -11,12 +10,12 @@ import {
   getMenstruation,
   getBody,
   getNutrition,
+  getDaily,
   getSleep,
   checkAuth,
   // CustomPermissions,
 } from 'terra-react';
 
-import * as terra from 'terra-react';
 import { config } from './config';
 
 export default function App() {
@@ -37,10 +36,8 @@ export default function App() {
       initConnection(connection, token, true).then(async (a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        let x = await checkAuth(connection, devId);
-        console.log("checkAuth", x);
-        startDate.setDate(20);
-        startDate.setMonth(0);
+        startDate.setDate(10);
+        startDate.setMonth(11);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -50,8 +47,7 @@ export default function App() {
           })
           .catch((e: any) => console.log(e));
         // setResults((r) => ({ ...r, getDaily: d.success }))
-        terra
-          .getDaily(terra.Connections.SAMSUNG, startDate, new Date(), true)
+        getDaily(connection, startDate, new Date(), true)
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
         getMenstruation(connection, startDate, new Date())
@@ -70,16 +66,12 @@ export default function App() {
             console.log(d);
           })
           .catch((e: any) => console.log(e));
-        // readGlucoseData().then((d) => {console.log(d.data.blood_glucose_samples);});
         getUserId(connection)
           .then((de) => {
             console.log(de.userId);
             setResults((r) => ({ ...r, getUserId: de.userId }));
           })
           .catch((ee) => console.log(ee));
-        checkAuth(connection, devId).then((d: any) => {
-          console.log(d);
-        });
       });
     });
   }
@@ -87,7 +79,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.SAMSUNG;
+    const connection = Connections.GOOGLE;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
