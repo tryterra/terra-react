@@ -1,3 +1,7 @@
+diff --git a/node_modules/react-native/.DS_Store b/node_modules/react-native/.DS_Store
+new file mode 100644
+index 0000000..abe07aa
+Binary files /dev/null and b/node_modules/react-native/.DS_Store differ
 diff --git a/node_modules/react-native/scripts/.packager.env b/node_modules/react-native/scripts/.packager.env
 new file mode 100644
 index 0000000..361f5fb
@@ -6,10 +10,10 @@ index 0000000..361f5fb
 @@ -0,0 +1 @@
 +export RCT_METRO_PORT=8081
 diff --git a/node_modules/react-native/scripts/react_native_pods.rb b/node_modules/react-native/scripts/react_native_pods.rb
-index 265fff1..5237089 100644
+index e7c59ad..1461d45 100644
 --- a/node_modules/react-native/scripts/react_native_pods.rb
 +++ b/node_modules/react-native/scripts/react_native_pods.rb
-@@ -407,7 +407,7 @@ def get_react_codegen_spec(options={})
+@@ -420,7 +420,7 @@ def get_react_codegen_spec(options={})
      'source' => { :git => '' },
      'header_mappings_dir' => './',
      'platforms' => {

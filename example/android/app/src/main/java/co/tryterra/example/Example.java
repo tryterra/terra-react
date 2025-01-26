@@ -1,9 +1,12 @@
-package com.example.terrareact;
+package co.tryterra.example;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class Example extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class Example extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
