@@ -6,6 +6,12 @@
 	<array>
 		<string>co.tryterra.data.post.request</string>
 	</array>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Using TerraiOS to gather health data</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Using TerraiOS as a mean of getting Health Data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Allow writing data to health kit</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
