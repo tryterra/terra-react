@@ -1,4 +1,9 @@
 {
   "name": "TerraReactExample",
-  "displayName": "TerraReact Example"
+  "displayName": "TerraReact Example",
+  "expo": {
+    "plugins": [
+      "terra-react"
+    ]
+  }
 }
