@@ -8,11 +8,11 @@ import {
 } from '@expo/config-plugins';
 
 const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
-  config = withAppDelegate(config, (config) => {
-    const { contents } = config.modResults;
+  config = withAppDelegate(config, (delegateConfig) => {
+    const { contents } = delegateConfig.modResults;
 
     if (!contents.includes('#import <TerraiOS/TerraiOS-Swift.h>')) {
-      config.modResults.contents = contents.replace(
+      delegateConfig.modResults.contents = contents.replace(
         '#import "AppDelegate.h"',
         '#import "AppDelegate.h"\n#import <TerraiOS/TerraiOS-Swift.h>'
       );
@@ -21,32 +21,33 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
     if (!contents.includes('[Terra setUpBackgroundDelivery];')) {
       const regex =
         /- \(BOOL\)application:\(UIApplication \*\)application didFinishLaunchingWithOptions:\(NSDictionary \*\)launchOptions\s*\{\n/;
-      config.modResults.contents = config.modResults.contents.replace(
-        regex,
-        (match) => `${match}  [Terra setUpBackgroundDelivery];\n`
-      );
+      delegateConfig.modResults.contents =
+        delegateConfig.modResults.contents.replace(
+          regex,
+          (match) => `${match}  [Terra setUpBackgroundDelivery];\n`
+        );
     }
 
-    return config;
+    return delegateConfig;
   });
 
-  config = withInfoPlist(config, (config) => {
-    config.modResults.NSHealthShareUsageDescription =
+  config = withInfoPlist(config, (infoPlistConfig) => {
+    infoPlistConfig.modResults.NSHealthShareUsageDescription =
       'custom text shown in the Apple Health permission screen';
-    config.modResults.BGTaskSchedulerPermittedIdentifiers = [
+    infoPlistConfig.modResults.BGTaskSchedulerPermittedIdentifiers = [
       'co.tryterra.data.post.request',
     ];
-    config.modResults.UIBackgroundModes = [
-      ...(config.modResults.UIBackgroundModes || []),
+    infoPlistConfig.modResults.UIBackgroundModes = [
+      ...(infoPlistConfig.modResults.UIBackgroundModes || []),
       'processing',
       'fetch',
     ];
-    return config;
+    return infoPlistConfig;
   });
 
-  config = withAndroidManifest(config, (config) => {
+  config = withAndroidManifest(config, (androidConfig) => {
     const mainActivity = AndroidConfig.Manifest.getMainActivityOrThrow(
-      config.modResults
+      androidConfig.modResults
     );
 
     if (!mainActivity['intent-filter']) {
@@ -83,7 +84,7 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
       }
     });
 
-    return config;
+    return androidConfig;
   });
 
   return config;
