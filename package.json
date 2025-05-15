@@ -25,7 +25,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts}\"",
-    "prepare": "bob build",
+    "prepare": "bob build && npm run build:plugin",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
@@ -35,7 +35,8 @@
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "build:plugin": "rimraf plugin/build && tsc --build plugin"
   },
   "keywords": [
     "react-native",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
+    "@expo/config-plugins": "^10.0.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
     "@types/jest": "^26.0.0",
