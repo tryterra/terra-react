@@ -9,19 +9,11 @@ import {
   initTerra,
   initConnection,
   getMenstruation,
-  readGlucoseData,
-  getAthlete,
   getBody,
   getNutrition,
   getSleep,
-  activateSensor,
-  isHealthConnectAvailable,
-  openHealthConnect,
-  grantedPermissions,
   checkAuth,
   setIgnoredSources,
-  postActivity,
-  Activity
 } from 'terra-react';
 import { config } from './config';
 

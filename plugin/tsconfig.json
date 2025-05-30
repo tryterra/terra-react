@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "rootDir": "src",
+    "declaration": true,
+    "skipLibCheck": true,
+  },
+  "include": ["./src"]
+}
