@@ -2,7 +2,6 @@
           package="com.terrareact">
 
     <queries>
-        <package android:name="com.google.android.apps.healthdata" />
         <package android:name="com.sec.android.app.shealth" />
     </queries>
     

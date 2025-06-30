@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 0.4.3
+
+### Changed
+- Bump Android SDK to 0.2.16-beta
+- Add Health Connect as a resource
+
 ## 0.4.2
 
 ### Changed

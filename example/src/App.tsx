@@ -36,8 +36,8 @@ export default function App() {
       initConnection(connection, token, true).then(async (a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(10);
-        startDate.setMonth(11);
+        startDate.setDate(20);
+        startDate.setMonth(5);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -47,7 +47,7 @@ export default function App() {
           })
           .catch((e: any) => console.log(e));
         // setResults((r) => ({ ...r, getDaily: d.success }))
-        getDaily(connection, startDate, new Date(), true)
+        getDaily(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
         getMenstruation(connection, startDate, new Date())
@@ -79,7 +79,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.GOOGLE;
+    const connection = Connections.HEALTH_CONNECT;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

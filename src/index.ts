@@ -90,6 +90,7 @@ export enum Connections {
   'FREESTYLE_LIBRE',
   'GOOGLE',
   'SAMSUNG',
+  'HEALTH_CONNECT'
 }
 
 function ConnectionToString(connection: Connections) {
@@ -102,6 +103,8 @@ function ConnectionToString(connection: Connections) {
       return 'GOOGLE';
     case Connections.SAMSUNG:
       return 'SAMSUNG';
+    case Connections.HEALTH_CONNECT:
+      return 'HEALTH_CONNECT';
     default:
       return undefined;
   }
