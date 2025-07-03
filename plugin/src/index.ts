@@ -11,6 +11,23 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
   config = withAppDelegate(config, (delegateConfig) => {
     const { contents } = delegateConfig.modResults;
 
+    if (delegateConfig.modResults.language === 'swift') {
+      if (!delegateConfig.modResults.contents.includes('import TerraiOS')) {
+        delegateConfig.modResults.contents =
+          `import TerraiOS\n` + delegateConfig.modResults.contents;
+      }
+
+      if (!delegateConfig.modResults.contents.includes('Terra.setUpBackgroundDelivery()')) {
+        const regex = /return super.application\(application, didFinishLaunchingWithOptions: launchOptions\)/;
+        delegateConfig.modResults.contents =
+          delegateConfig.modResults.contents.replace(
+            regex,
+            (match) => `Terra.setUpBackgroundDelivery()\n  ${match}`
+          );
+      }
+      return delegateConfig;
+    }
+
     if (!contents.includes('#import <TerraiOS/TerraiOS-Swift.h>')) {
       delegateConfig.modResults.contents = contents.replace(
         '#import "AppDelegate.h"',
@@ -33,6 +50,10 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
 
   config = withInfoPlist(config, (infoPlistConfig) => {
     infoPlistConfig.modResults.NSHealthShareUsageDescription =
+      'custom text shown in the Apple Health permission screen';
+    infoPlistConfig.modResults.NSHealthClinicalHealthRecordsShareUsageDescription =
+      'custom text shown in the Apple Health permission screen';
+    infoPlistConfig.modResults.NSHealthUpdateUsageDescription =
       'custom text shown in the Apple Health permission screen';
     infoPlistConfig.modResults.BGTaskSchedulerPermittedIdentifiers = [
       'co.tryterra.data.post.request',
