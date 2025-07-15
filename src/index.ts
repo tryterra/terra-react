@@ -137,6 +137,10 @@ function CustomPermissions_ToString(cPermission: CustomPermissions_) {
       return 'MENSTRUATION';
     case CustomPermissions_.INTERBEAT:
       return 'INTERBEAT';
+    case CustomPermissions_.SPEED:
+      return 'SPEED';
+    case CustomPermissions_.POWER:
+      return 'POWER';
   }
 }
 

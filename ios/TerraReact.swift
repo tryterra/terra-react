@@ -149,6 +149,10 @@ class TerraReact: NSObject {
                 return CustomPermissions.MENSTRUATION;
             case "INTERBEAT":
                 return CustomPermissions.INTERBEAT;
+            case "SPEED":
+                return CustomPermissions.SPEED;
+            case "POWER":  
+                return CustomPermissions.POWER;
             default:
                 return nil
         }

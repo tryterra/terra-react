@@ -40,4 +40,6 @@ export enum CustomPermissions {
   'NUTRITION_CHOLESTEROL',
   'MENSTRUATION',
   'INTERBEAT',
+  'SPEED',
+  'POWER',
 }

@@ -145,6 +145,10 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 return CustomPermissions.NUTRITION_WATER;
             case "NUTRITION_CHOLESTEROL":
                 return CustomPermissions.NUTRITION_CHOLESTEROL;
+            case "POWER":
+                return CustomPermissions.POWER;
+            case "SPEED":
+                return CustomPermissions.SPEED;
             default:
                 return null;
         }

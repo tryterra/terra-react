@@ -17,8 +17,13 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
           `import TerraiOS\n` + delegateConfig.modResults.contents;
       }
 
-      if (!delegateConfig.modResults.contents.includes('Terra.setUpBackgroundDelivery()')) {
-        const regex = /return super.application\(application, didFinishLaunchingWithOptions: launchOptions\)/;
+      if (
+        !delegateConfig.modResults.contents.includes(
+          'Terra.setUpBackgroundDelivery()'
+        )
+      ) {
+        const regex =
+          /return super.application\(application, didFinishLaunchingWithOptions: launchOptions\)/;
         delegateConfig.modResults.contents =
           delegateConfig.modResults.contents.replace(
             regex,
