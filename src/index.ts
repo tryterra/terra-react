@@ -51,6 +51,8 @@ export enum CustomPermissions {
   'EXERCISE_DISTANCE',
   'GENDER',
   'DATE_OF_BIRTH',
+  'POWER',
+  'SPEED',
   'BASAL_ENERGY_BURNED',
   'SWIMMING_SUMMARY',
   'RESTING_HEART_RATE',
@@ -194,6 +196,10 @@ function CustomPermissionsToString(cPermission: CustomPermissions) {
       return 'NUTRITION_CHOLESTEROL';
     case CustomPermissions.MENSTRUATION:
       return 'MENSTRUATION';
+    case CustomPermissions.POWER:
+      return 'POWER';
+    case CustomPermissions.SPEED:
+      return 'SPEED';
   }
 }
 

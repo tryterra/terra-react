@@ -99,6 +99,12 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 return CustomPermissions.EXERCISE_DISTANCE;
             case "GENDER":
                 return CustomPermissions.GENDER;
+            case "SPEED": 
+                return CustomPermissions.SPEED;
+            case "POWER":
+                return CustomPermissions.POWER;
+            case "MENSTRUATION":
+                return CustomPermissions.MENSTRUATION;
             case "DATE_OF_BIRTH":
                 return CustomPermissions.DATE_OF_BIRTH;
             case "BASAL_ENERGY_BURNED":

@@ -91,6 +91,10 @@ class TerraReact: NSObject {
                 return CustomPermissions.EXERCISE_DISTANCE;
             case "GENDER":
                 return CustomPermissions.GENDER;
+            case "POWER":
+                return CustomPermissions.POWER;
+            case "SPEED":
+                return CustomPermissions.SPEED;
             case "DATE_OF_BIRTH":
                 return CustomPermissions.DATE_OF_BIRTH;
             case "BASAL_ENERGY_BURNED":
