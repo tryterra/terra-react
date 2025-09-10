@@ -36,8 +36,8 @@ export default function App() {
       initConnection(connection, token, true).then(async (a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setDate(20);
-        startDate.setMonth(5);
+        startDate.setDate(7);
+        startDate.setMonth(8);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -79,7 +79,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.HEALTH_CONNECT;
+    const connection = Connections.SAMSUNG;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
