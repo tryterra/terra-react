@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 0.5.1
+
+### Changed
+- Remove Info.plist fields from iOS Config on expo
+- Remove intent filters from android manifest expo config 
+  - Users may now directly add these under their expo app config
+
+
 ## 0.5.0
 
 ### Changed
