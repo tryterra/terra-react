@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.8.4
 
 ### Changed
+- Bump TerraAndroidSDK to 1.6.1
+  - This improves memory management for the Health Connect based integration
+
+
+## 1.8.4
+
+### Changed
 - Remove Info.plist fields from iOS Config on expo
 - Remove intent filters from android manifest expo config
   Users may now directly add these under their expo app config

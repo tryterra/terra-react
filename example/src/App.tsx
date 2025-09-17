@@ -32,14 +32,12 @@ export default function App() {
       initConnection(connection, token, true).then((a) => {
         setResults((r) => ({ ...r, initConnection: a.success }));
         let startDate = new Date();
-        startDate.setMonth(11);
+        startDate.setMonth(8);
         startDate.setDate(10);
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
         let endDate = new Date();
-        endDate.setMonth(3);
-        endDate.setDate(30);
         getActivity(connection, startDate, new Date())
           .then((d: any) => console.log(d))
           .catch((e: any) => console.log(e));
@@ -87,7 +85,7 @@ export default function App() {
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.APPLE_HEALTH;
+    const connection = Connections.HEALTH_CONNECT;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {
