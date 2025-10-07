@@ -14,8 +14,12 @@ import {
   getSleep,
   checkAuth,
   setIgnoredSources,
+  postPlannedWorkout,
+  getPlannedWorkouts,
+  deletePlannedWorkout,
 } from 'terra-react';
 import { config } from './config';
+import { generateSamplePlannedWorkout } from './samplePlannedWorkout';
 
 export default function App() {
   // after showing the widget to the users
@@ -78,14 +82,43 @@ export default function App() {
         checkAuth(connection, devId).then((d) => {
           console.log(d);
         });
+        postPlannedWorkoutFlow()
       });
     });
+  }
+
+  async function postPlannedWorkoutFlow() {
+    try {
+      const workout = generateSamplePlannedWorkout();
+      const resp = await postPlannedWorkout(Connections.APPLE_HEALTH, workout);
+      console.log('post success:', resp?.success ?? false);
+  
+      const postedPlannedWorkouts = await getPlannedWorkouts<any>(Connections.APPLE_HEALTH);
+      console.log('getPlannedWorkouts data:', postedPlannedWorkouts?.data ?? 'No data');
+  
+      // 3. Optionally mark as complete
+      // const markComplete = await completePlannedWorkout(
+      //   connection,
+      //   'ceef601a-23e4-4393-8483-a9f6d37b0407',
+      //   new Date()
+      // );
+      // console.log('complete success:', markComplete?.success ?? false);
+  
+      // 4. Delete workout
+      // const deleteWorkout = await deletePlannedWorkout(
+      //   Connections.APPLE_HEALTH,
+      //   'ceef601a-23e4-4393-8483-a9f6d37b0407'
+      // );
+      // console.log('delete success:', deleteWorkout?.success ?? false);
+    } catch (e) {
+      console.error('error in planned workout flow', e);
+    }
   }
 
   React.useEffect(() => {
     const devId = config.devId;
     const apiKey = config.apiKey;
-    const connection = Connections.HEALTH_CONNECT;
+    const connection = Connections.APPLE_HEALTH;
     fetch('https://api.tryterra.co/v2/auth/generateAuthToken', {
       method: 'POST',
       headers: {

@@ -135,4 +135,33 @@ RCT_EXTERN_METHOD(
     rejecter: (RCTPromiseRejectBlock)reject
 )
 
+RCT_EXTERN_METHOD(
+    getPlannedWorkouts: (NSString *)connection
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    deletePlannedWorkout: (NSString *)connection
+    workoutId: (NSString *)workoutId
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    completePlannedWorkout: (NSString *)connection
+    workoutId: (NSString *)workoutId
+    at: (NSString *)atIso
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    postPlannedWorkout: (NSString *)connection
+    payload: (NSString *)payload
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+
 @end

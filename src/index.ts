@@ -2,6 +2,7 @@ import { NativeModules, Platform } from 'react-native';
 import { CustomPermissions as CustomPermissions_ } from './enums/CustomPermissions';
 import { Connections as Connections_ } from './enums/Connections';
 import { Activity as TerraActivityPayload } from './models/Activity';
+import { TerraPlannedWorkout } from './models/PlannedWorkouts';
 
 const LINKING_ERROR =
   `The package 'terra-react' doesn't seem to be linked. Make sure: \n\n` +
@@ -35,6 +36,12 @@ export type DataMessage = {
   data: Object;
   error: string | null;
 };
+
+export interface ListDataMessage<T = any> {
+  success?: boolean | null;
+  data?: T[] | null;
+  error?: string | null;
+}
 
 function ConnectionToString(connection: Connections_) {
   switch (connection) {
@@ -366,6 +373,80 @@ export function postActivity(
       });
   });
 }
+export function getPlannedWorkouts<T = any>(
+  connection: Connections_
+): Promise<ListDataMessage<T>> {
+  return new Promise<ListDataMessage<T>>((resolve, reject) => {
+    TerraReact.getPlannedWorkouts(ConnectionToString(connection))
+      .then((d: any) => {
+        const data: ListDataMessage<T> = {
+          success: d.success,
+          data: d.data !== undefined ? JSON.parse(d.data) : null,
+          error: d.error,
+        };
+        resolve(data);
+      })
+      .catch((e: Error) => reject(e));
+  });
+}
+export function deletePlannedWorkout(
+  connection: Connections_,
+  id: string
+): Promise<SuccessMessage> {
+  return new Promise<SuccessMessage>((resolve, reject) => {
+    TerraReact.deletePlannedWorkout(ConnectionToString(connection), id)
+      .then((d: any) => {
+        const res: SuccessMessage = {
+          success: d.success,
+          error: d.error,
+        };
+        resolve(res);
+      })
+      .catch((e: Error) => reject(e));
+  });
+}
+
+export function completePlannedWorkout(
+  connection: Connections_,
+  id: string,
+  at?: Date
+): Promise<SuccessMessage> {
+  return new Promise<SuccessMessage>((resolve, reject) => {
+    TerraReact.completePlannedWorkout(
+      ConnectionToString(connection),
+      id,
+      (at ?? new Date()).toISOString()
+    )
+      .then((d: any) => {
+        const res: SuccessMessage = {
+          success: d.success,
+          error: d.error,
+        };
+        resolve(res);
+      })
+      .catch((e: Error) => reject(e));
+  });
+}
+
+export function postPlannedWorkout(
+  connection: Connections_,
+  payload: TerraPlannedWorkout
+): Promise<SuccessMessage> {
+  return new Promise<SuccessMessage>((resolve, reject) => {
+    TerraReact.postPlannedWorkout(
+      ConnectionToString(connection),
+      JSON.stringify(payload.toJson())
+    )
+      .then((d: any) => {
+        const res: SuccessMessage = {
+          success: d.success,
+          error: d.error,
+        };
+        resolve(res);
+      })
+      .catch((e: Error) => reject(e));
+  });
+}
 
 export function readGlucoseData(): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
@@ -413,3 +494,4 @@ export function setIgnoredSources(ignoredSources: Array<String>): void {
 export type Activity = TerraActivityPayload;
 export { Connections } from './enums/Connections';
 export { CustomPermissions } from './enums/CustomPermissions';
+export * from './models/PlannedWorkouts';

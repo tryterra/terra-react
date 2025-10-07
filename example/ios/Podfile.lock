@@ -286,10 +286,10 @@ PODS:
     - React-jsi (= 0.70.0)
     - React-logger (= 0.70.0)
     - React-perflogger (= 0.70.0)
-  - terra-react (1.7.6):
+  - terra-react (1.8.6):
     - React-Core
-    - TerraiOS (= 1.6.26)
-  - TerraiOS (1.6.26)
+    - TerraiOS (= 1.6.28)
+  - TerraiOS (1.6.28)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -402,7 +402,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  boost: a7c83b31436843459a1961bfd74b96033dc77234
+  boost: 9fa78656d705f55b1220151d997e57e2a3f2cde0
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 6c76fe46345039d5cf0549e9ddaf5aa169630a4a
   FBReactNativeSpec: 1a270246542f5c52248cb26a96db119cfe3cb760
@@ -434,8 +434,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: 5499b77c0fd57f346a5f0b36bb79fdb020d17d3e
   React-runtimeexecutor: 80c195ffcafb190f531fdc849dc2d19cb4bb2b34
   ReactCommon: de55f940495d7bf87b5d7bf55b5b15cdd50d7d7b
-  terra-react: ce28a06ff93df750a7468f71f148aa5457d2dc83
-  TerraiOS: 919606b2ed63560faaccf72e6f7e995cc3b76272
+  terra-react: 7d27afc1bbd9976c1079fa7fd71a8fea0292e7db
+  TerraiOS: 131a86c453923b98c47e84dc79db2ea6bab7e3cc
   Yoga: 82c9e8f652789f67d98bed5aef9d6653f71b04a9
 
 PODFILE CHECKSUM: 90aedc9257970232a9c84672d116813708898eaf

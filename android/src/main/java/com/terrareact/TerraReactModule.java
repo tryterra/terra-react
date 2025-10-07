@@ -510,4 +510,24 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     public void postActivity(String connection, ReadableMap payload, Promise promise) {
         promise.reject("Unimplemented function for Android");
     }
+
+    @ReactMethod
+    public void getPlannedWorkouts(String connection, Promise promise) {
+        promise.reject("Unimplemented function for Android");
+    }
+
+    @ReactMethod
+    public void deletePlannedWorkout(String connection, String id, Promise promise) {
+        promise.reject("Unimplemented function for Android");
+    }
+
+    @ReactMethod
+    public void completePlannedWorkout(String connection, String id, String date, Promise promise) {
+        promise.reject("Unimplemented function for Android");
+    }
+
+    @ReactMethod
+    public void postPlannedWorkout(String connection, String payload, Promise promise) {
+        promise.reject("Unimplemented function for Android");
+    }
 }

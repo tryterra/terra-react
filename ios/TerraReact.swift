@@ -14,6 +14,23 @@ class TerraReact: NSObject {
         return true
     }
 
+    private func isoDate(from iso: String?) -> Date? {
+        guard let iso else { return nil }
+        let fmt = ISO8601DateFormatter()
+        fmt.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return fmt.date(from: iso)
+    }
+
+    private func jsonString(from value: Any) -> String {
+        guard JSONSerialization.isValidJSONObject(value),
+            let data = try? JSONSerialization.data(withJSONObject: value, options: []),
+            let s = String(data: data, encoding: .utf8) else {
+        return "[]"
+        }
+        return s
+    }
+
+
     private func errorMessage(_ err: TerraError) -> String{
         switch(err){
             case .HealthKitUnavailable: return "Health Kit Unavailable"
@@ -417,7 +434,7 @@ class TerraReact: NSObject {
                 resolve(String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch {
-                print(error) //Should never execute
+                print(error)
             }
         }
     }
@@ -432,6 +449,131 @@ class TerraReact: NSObject {
             catch {
                 print(error) //Should never execute
             }
+        }
+    }
+
+    @objc
+    func getPlannedWorkouts(_ connection: String,
+                            resolve: @escaping RCTPromiseResolveBlock,
+                            rejecter reject: RCTPromiseRejectBlock) {
+
+        guard let conn = connectionParse(connection: connection) else {
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+            return
+        }
+        if #available(iOS 17.0, *) {
+            terra?.getPlannedWorkouts(type: conn) { (data, err) in
+            if let err = err {
+                resolve(["success": false, "data": nil, "error": self.errorMessage(err)])
+            } else {
+                do {
+                    let jsonData = try JSONEncoder().encode(data)
+                    let jsonString = String(data: jsonData, encoding: .utf8) ?? "[]"
+                    resolve(["success": true, "data": jsonString])
+                } catch {
+                    resolve(["success": false, "data": nil, "error": "Error decoding data into correct format"])
+                }
+            }
+        }
+        } else {
+            resolve(["success": false, "data": nil, "error": "getPlannedWorkouts is only available for iOS 17 and above"])
+            return
+        }
+    }
+
+    @objc
+    func deletePlannedWorkout(_ connection: String,
+                            workoutId: String,
+                            resolve: @escaping RCTPromiseResolveBlock,
+                            rejecter reject: RCTPromiseRejectBlock) {
+
+        guard let conn = connectionParse(connection: connection) else {
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+            return
+        }
+
+        guard let uuid = UUID(uuidString: workoutId) else {
+            resolve(["success": false, "data": nil, "error": "Please make sure the workoutId is a valid UUID"])
+			return
+		}
+
+        if #available(iOS 17.0, *) {
+            terra?.deletePlannedWorkout(type: conn, id: uuid) { (success, err) in
+            if let err = err {
+                resolve(["success": false, "error": self.errorMessage(err)])
+                } else {
+                resolve(["success": success, "error": NSNull()])
+            }
+        }
+        } else {
+            resolve(["success": false, "error": "deletePlannedWorkout is only available for iOS 17 and above"])
+            return
+        }
+    }
+
+    @objc
+    func completePlannedWorkout(_ connection: String,
+                                workoutId: String,
+                                at atIso: String,
+                                resolve: @escaping RCTPromiseResolveBlock,
+                                rejecter reject: RCTPromiseRejectBlock) {
+
+        guard let conn = connectionParse(connection: connection) else {
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+            return
+        }
+
+
+        guard let uuid = UUID(uuidString: workoutId) else {
+            resolve(["success": false, "data": nil, "error": "Please make sure the workoutId is a valid UUID"])
+			return
+		}
+
+        let atDate = isoDate(from: atIso) ?? Date()
+        if #available(iOS 17.0, *) {
+            terra?.markPlannedWorkoutComplete(type: conn, id: uuid, at: atDate) { (success, err) in
+                if let err = err {
+                    resolve(["success": false, "error": self.errorMessage(err)])
+                } else {
+                    resolve(["success": success, "error": NSNull()])
+                }
+            }
+        } else {
+            resolve(["success": false, "error": "completePlannedWorkout is only available for iOS 17 and above"])
+        }
+    }
+
+    @objc
+    func postPlannedWorkout(_ connection: String,
+                            payload: String,
+                            resolve: @escaping RCTPromiseResolveBlock,
+                            rejecter reject: RCTPromiseRejectBlock) {
+
+        guard let conn = connectionParse(connection: connection) else {
+            resolve(["success": false, "data": nil, "error": "Invalid Connection Type"])
+            return
+        }
+
+        if #available(iOS 17.0, *) {
+			do {
+				let data = try JSONDecoder().decode(TerraPlannedWorkout.self, from: payload.data(using: .utf8)!)
+				terra?.postPlannedWorkout(
+					type: conn,
+					payload: data
+				){
+					(success, err) in 
+					if let err = err {
+						resolve(["success": false, "error": self.errorMessage(err)])
+					}
+					else{
+						resolve(["success": success])
+					}
+				}
+			} catch {
+                resolve(["success": false, "error": "Invalid input payload"])
+            }
+        } else {
+            resolve(["success": false, "error": "completePlannedWorkout is only available for iOS 17 and above"])
         }
     }
 
