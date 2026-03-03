@@ -448,6 +448,9 @@ export function postPlannedWorkout(
   });
 }
 
+/**
+ * @deprecated This method is deprecated and will be removed in a future release.
+ */
 export function readGlucoseData(): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
     TerraReact.readGlucoseData()
@@ -460,6 +463,9 @@ export function readGlucoseData(): Promise<Object> {
   });
 }
 
+/**
+ * @deprecated This method is deprecated and will be removed in a future release.
+ */
 export function activateSensor(): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
     TerraReact.activateSensor()
