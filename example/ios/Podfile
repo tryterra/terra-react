@@ -21,11 +21,17 @@ target 'TerraReactExample' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # use_flipper!() # Disabled — incompatible with newer Xcode toolchains
 
   post_install do |installer|
     react_native_post_install(installer)
         installer.pods_project.build_configurations.each do |config| config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] =  "arm64"
+        end
+        installer.pods_project.targets.each do |target|
+          target.build_configurations.each do |config|
+            config.build_settings['OTHER_CPLUSPLUSFLAGS'] ||= ['$(inherited)']
+            config.build_settings['OTHER_CPLUSPLUSFLAGS'] << '-Wno-deprecated-literal-operator'
+          end
         end
     end
 end
