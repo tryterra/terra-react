@@ -286,10 +286,10 @@ PODS:
     - React-jsi (= 0.70.0)
     - React-logger (= 0.70.0)
     - React-perflogger (= 0.70.0)
-  - terra-react (1.8.6):
+  - terra-react (1.9.0):
     - React-Core
-    - TerraiOS (= 1.6.28)
-  - TerraiOS (1.6.28)
+    - TerraiOS (= 1.7.0)
+  - TerraiOS (1.7.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -434,10 +434,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: 5499b77c0fd57f346a5f0b36bb79fdb020d17d3e
   React-runtimeexecutor: 80c195ffcafb190f531fdc849dc2d19cb4bb2b34
   ReactCommon: de55f940495d7bf87b5d7bf55b5b15cdd50d7d7b
-  terra-react: 7d27afc1bbd9976c1079fa7fd71a8fea0292e7db
-  TerraiOS: 131a86c453923b98c47e84dc79db2ea6bab7e3cc
+  terra-react: f63dc560f635e401f9ed5a011d2d24c35b9b5c99
+  TerraiOS: ee269bafdd609b4624911fda27d3dd3100791bd3
   Yoga: 82c9e8f652789f67d98bed5aef9d6653f71b04a9
 
-PODFILE CHECKSUM: 90aedc9257970232a9c84672d116813708898eaf
+PODFILE CHECKSUM: f6c02e8d84e985ac9c03032652b26f31dd3e22a4
 
 COCOAPODS: 1.16.2
