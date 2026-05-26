@@ -3818,7 +3818,7 @@ temp@0.8.3:
     rimraf "~2.2.6"
 
 "terra-react@file:..":
-  version "1.9.2"
+  version "1.9.3"
   resolved "file:.."
 
 throat@^5.0.0:
