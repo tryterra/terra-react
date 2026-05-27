@@ -47,7 +47,17 @@ func convertToTerraNutritionPayload(_ data: NSDictionary) -> TerraNutritionData?
                 mealMicros = parseMicros(mealMicrosDict)
             }
 
+            // Parse quantity field
+            var quantity: TerraQuantityModel? = nil
+            if let quantityDict = mealDict["quantity"] as? NSDictionary {
+                if let amount = toDouble(quantityDict["amount"]),
+                   let unit = quantityDict["unit"] as? Int {
+                    quantity = TerraQuantityModel(unit: unit, amount: amount)
+                }
+            }
+
             var meal = TerraMealData(
+                quantity: quantity,
                 name: mealDict["name"] as? String,
                 macros: parseMacros(mealMacrosDict),
                 micros: mealMicros
@@ -55,10 +65,12 @@ func convertToTerraNutritionPayload(_ data: NSDictionary) -> TerraNutritionData?
             meal.timestamp = mealDict["timestamp"] as? String
             meal.type = mealDict["type"] as? Int
             meals.append(meal)
-
-            print("[TerraReact] postNutrition meal: name=\(meal.name ?? "nil") type=\(String(describing: meal.type)) timestamp=\(meal.timestamp ?? "nil")")
         }
     }
+
+    print("[TerraReact] postNutrition summary: water_ml=\(String(describing: summary.water_ml)) drink_ml=\(String(describing: summary.drink_ml))")
+    print("[TerraReact] postNutrition metadata: start_time=\(String(describing: meta.start_time)) end_time=\(String(describing: meta.end_time))")
+    print("[TerraReact] postNutriution meals: \(meals.map { "name=\($0.name ?? "nil") timestamp=\($0.timestamp ?? "nil") type=\($0.type ?? -1) macros=\($0.macros) micros=\($0.micros)" }.joined(separator: "; "))")
 
     return TerraNutritionData(
         meals: meals,
