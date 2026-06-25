@@ -25,7 +25,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org/'
+      # NB: no registry-url here on purpose. setup-node's registry-url writes an
+      # .npmrc with `_authToken=${NODE_AUTH_TOKEN}`; with no token that empty
+      # value shadows OIDC and npm publish 404s. Omitting it lets npm's trusted
+      # publishing (OIDC) engage against the default registry.npmjs.org.
       - name: Ensure npm supports trusted publishing (>= 11.5.1)
         run: npm install -g npm@latest
       - name: Install + build
