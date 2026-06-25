@@ -31,4 +31,10 @@ jobs:
       - name: Install + build
         run: npm ci
       - name: Publish to npm (OIDC trusted publishing, no token)
-        run: npm publish --ignore-scripts --access public
+        # Prerelease versions (e.g. 1.9.7-beta.1) publish under the `beta` dist-tag
+        # so they never become the default `latest`; stable versions go to `latest`.
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          if [[ "$VER" == *-* ]]; then TAG=beta; else TAG=latest; fi
+          echo "Publishing $VER under dist-tag: $TAG"
+          npm publish --ignore-scripts --access public --tag "$TAG"
