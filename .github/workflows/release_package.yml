@@ -37,7 +37,6 @@ jobs:
         # Prerelease versions (e.g. 1.9.7-beta.1) publish under the `beta` dist-tag
         # so they never become the default `latest`; stable versions go to `latest`.
         run: |
-          echo "npm version: $(npm --version)"
           VER=$(node -p "require('./package.json').version")
           if [[ "$VER" == *-* ]]; then TAG=beta; else TAG=latest; fi
           echo "Publishing $VER under dist-tag: $TAG"
