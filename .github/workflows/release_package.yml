@@ -1,17 +1,27 @@
 name: Release package
 
 # Publishes terra-react to npm via npm "trusted publishing" (OIDC) — no stored
-# token. Bump the version (+ native SDK pins) in a PR, merge, then create a
-# GitHub Release tagged with the version to publish it.
+# token. Standard line: create a GitHub Release (publishes to `latest`).
+# Samsung line: workflow_dispatch with ref=android-samsung-sdk and
+# dist-tag=samsung-custom (publishes that branch's version under the
+# `samsung-custom` dist-tag, leaving `latest` untouched).
 #
-# Requires a Trusted Publisher configured on npmjs.com for this package
-# (org tryterra, repo terra-react, workflow release_package.yml). Skips the
-# package's prepublishOnly lint gate via --ignore-scripts (pre-existing errors);
-# the build still runs through `npm ci` (the `prepare` script).
+# Requires a Trusted Publisher on npmjs.com: org tryterra, repo terra-react,
+# workflow release_package.yml. Skips the prepublishOnly lint gate via
+# --ignore-scripts; the build still runs via `npm ci` (the `prepare` script).
 on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch/tag to publish (blank = this ref). Samsung line: android-samsung-sdk'
+        required: false
+        default: ''
+      dist-tag:
+        description: 'npm dist-tag: latest (standard) or samsung-custom (Samsung line)'
+        required: false
+        default: 'latest'
 
 permissions:
   id-token: write # mint the OIDC token npm exchanges for a short-lived publish credential
@@ -22,6 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -31,4 +43,4 @@ jobs:
       - name: Install + build
         run: npm ci
       - name: Publish to npm (OIDC trusted publishing, no token)
-        run: npm publish --ignore-scripts --access public
+        run: npm publish --ignore-scripts --access public --tag ${{ github.event.inputs.dist-tag || 'latest' }}
