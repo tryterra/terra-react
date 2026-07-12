@@ -10,6 +10,13 @@
 RCT_EXTERN_METHOD(
     initTerra: (NSString *)devID
     referenceId: (NSString *)referenceId
+    requestPermissions: (BOOL)requestPermissions
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
+    requestHealthKitPermissions: (NSArray *)customPermissions
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject
 )

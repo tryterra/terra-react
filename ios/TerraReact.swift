@@ -188,14 +188,31 @@ class TerraReact: NSObject {
 
     // initialize
     @objc
-    func initTerra(_ devID: String, referenceId: String, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
-        Terra.instance(devId: devID, referenceId: referenceId){instance, error in
+    func initTerra(_ devID: String, referenceId: String, requestPermissions: Bool, resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        Terra.instance(devId: devID, referenceId: referenceId, requestPermissions: requestPermissions){instance, error in
             if let error = error{
                 resolve(["success": false, "error": self.errorMessage(error)])
             }
             else{
                 self.terra = instance
                 resolve(["success": instance != nil])
+            }
+        }
+    }
+
+    @objc
+    func requestHealthKitPermissions(_ customPermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
+        guard let terra = terra else {
+            resolve(["success": false, "error": "Please make sure Terra is instantiated with initTerra"])
+            return
+        }
+
+        terra.requestHealthKitPermissions(customReadTypes: customPermissionsSet(customPermissions: customPermissions)){success, error in
+            if let error = error{
+                resolve(["success": success, "error": self.errorMessage(error)])
+            }
+            else{
+                resolve(["success": success])
             }
         }
     }

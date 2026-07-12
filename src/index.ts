@@ -153,9 +153,18 @@ function CustomPermissions_ToString(cPermission: CustomPermissions_) {
 
 export function initTerra(
   devID: string,
-  referenceId: string | null
+  referenceId: string | null,
+  requestPermissions: boolean = true
 ): Promise<SuccessMessage> {
-  return TerraReact.initTerra(devID, referenceId);
+  return TerraReact.initTerra(devID, referenceId, requestPermissions);
+}
+
+export function requestHealthKitPermissions(
+  customPermissions_: CustomPermissions_[] = []
+): Promise<SuccessMessage> {
+  return TerraReact.requestHealthKitPermissions(
+    customPermissions_.map((p) => CustomPermissions_ToString(p))
+  );
 }
 
 export function initConnection(
