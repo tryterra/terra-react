@@ -155,7 +155,7 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initTerra(String devID, String referenceId, Promise promise) {
+    public void initTerra(String devID, String referenceId, Boolean requestPermissions, Promise promise) {
         if (this.getCurrentActivity() == null){
             WritableMap map = new WritableNativeMap();
             map.putBoolean("success", false);
@@ -178,6 +178,11 @@ public class TerraReactModule extends ReactContextBaseJavaModule {
                 promise.resolve(map);
                 return Unit.INSTANCE;
             });
+    }
+
+    @ReactMethod
+    public void requestHealthKitPermissions(ReadableArray customPermissions, Promise promise){
+        promise.reject("Unimplemented function for Android");
     }
 
     @ReactMethod
