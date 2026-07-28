@@ -1,6 +1,6 @@
 {
   "name": "terra-react",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "React Native SDK mapping for Terra API",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -13,7 +13,7 @@
     "lib",
     "android/src",
     "android/build.gradle",
-    "android/gradlew*",        
+    "android/gradlew*",
     "android/gradle/wrapper/**",
     "app.plugin.js",
     "ios",
