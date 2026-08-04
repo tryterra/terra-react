@@ -61,12 +61,7 @@ const declaresAction = (component, action) =>
     (filter.action ?? []).some((entry) => entry.$['android:name'] === action)
   );
 
-// Health Connect needs the app to expose a permissions-rationale component, or
-// apps targeting Android 14+ (strictly enforced at API 36) have their health
-// read permission silently revoked: reads come back empty while auth still
-// succeeds. Managed Expo builds never declare it, so add it here. Each insert is
-// skipped when an equivalent component already exists, so this is idempotent
-// across repeated prebuilds and coexists with apps that declare it themselves.
+// Without this rationale component, Android 14+/API 36 silently revokes Health Connect reads: auth still succeeds, reads return empty.
 export function addHealthConnectPermissionsRationale(androidManifest) {
   const application = androidManifest.manifest.application?.[0];
   if (!application) {
