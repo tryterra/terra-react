@@ -78,13 +78,11 @@ jobs:
           body="${body}${{ steps.drift.outputs.body }}"
           body="${body}"$'\n\nBump `terra-react.podspec` / `android/build.gradle` in a PR, then publish via `release_package.yml`.'
 
-          # `gh issue list --search "... in:title"` is fuzzy; match titles client-side
-          # before editing an issue.
-          # Scope by label rather than scanning open issues: a --limit large enough
-          # today is a duplicate report on a repo that grows past it. The exact
-          # title check then guards against the label being applied by hand.
+          # Label-scoped so the lookup does not depend on issue volume; --limit is
+          # explicit because gh defaults to 30. Titles are matched client-side
+          # because `--search "... in:title"` is fuzzy and this edits a body.
           gh label create "$label" --description "Automated native SDK version drift report" --color ededed --force >/dev/null 2>&1 || true
-          existing=$(gh issue list --state open --label "$label" --json number,title \
+          existing=$(gh issue list --state open --label "$label" --limit 1000 --json number,title \
             | jq -r --arg t "$title" '[.[] | select(.title == $t)] | .[0].number // empty')
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --body "$body"
