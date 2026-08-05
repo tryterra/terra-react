@@ -73,7 +73,11 @@ jobs:
           body="${body}${{ steps.drift.outputs.body }}"
           body="${body}"$'\n\nBump `terra-react.podspec` / `android/build.gradle` in a PR, then publish via `release_package.yml`.'
 
-          existing=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          # Exact title match, client-side. `--search "... in:title"` is fuzzy, and
+          # this edits the issue body — a loose match would overwrite someone's
+          # unrelated open issue.
+          existing=$(gh issue list --state open --limit 200 --json number,title \
+            | jq -r --arg t "$title" '[.[] | select(.title == $t)] | .[0].number // empty')
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --body "$body"
           else
