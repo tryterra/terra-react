@@ -1,0 +1,82 @@
+name: Native version drift
+
+# terra-react pins its two native SDKs by exact version, and nothing reported when
+# they fell behind. It sat on TerraiOS 1.7.11 through the 1.8.0 and 1.8.1 releases
+# — React Native customers silently missed both, including a crash fix.
+#
+# Opens (or updates) one issue when a pin is BEHIND the latest release. Never
+# bumps anything: a version jump that is sometimes two releases wide deserves a
+# human on the PR.
+#
+# Sources of truth are where each artefact is actually published, not GitHub tags
+# — terra-android's tags lag Maven, so tags would report drift that isn't real.
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Mondays, 09:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare pins against published releases
+        id: drift
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          pinned_ios=$(grep -oE 's\.dependency "TerraiOS", "[^"]+"' terra-react.podspec | grep -oE '"[^"]+"$' | tr -d '"')
+          latest_ios=$(gh api repos/tryterra/TerraiOS/tags --jq '[.[].name | select(test("-") | not)] | .[0]')
+
+          pinned_android=$(grep -oE "co\.tryterra:terra-android:[0-9][^']*" android/build.gradle | cut -d: -f3)
+          latest_android=$(curl -sf --max-time 30 https://repo1.maven.org/maven2/co/tryterra/terra-android/maven-metadata.xml \
+            | grep -oE '<version>[^<]+' | sed 's/<version>//' | tail -1)
+
+          python3 - "$pinned_ios" "$latest_ios" "$pinned_android" "$latest_android" <<'PY' >> "$GITHUB_OUTPUT"
+          import os, sys
+
+          def parts(v):
+              # Strip any prerelease suffix: a beta pin is deliberate, and comparing
+              # it numerically would report drift for a version we chose on purpose.
+              core = v.split("-")[0]
+              return tuple(int(x) for x in core.split(".") if x.isdigit())
+
+          rows = []
+          for name, pinned, latest in (("TerraiOS", sys.argv[1], sys.argv[2]),
+                                       ("terra-android", sys.argv[3], sys.argv[4])):
+              behind = parts(pinned) < parts(latest)
+              print(f"{name}: pinned={pinned} latest={latest} behind={behind}", file=sys.stderr)
+              if behind:
+                  rows.append(f"- **{name}**: pinned `{pinned}`, latest `{latest}`")
+
+          print(f"drifted={'true' if rows else 'false'}")
+          print("body<<EOF")
+          print("\n".join(rows))
+          print("EOF")
+          PY
+
+      - name: Open or update the drift issue
+        if: steps.drift.outputs.drifted == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          title="terra-react is behind its native SDKs"
+          body=$'React Native customers do not get a native fix until this pin moves.\n\n'
+          body="${body}${{ steps.drift.outputs.body }}"
+          body="${body}"$'\n\nBump `terra-react.podspec` / `android/build.gradle` in a PR, then publish via `release_package.yml`.'
+
+          existing=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
