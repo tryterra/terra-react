@@ -1,5 +1,7 @@
 import {
+  AndroidConfig,
   ConfigPlugin,
+  withAndroidManifest,
   withAppDelegate,
   createRunOncePlugin,
 } from '@expo/config-plugins';
@@ -52,9 +54,96 @@ const withTerraBackgroundDelivery: ConfigPlugin = (config) => {
   return config;
 };
 
+const SHOW_RATIONALE_ACTION =
+  'androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE';
+const VIEW_PERMISSION_USAGE_ACTION =
+  'android.intent.action.VIEW_PERMISSION_USAGE';
+const HEALTH_PERMISSIONS_CATEGORY = 'android.intent.category.HEALTH_PERMISSIONS';
+const START_VIEW_PERMISSION_USAGE =
+  'android.permission.START_VIEW_PERMISSION_USAGE';
+const RATIONALE_ALIAS_NAME = 'ViewPermissionUsageActivity';
+
+type ManifestActivity = AndroidConfig.Manifest.ManifestActivity;
+type ManifestApplicationWithAliases =
+  AndroidConfig.Manifest.ManifestApplication & {
+    'activity-alias'?: ManifestActivity[];
+  };
+
+const declaresAction = (
+  component: ManifestActivity,
+  action: string
+): boolean =>
+  (component['intent-filter'] ?? []).some((filter) =>
+    (filter.action ?? []).some((entry) => entry.$['android:name'] === action)
+  );
+
+// Without this rationale component, Android 14+/API 36 silently revokes Health Connect reads: auth still succeeds, reads return empty.
+export function addHealthConnectPermissionsRationale(
+  androidManifest: AndroidConfig.Manifest.AndroidManifest
+): AndroidConfig.Manifest.AndroidManifest {
+  const application = androidManifest.manifest.application?.[0] as
+    | ManifestApplicationWithAliases
+    | undefined;
+  if (!application) {
+    throw new Error(
+      'terra-react: AndroidManifest is missing the <application> element'
+    );
+  }
+
+  const existing: ManifestActivity[] = [
+    ...(application.activity ?? []),
+    ...(application['activity-alias'] ?? []),
+  ];
+  const mainActivity =
+    AndroidConfig.Manifest.getMainActivityOrThrow(androidManifest);
+
+  if (
+    !existing.some((component) => declaresAction(component, SHOW_RATIONALE_ACTION))
+  ) {
+    mainActivity['intent-filter'] = mainActivity['intent-filter'] ?? [];
+    mainActivity['intent-filter'].push({
+      action: [{ $: { 'android:name': SHOW_RATIONALE_ACTION } }],
+    });
+  }
+
+  if (
+    !existing.some((component) =>
+      declaresAction(component, VIEW_PERMISSION_USAGE_ACTION)
+    )
+  ) {
+    application['activity-alias'] = application['activity-alias'] ?? [];
+    application['activity-alias'].push({
+      $: {
+        'android:name': RATIONALE_ALIAS_NAME,
+        'android:exported': 'true',
+        'android:targetActivity': mainActivity.$['android:name'],
+        'android:permission': START_VIEW_PERMISSION_USAGE,
+      },
+      'intent-filter': [
+        {
+          action: [{ $: { 'android:name': VIEW_PERMISSION_USAGE_ACTION } }],
+          category: [{ $: { 'android:name': HEALTH_PERMISSIONS_CATEGORY } }],
+        },
+      ],
+    });
+  }
+
+  return androidManifest;
+}
+
+const withTerraHealthConnectRationale: ConfigPlugin = (config) =>
+  withAndroidManifest(config, (manifestConfig) => {
+    manifestConfig.modResults = addHealthConnectPermissionsRationale(
+      manifestConfig.modResults
+    );
+    return manifestConfig;
+  });
+
+const withTerra: ConfigPlugin = (config) => {
+  config = withTerraBackgroundDelivery(config);
+  config = withTerraHealthConnectRationale(config);
+  return config;
+};
+
 const pkg = require('terra-react/package.json');
-export default createRunOncePlugin(
-  withTerraBackgroundDelivery,
-  pkg.name,
-  pkg.version
-);
+export default createRunOncePlugin(withTerra, pkg.name, pkg.version);
