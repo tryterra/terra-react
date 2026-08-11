@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 1.9.14
+- Bump TerraAndroid SDK to 1.7.4 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log) — a failed initial Health Connect read no longer marks its time window as already read, so records in that window are picked up on the next sync instead of being skipped permanently. Upgrade recommended for all Android users on 1.9.12 or 1.9.13.
+
 ## 1.9.13
 - Bump TerraiOS SDK to 1.9.2 (https://github.com/tryterra/TerraiOS/wiki/Change-Log) — daily totals now count a sample spanning midnight in full, in the day it started. Totals for affected days will increase.
 - A whole-day summary written by another HealthKit source no longer suppresses the individual samples recorded around it. `floors_climbed_samples` detail changes as a result.
