@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 0.7.0
+
+### Changed
+- Updated to TerraiOS 1.9.2, from 1.7.5. This is a larger native iOS jump than usual; the
+  notes below cover everything in between. The Samsung Android SDK is unchanged.
+
+### Added
+- Health observation data type — raw HealthKit sample push.
+
+### Fixed
+- Daily totals for samples that span midnight. A step, distance or floor sample that began
+  before midnight and ended after it was split across both days, so neither day reported it
+  in full. It is now counted whole in the day it started. **Daily totals for affected days
+  will increase.**
+- Days where another app writes a whole-day summary. A single HealthKit sample covering the
+  entire day suppressed the individual samples recorded around it — a day of detail could
+  arrive as one entry whose value exceeded the day's own total. Detailed samples are now
+  kept and the roll-up discarded. **`floors_climbed_samples` detail changes as a result.**
+- A single change in HealthKit could produce many identical payloads. Repeats are now
+  suppressed.
+- SDK initialisation no longer stalls if a HealthKit callback is dropped, successful
+  initialisation callbacks are no longer lost, and HealthKit authorisation failures are
+  returned to the caller instead of being swallowed.
+- HealthKit is no longer read while the device is locked.
+- Workouts: per-lap event type and measurement system, stricter swim bounds, and lap end
+  timestamps are now included.
+- Background activity pushes no longer include sources the user has excluded.
+- A crash in HealthKit unit conversion that could not be caught by the host app.
+- Corrected iOS 14.0 availability for six symptom types.
+- Relaxed the wrist-temperature query so readings are no longer missed.
+
+### Upgrade note
+- **Planned workout backend sync is now enabled by default.** If you do not use planned
+  workouts, no action is needed; if you were relying on it being off, set it explicitly.
+
 ## 0.6.6
 
 ### Fixed
