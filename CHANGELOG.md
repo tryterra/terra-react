@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## 1.10.0
+## 1.9.13
 - Bump TerraiOS SDK to 1.9.2 (from 1.9.0). Android SDK unchanged.
 - **Daily totals for samples that span midnight.** A step, distance or floor sample that
   began before midnight and ended after it was previously split across both days, so
