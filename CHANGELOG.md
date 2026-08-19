@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 1.10.0
+- Bump TerraiOS SDK to 1.9.2 (from 1.9.0). Android SDK unchanged.
+- **Daily totals for samples that span midnight.** A step, distance or floor sample that
+  began before midnight and ended after it was previously split across both days, so
+  neither day reported it in full. It is now counted whole in the day it started. Daily
+  totals for affected days will increase.
+- **Days where another app writes a whole-day summary.** If another HealthKit source wrote
+  a single sample covering the entire day, that sample suppressed the individual samples
+  recorded around it — a day of detail could arrive as one entry whose value exceeded the
+  day's own total. Detailed samples are now kept and the roll-up discarded.
+  `floors_climbed_samples` detail changes as a result.
+- A single change in HealthKit could produce many identical payloads. Repeats are now
+  suppressed.
+- SDK initialisation no longer stalls if a HealthKit callback is dropped, successful
+  initialisation callbacks are no longer lost, and HealthKit authorisation failures are
+  returned to the caller instead of being swallowed.
+
 ## 1.9.10
 - Bump TerraAndroid SDK to 1.7.2 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log) — fixes Android Health Connect data not syncing. Upgrade recommended for all Android users.
 
