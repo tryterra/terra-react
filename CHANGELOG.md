@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 1.9.15
+- Bump TerraiOS SDK to 1.9.3 (https://github.com/tryterra/TerraiOS/wiki/Change-Log) — Apple Health workouts now carry the raw workout event stream (pause/resume, segment markers). Per-lap active duration reflects moving time rather than elapsed time, and a user's segment markers define the laps instead of regenerated km/mile splits. Only workouts recorded after upgrading are affected.
+
 ## 1.9.14
 - Bump TerraAndroid SDK to 1.7.4 (https://github.com/tryterra/TerraAndroid/wiki/Change-Log) — a failed initial Health Connect read no longer marks its time window as already read, so records in that window are picked up on the next sync instead of being skipped permanently. Upgrade recommended for all Android users on 1.9.12 or 1.9.13.
 
