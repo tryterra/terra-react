@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 1.9.16
+- Bump TerraiOS SDK to 1.9.4 (https://github.com/tryterra/TerraiOS/wiki/Change-Log) — fixes iOS terminating the app after Apple Health daily data is enabled: a background sync or a backfill call such as `getDaily` or `getActivity` over a long date range no longer starts a read for every day at once. Also stops a background sync that iOS interrupted from delivering the same day twice on the next wake.
+
 ## 1.9.15
 - Bump TerraiOS SDK to 1.9.3 (https://github.com/tryterra/TerraiOS/wiki/Change-Log) — Apple Health workouts now carry the raw workout event stream (pause/resume, segment markers). Per-lap active duration reflects moving time rather than elapsed time, and a user's segment markers define the laps instead of regenerated km/mile splits. Only workouts recorded after upgrading are affected.
 
