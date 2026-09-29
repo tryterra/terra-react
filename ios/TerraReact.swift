@@ -69,6 +69,8 @@ class TerraReact: NSObject {
 
     // terra instance managed
     private var terra: TerraManager?
+    private var requestedReadPermissionKeys = TerraReact.allReadPermissionKeys
+    private var requestedWritePermissionKeys = TerraReact.allWritePermissionKeys
 
     // connection type translate
     private func connectionParse(connection: String) -> Connections? {
@@ -466,23 +468,29 @@ class TerraReact: NSObject {
     @objc
     func initConnection(_ connection: String, token: String, schedulerOn: Bool, customPermissions: [String], startIntent: String, customWritePermissions: [String], resolve: @escaping RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock){
         if let connection = connectionParse(connection: connection){
-            // Build ALL write types from the hardcoded list (not from JS args).
-            // The native SDK has no concept of write permissions — we handle it ourselves.
-            let safeWriteKeys = Self.allWritePermissionKeys.filter { !Self.readOnlyPermissions.contains($0) }
+            let readPermissionKeys = customPermissions.isEmpty
+                ? Self.allReadPermissionKeys
+                : customPermissions
+            let writePermissionKeys = customWritePermissions.isEmpty
+                ? Self.allWritePermissionKeys
+                : customWritePermissions
+
+            requestedReadPermissionKeys = readPermissionKeys
+            requestedWritePermissionKeys = writePermissionKeys
+
+            // The native SDK has no concept of write permissions, so request the
+            // explicitly supplied write types directly through HealthKit.
+            let safeWriteKeys = writePermissionKeys.filter { !Self.readOnlyPermissions.contains($0) }
             let writeHKTypes: Set<HKSampleType> = Set(safeWriteKeys.compactMap { hkSampleType(for: $0) })
 
-            // Build ALL read types from the hardcoded list.
-            // allReadPermissionKeys now includes all extra types (micronutrients,
-            // cycling, swimming, etc.) so hkReadTypes covers everything.
             var readHKTypes = Set<HKObjectType>()
-            for key in Self.allReadPermissionKeys {
+            for key in readPermissionKeys {
                 readHKTypes.formUnion(hkReadTypes(for: key))
             }
 
-            // Build the Terra-native CustomPermissions set from allReadPermissionKeys
-            // so Terra uses our exact set instead of its defaults (which would
-            // trigger a second HealthKit dialog).
-            let terraReadPerms = self.customPermissionsSet(customPermissions: Self.allReadPermissionKeys)
+            // Passing an explicit custom set prevents Terra from falling back to
+            // every permission enabled in the developer dashboard.
+            let terraReadPerms = self.customPermissionsSet(customPermissions: readPermissionKeys)
 
             // Do a SINGLE combined requestAuthorization for both reads AND writes
             // BEFORE Terra's initConnection. This ensures the HealthKit dialog
@@ -1130,7 +1138,7 @@ class TerraReact: NSObject {
 
             // Write statuses (authorizationStatus works reliably for write)
             var writeDict: [String: String] = [:]
-            for key in Self.allWritePermissionKeys {
+            for key in self.requestedWritePermissionKeys {
                 if let sampleType = self.hkSampleType(for: key) {
                     let status = store.authorizationStatus(for: sampleType)
                     writeDict[key] = self.authStatusString(status)
@@ -1144,7 +1152,7 @@ class TerraReact: NSObject {
             // types have been requested at all. If they have, we mark them as
             // "requested" (the best we can do); otherwise "not_determined".
             var readTypes = Set<HKObjectType>()
-            for key in Self.allReadPermissionKeys {
+            for key in self.requestedReadPermissionKeys {
                 readTypes.formUnion(self.hkReadTypes(for: key))
             }
 
@@ -1161,7 +1169,7 @@ class TerraReact: NSObject {
                 }
 
                 var readDict: [String: String] = [:]
-                for key in Self.allReadPermissionKeys {
+                for key in self.requestedReadPermissionKeys {
                     if !self.hkReadTypes(for: key).isEmpty {
                         readDict[key] = globalReadStatus
                     } else {
