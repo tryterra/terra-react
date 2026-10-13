@@ -382,6 +382,7 @@ export function postActivity(
       });
   });
 }
+/** @deprecated This method is deprecated and will be removed in a future release. */
 export function getPlannedWorkouts<T = any>(
   connection: Connections_
 ): Promise<ListDataMessage<T>> {
@@ -398,6 +399,7 @@ export function getPlannedWorkouts<T = any>(
       .catch((e: Error) => reject(e));
   });
 }
+/** @deprecated This method is deprecated and will be removed in a future release. */
 export function deletePlannedWorkout(
   connection: Connections_,
   id: string
@@ -415,6 +417,7 @@ export function deletePlannedWorkout(
   });
 }
 
+/** @deprecated This method is deprecated and will be removed in a future release. */
 export function completePlannedWorkout(
   connection: Connections_,
   id: string,
@@ -437,6 +440,7 @@ export function completePlannedWorkout(
   });
 }
 
+/** @deprecated This method is deprecated and will be removed in a future release. */
 export function postPlannedWorkout(
   connection: Connections_,
   payload: TerraPlannedWorkout
@@ -457,6 +461,9 @@ export function postPlannedWorkout(
   });
 }
 
+/**
+ * @deprecated This method is deprecated and will be removed in a future release.
+ */
 export function readGlucoseData(): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
     TerraReact.readGlucoseData()
@@ -469,6 +476,9 @@ export function readGlucoseData(): Promise<Object> {
   });
 }
 
+/**
+ * @deprecated This method is deprecated and will be removed in a future release.
+ */
 export function activateSensor(): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
     TerraReact.activateSensor()
