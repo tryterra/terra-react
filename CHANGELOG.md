@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 0.7.1
+
+### Changed
+- Updated the Samsung Android SDK (`co.tryterra:android-sdk`) to 0.0.15, from 0.0.13. This
+  includes everything in 0.0.14. The iOS SDK is unchanged.
+
+### Fixed
+- Health Connect daily totals no longer come back empty (0 steps, no other metrics) when the
+  app has heart rate access but not resting heart rate access. Resting heart rate is left out
+  of the daily payload instead.
+- From 0.0.14: Samsung background schedulers request only their own permission group,
+  permissions are resolved per data type, background syncs are delivered reliably, empty days
+  are no longer sent, and R8 keeps the Samsung SDK classes it needs.
+
 ## 0.7.0
 
 ### Changed
